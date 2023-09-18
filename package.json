@@ -4,7 +4,7 @@
   "description": "Photo by any inspiration",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc"
+    "anyphoto": "node ./bin/index.js"
   },
   "keywords": [],
   "author": "",
@@ -12,10 +12,12 @@
   "volta": {
     "node": "18.17.1"
   },
+  "bin": {
+    "anyphoto": "./bin/index.js"
+  },
   "devDependencies": {
     "@types/node": "^20.6.2",
     "commander": "^11.0.0",
-    "figlet": "^1.6.0",
-    "typescript": "^5.2.2"
+    "figlet": "^1.6.0"
   }
 }
