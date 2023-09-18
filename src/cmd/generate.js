@@ -1,4 +1,4 @@
-const generate = () => {
+const generate = ({ word, options }) => {
   return 'generate'
 }
 
