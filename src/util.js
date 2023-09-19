@@ -1,8 +1,5 @@
-const path = require('path')
-const fs = require('fs')
-const isImageUrl = require('is-image-url')
+const chalk = require('chalk')
 
-const { defaultConfigName, defaultAvatar, validTheme } = require('./config')
 const ora = require('ora')
 
 const generateOra = options => ora(options)
@@ -15,36 +12,13 @@ const sleep = time => {
   })
 }
 
-const getUserAnyPhotoConfigPath = directory => {
-  const filePath = path.join(directory, defaultConfigName)
-  if (fs.existsSync(filePath)) {
-    return filePath
-  }
-  const parentDirectory = path.dirname(directory)
-  if (parentDirectory === directory) {
-    return
-  }
-  return getUserAnyPhotoConfigPath(parentDirectory)
-}
+const yellow = msg => console.log(chalk.yellow(msg))
 
-const getUserAnyPhotoConfig = () => {
-  const userAnyPhotoConfigPath = getUserAnyPhotoConfigPath(process.cwd())
-  return userAnyPhotoConfigPath ? require(userAnyPhotoConfigPath) : {}
-}
-
-const handelValidAnyPhotoConfig = ({ theme, author, avatar }) => {
-  const validAvatar = isImageUrl(avatar) ? avatar : defaultAvatar
-  return {
-    author,
-    theme: validTheme.includes(theme) ? theme : validTheme[0],
-    avatar: validAvatar
-  }
-}
+const green = msg => console.log(chalk.green(msg))
 
 module.exports = {
   generateOra,
   sleep,
-  getUserAnyPhotoConfigPath,
-  getUserAnyPhotoConfig,
-  handelValidAnyPhotoConfig
+  green,
+  yellow
 }

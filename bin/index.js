@@ -27,6 +27,7 @@ program
   .option('--theme <type>', 'The theme of the photo. Optional values include classic and fashion')
   .option('--avatar <url>', 'The avatar of the photo')
   .option('--author <name>', 'The author name of the photo')
+  .option('--output <folder name>', 'The place where the photo be generated')
   .action((word, options, command) => {
     generate({
       word,
