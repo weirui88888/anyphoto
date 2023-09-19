@@ -28,7 +28,6 @@ program
   .option('--avatar <url>', 'The avatar of the photo')
   .option('--author <name>', 'The author name of the photo')
   .action((word, options, command) => {
-    console.log(word, options)
     generate({
       word,
       options

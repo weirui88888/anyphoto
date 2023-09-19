@@ -14,7 +14,7 @@ const init = async ({ configDirname }) => {
   await sleep(1)
   if (fs.existsSync(configPath)) {
     return initOra.succeed(
-      `${configPath} file has been created and can be configured before executing the generate command`
+      `${chalk.green(configPath)} file has been created and can be configured before executing the generate command`
     )
   }
   fs.writeFile(configPath, initConfig(), err => {
