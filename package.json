@@ -1,8 +1,12 @@
 {
   "name": "anyphoto",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Photo by any inspiration",
   "main": "index.js",
+  "files": [
+    "bin",
+    "src"
+  ],
   "scripts": {
     "anyphoto": "node ./bin/index.js"
   },
@@ -15,7 +19,7 @@
   "bin": {
     "anyphoto": "./bin/index.js"
   },
-  "devDependencies": {
+  "dependencies": {
     "@types/node": "^20.6.2",
     "chalk": "4.1.2",
     "commander": "^11.0.0",

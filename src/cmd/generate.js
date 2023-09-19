@@ -1,5 +1,6 @@
 const { getUserAnyPhotoConfig, handelValidAnyPhotoConfig } = require('../util')
 const { defaultAuthor, defaultTheme, defaultAvatar } = require('../config')
+const draw = require('../draw')
 const userAnyPhotoConfig = getUserAnyPhotoConfig()
 
 const getUserAnyPhotoConfigByKey = ({ defaultKey }) => {
@@ -39,8 +40,8 @@ const generate = ({ word, options }) => {
   const anyPhotoConfig = getAnyPhotoConfig({
     options
   })
-  console.log(anyPhotoConfig)
-  return 'generate'
+  // TODO:添加outDir，支持随意目录下创建图片
+  draw({ word, anyPhotoConfig })
 }
 
 module.exports = generate
