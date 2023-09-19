@@ -79,7 +79,6 @@ const generate = ({ word, options }) => {
   const anyPhotoConfig = getAnyPhotoConfig({
     options
   })
-  // TODO:添加outDir，支持随意目录下创建图片
   draw({ word, anyPhotoConfig })
 }
 
