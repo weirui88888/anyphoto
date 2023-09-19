@@ -1,4 +1,4 @@
-const { getUserAnyPhotoConfig } = require('../util')
+const { getUserAnyPhotoConfig, handelValidAnyPhotoConfig } = require('../util')
 const { defaultAuthor, defaultTheme, defaultAvatar } = require('../config')
 const userAnyPhotoConfig = getUserAnyPhotoConfig()
 
@@ -27,11 +27,12 @@ const getAnyPhotoConfig = ({ options }) => {
   const theme = getAnyPhotoConfigByKey({ key: 'theme', options })
   const avatar = getAnyPhotoConfigByKey({ key: 'avatar', options })
   const author = getAnyPhotoConfigByKey({ key: 'author', options })
-  return {
+
+  return handelValidAnyPhotoConfig({
     theme,
     avatar,
     author
-  }
+  })
 }
 
 const generate = ({ word, options }) => {

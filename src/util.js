@@ -1,7 +1,8 @@
 const path = require('path')
 const fs = require('fs')
+const isImageUrl = require('is-image-url')
 
-const { defaultConfigName } = require('./config')
+const { defaultConfigName, defaultAvatar, validTheme } = require('./config')
 const ora = require('ora')
 
 const generateOra = options => ora(options)
@@ -31,9 +32,19 @@ const getUserAnyPhotoConfig = () => {
   return userAnyPhotoConfigPath ? require(userAnyPhotoConfigPath) : {}
 }
 
+const handelValidAnyPhotoConfig = ({ theme, author, avatar }) => {
+  const validAvatar = isImageUrl(avatar) ? avatar : defaultAvatar
+  return {
+    author,
+    theme: validTheme.includes(theme) ? theme : validTheme[0],
+    avatar: validAvatar
+  }
+}
+
 module.exports = {
   generateOra,
   sleep,
   getUserAnyPhotoConfigPath,
-  getUserAnyPhotoConfig
+  getUserAnyPhotoConfig,
+  handelValidAnyPhotoConfig
 }
