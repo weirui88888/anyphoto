@@ -23,14 +23,14 @@ program
 program
   .command('generate')
   .description('Generate photo by inspiration')
-  .argument('<word>', 'Any word you like')
+  .argument('<content>', 'Any content you like')
   .option('--theme <type>', 'The theme of the photo. Optional values include classic and fashion')
   .option('--avatar <url>', 'The avatar of the photo')
   .option('--author <name>', 'The author name of the photo')
   .option('--output <folder name>', 'The place where the photo be generated')
-  .action((word, options, command) => {
+  .action((content, options, command) => {
     generate({
-      word,
+      content,
       options
     })
   })

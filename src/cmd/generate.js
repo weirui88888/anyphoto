@@ -75,11 +75,11 @@ const getAnyPhotoConfig = ({ options }) => {
   })
 }
 
-const generate = ({ word, options }) => {
+const generate = ({ content, options }) => {
   const anyPhotoConfig = getAnyPhotoConfig({
     options
   })
-  draw({ word, anyPhotoConfig })
+  draw({ content, anyPhotoConfig })
 }
 
 module.exports = generate
