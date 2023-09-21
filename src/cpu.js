@@ -23,14 +23,18 @@ class Cpu {
   }
 
   calculateApplyAvatar() {
-    const { headerAlign, headerPaddingTop, headerAvatarSize } = this.header
+    const { headerAlign, headerPaddingTop, headerAvatarSize, headerAvatarBorderWidth, headerAvatarBorderColor } =
+      this.header
     return {
       avatarSize: headerAvatarSize,
-      property: this.calculateDomProperty('avatar')
+      property: this.calculateDomProperty('avatar'),
+      headerAvatarBorderWidth,
+      headerAvatarBorderColor
     }
   }
   calculateDomProperty(dom) {
-    const { headerAlign, headerPaddingTop, headerAvatarSize } = this.header
+    const { headerAlign, headerPaddingTop, headerAvatarSize, headerAvatarBorderWidth, headerAvatarBorderColor } =
+      this.header
     switch (dom) {
       case 'avatar':
         return {
@@ -48,12 +52,13 @@ class Cpu {
     }
   }
   calculateAvatarCenterPointPosition() {
-    const { headerAlign, headerPaddingTop, headerAvatarSize } = this.header
+    const { headerAlign, headerPaddingTop, headerAvatarSize, headerAvatarBorderWidth, headerAvatarBorderColor } =
+      this.header
     const { x, width } = this
     switch (headerAlign) {
       case 'left':
         return {
-          avatarCenterPointX: x + headerAvatarSize / 2,
+          avatarCenterPointX: x + headerAvatarSize / 2 + headerAvatarBorderWidth / 2,
           avatarCenterPointY: headerPaddingTop + headerAvatarSize / 2
         }
       case 'center':
@@ -63,7 +68,7 @@ class Cpu {
         }
       case 'right':
         return {
-          avatarCenterPointX: width - x - headerAvatarSize / 2,
+          avatarCenterPointX: width - x - headerAvatarSize / 2 - headerAvatarBorderWidth / 2,
           avatarCenterPointY: headerPaddingTop + headerAvatarSize / 2
         }
 

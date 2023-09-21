@@ -124,11 +124,13 @@ class Drawer {
   }
   async drawAvatar() {
     const {
+      headerAvatarBorderWidth,
+      headerAvatarBorderColor,
       property: { avatarRadius, avatarCenterPointX, avatarCenterPointY }
     } = this.cpu.calculateApplyAvatar()
     const { ctx } = this
     // 绘制头像图片
-    const avatar = await loadImage('https://m0-pub.bybutter.com/F404CEDB-8C04-4F4E-999B-F7402A4D896B-n4')
+    const avatar = await loadImage('https://aliossupload.newarray.vip/WechatIMG39.png')
     ctx.save()
     ctx.beginPath()
     ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius, 0, Math.PI * 2)
@@ -143,16 +145,14 @@ class Drawer {
     )
     ctx.restore()
 
-    // // 绘制圆形边框
-    // const borderWidth = 10 // 边框宽度
-    // const borderColor = 'gold' // 边框颜色
-    // ctx.save()
-    // ctx.beginPath()
-    // ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius + borderWidth / 2, 0, Math.PI * 2)
-    // ctx.lineWidth = borderWidth
-    // ctx.strokeStyle = borderColor
-    // ctx.stroke()
-    // ctx.restore()
+    // 绘制圆形边框
+    ctx.save()
+    ctx.beginPath()
+    ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius + headerAvatarBorderWidth / 2, 0, Math.PI * 2)
+    ctx.lineWidth = headerAvatarBorderWidth
+    ctx.strokeStyle = headerAvatarBorderColor
+    ctx.stroke()
+    ctx.restore()
 
     return this
   }
@@ -196,7 +196,7 @@ const draw = ({ content, anyPhotoConfig, canvasSetting }) => {
     .setCanvas()
     .drawing()
     .drawAvatar()
-    .then(x => x.generatePng())
+    .then((x) => x.generatePng())
 }
 
 module.exports = draw

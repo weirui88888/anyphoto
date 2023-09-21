@@ -1,8 +1,8 @@
 const defaultCanvasSetting = {
   width: 750, // 通用的
   englishFonts: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica'],
-  backgroundColor: '#1b1c1f', // #1b1c1f
-  color: '#E4D3AE', // #E4D3AE
+  backgroundColor: 'purple', // #1b1c1f
+  color: '#ffffff', // #E4D3AE
   fontWeight: 'bold',
   textBaseline: 'top',
   textAlign: 'start',
@@ -16,6 +16,8 @@ const defaultCanvasSetting = {
     headerPaddingTop: 30,
     headerPaddingBottom: 20,
     headerAvatarSize: 100,
+    headerAvatarBorderWidth: 0,
+    headerAvatarBorderColor: 'gold',
     headerShowAuthor: true,
     headerAuthorFontSize: 30,
     headerShowCreateTime: true,
