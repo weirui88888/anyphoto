@@ -8,6 +8,7 @@ const {
   defaultConfigName,
   optionsCpu
 } = require('../config')
+const { defaultCanvasSetting } = require('../setting')
 const draw = require('../draw')
 
 const getUserAnyPhotoConfigPath = directory => {
@@ -79,7 +80,8 @@ const generate = ({ content, options }) => {
   const anyPhotoConfig = getAnyPhotoConfig({
     options
   })
-  draw({ content, anyPhotoConfig })
+  const canvasSetting = defaultCanvasSetting // TODO 这里只是为了方便，最后需要根据用户选项做相关合并
+  draw({ content, anyPhotoConfig, canvasSetting })
 }
 
 module.exports = generate

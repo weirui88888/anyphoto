@@ -1,23 +1,10 @@
-const { createCanvas, registerFont } = require('canvas')
+const { createCanvas, registerFont, loadImage } = require('canvas')
+const Cpu = require('./cpu')
 const path = require('path')
 const base64Img = require('base64-img')
 
-const canvasSetting = {
-  width: 750, // 通用的
-  englishFonts: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica'],
-  backgroundColor: '#1b1c1f', // #1b1c1f
-  color: '#E4D3AE', // #E4D3AE
-  fontWeight: 'bold',
-  textBaseline: 'top',
-  textAlign: 'start',
-  fontSize: 30,
-  lineGap: 12,
-  fontSizeIndex: 2,
-  x: 20,
-  y: 30
-}
 class Drawer {
-  constructor({ content, anyPhotoConfig }) {
+  constructor({ content, anyPhotoConfig, canvasSetting }) {
     const {
       width,
       englishFonts,
@@ -30,37 +17,47 @@ class Drawer {
       y,
       textBaseline,
       textAlign,
-      fontSizeIndex
+      fontSizeIndex,
+      header
     } = canvasSetting
+    this.anyPhotoConfig = anyPhotoConfig
     this.width = width
     this.fontWeight = fontWeight
     this.englishFonts = englishFonts
     this.color = color
     this.backgroundColor = backgroundColor
-    this.lineGap = lineGap
     this.maxLineWidth = width - x * 2 // 这里只是预设最大宽度，也就是用width - x * 2，需要先有它，才能计算出来布局，以及每行实际绘制的宽度
     this.fontSize = fontSize
+    this.fontSizeIndex = fontSizeIndex
+
+    // content
+    this.lineGap = lineGap
     this.textBaseline = textBaseline
     this.textAlign = textAlign
-    this.fontSizeIndex = fontSizeIndex
     this.y = y
     this.content = content
-    this.anyPhotoConfig = anyPhotoConfig
     this.canvas = createCanvas(this.width, 1)
     this.ctx = this.canvas.getContext('2d')
     this.lineWidthMap = new Map()
     this.totalLineNumber = this.calculateContentTotalLine()
     const maxLineWidth = this.getMaxLineWidth()
     this.x = this.lineWidthMap.size > 1 ? this.setSuitableXWidth(maxLineWidth, this.width, x) : x
-    // compare to use small height
+
+    // header
+    this.header = header
+    this.headerHeight = 0
+  }
+  setCanvas() {
+    // contentHeight compare to use small height
     const compareHeight = this.fontSize >= this.lineGap ? this.lineGap / 2 : this.fontSize / 2
     this.contentHeight =
       (this.totalLineNumber - 1) * this.lineGap + this.totalLineNumber * this.fontSize + this.y * 2 + compareHeight
+    // headerHeight avatarHeight authorHeight createTimeHeight
+    this.cpu = new Cpu({ header: this.header, x: this.x, width: this.width })
     this.height = this.contentHeight
     this.canvas = createCanvas(this.width, this.contentHeight)
     this.ctx = this.canvas.getContext('2d')
-  }
-  setCanvas() {
+
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.backgroundColor
@@ -125,6 +122,40 @@ class Drawer {
     }
     return this
   }
+  async drawAvatar() {
+    const {
+      property: { avatarRadius, avatarCenterPointX, avatarCenterPointY }
+    } = this.cpu.calculateApplyAvatar()
+    const { ctx } = this
+    // 绘制头像图片
+    const avatar = await loadImage('https://m0-pub.bybutter.com/F404CEDB-8C04-4F4E-999B-F7402A4D896B-n4')
+    ctx.save()
+    ctx.beginPath()
+    ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius, 0, Math.PI * 2)
+    ctx.closePath()
+    ctx.clip()
+    ctx.drawImage(
+      avatar,
+      avatarCenterPointX - avatarRadius,
+      avatarCenterPointY - avatarRadius,
+      avatarRadius * 2,
+      avatarRadius * 2
+    )
+    ctx.restore()
+
+    // // 绘制圆形边框
+    // const borderWidth = 10 // 边框宽度
+    // const borderColor = 'gold' // 边框颜色
+    // ctx.save()
+    // ctx.beginPath()
+    // ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius + borderWidth / 2, 0, Math.PI * 2)
+    // ctx.lineWidth = borderWidth
+    // ctx.strokeStyle = borderColor
+    // ctx.stroke()
+    // ctx.restore()
+
+    return this
+  }
   getMaxLineWidth() {
     let max = 1
     let maxLineWidth = this.lineWidthMap.get(1)
@@ -144,7 +175,7 @@ class Drawer {
     return calculateHalfWidth > x ? calculateHalfWidth : x
   }
 
-  generatePng() {
+  async generatePng() {
     const base64img = this.canvas.toDataURL()
     const { output } = this.anyPhotoConfig
     const drawImgPath = path.join(process.cwd(), output)
@@ -158,9 +189,14 @@ class Drawer {
   }
 }
 
-const draw = ({ content, anyPhotoConfig }) => {
-  const drawer = new Drawer({ content, anyPhotoConfig })
-  drawer.setCanvas().drawing().generatePng()
+const draw = ({ content, anyPhotoConfig, canvasSetting }) => {
+  const drawer = new Drawer({ content, anyPhotoConfig, canvasSetting })
+  // drawer.setCanvas().drawing().generatePng()
+  drawer
+    .setCanvas()
+    .drawing()
+    .drawAvatar()
+    .then(x => x.generatePng())
 }
 
 module.exports = draw
