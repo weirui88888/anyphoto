@@ -8,7 +8,8 @@ class Cpu {
   calculateApplyHeader() {
     return {
       avatar: this.calculateApplyAvatar,
-      author: this.calculateApplyAuthor
+      author: this.calculateApplyAuthor,
+      createTime: this.calculateApplyCreateTime
     }
   }
 
@@ -39,6 +40,8 @@ class Cpu {
       ...this.calculateDomProperty('author')
     }
   }
+
+  get calculateApplyCreateTime() {}
   calculateDomProperty(dom) {
     switch (dom) {
       case 'avatar':

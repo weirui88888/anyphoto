@@ -1,31 +1,31 @@
 const defaultCanvasSetting = {
   width: 750, // 通用的
   englishFonts: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica'],
-  backgroundColor: '#1b1c1f', // #1b1c1f
+  backgroundColor: '#339966', // #1b1c1f
   color: '#E4D3AE', // #E4D3AE
-  fontWeight: 'bold',
+  fontWeight: 'thin',
   textBaseline: 'top',
   textAlign: 'start',
-  fontSize: 30,
-  lineGap: 20,
-  fontSizeIndex: 2,
-  x: 20,
+  fontSize: 40,
+  lineGap: 10,
+  fontSizeIndex: 4,
+  x: 40,
   y: 30,
   header: {
-    headerAlign: 'left', // left / center / right
+    headerAlign: 'center', // left / center / right
     headerPaddingTop: 30,
     headerPaddingBottom: 20,
     // avatar
     headerAvatarSize: 100,
     headerAvatarBorderWidth: 2, // 应该要最大10，否则影响布局
-    headerAvatarBorderColor: 'gold',
+    headerAvatarBorderColor: '#FFCC00',
     headerAvatarMarginBottom: 10,
 
     // author
     showHeaderAuthor: true,
     headerAuthorFontSize: 30,
-    headerAuthorFontColor: '#FF6600',
-    headerAuthorFontWeight: 'bold',
+    headerAuthorFontColor: '#E4D3AE',
+    headerAuthorFontWeight: 'medium',
     headAuthorFontSizeIndex: 4,
     headerAuthorMarginBottom: 10,
 

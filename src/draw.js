@@ -48,7 +48,7 @@ class Drawer {
     // header
     this.header = header
     this.author = this.anyPhotoConfig.author
-    this.headerHeight = 0
+    this.headerHeight = 190
   }
   async setupCpu() {
     this.barWatcher.start(5, 1, { step: '初始化中' })
@@ -63,7 +63,7 @@ class Drawer {
       authorWidth: this.calculateAuthorWidth()
     })
     this.height = this.contentHeight
-    this.canvas = createCanvas(this.width, this.contentHeight)
+    this.canvas = createCanvas(this.width, this.contentHeight + this.headerHeight)
     this.ctx = this.canvas.getContext('2d')
     return this
   }
@@ -75,7 +75,7 @@ class Drawer {
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.backgroundColor
-    ctx.fillRect(0, 0, this.width, this.height)
+    ctx.fillRect(0, 0, this.width, this.height + this.headerHeight)
     return this
   }
   // todo应该需要想个办法，去智能的判断字体的宽度，是否大于canvasWidth-2*x
@@ -141,7 +141,11 @@ class Drawer {
         if (idx == 1) {
           idx = 2
         }
-        ctx.fillText(words.slice(0, idx - 1).join(' '), this.x, this.y + (this.fontSize + this.lineGap) * currentLine)
+        ctx.fillText(
+          words.slice(0, idx - 1).join(' '),
+          this.x,
+          this.y + (this.fontSize + this.lineGap) * currentLine + this.headerHeight
+        )
         currentLine++
         words = words.splice(idx - 1)
         idx = 1
@@ -150,7 +154,7 @@ class Drawer {
       }
     }
     if (idx > 0) {
-      ctx.fillText(words.join(' '), this.x, this.y + (this.fontSize + this.lineGap) * currentLine)
+      ctx.fillText(words.join(' '), this.x, this.y + (this.fontSize + this.lineGap) * currentLine + this.headerHeight)
     }
     return this
   }
@@ -164,7 +168,7 @@ class Drawer {
       this.cpu.calculateApplyAvatar
     const { ctx } = this
     // 绘制头像图片
-    const avatar = await loadImage('https://aliossupload.newarray.vip/WechatIMG39.png')
+    const avatar = await loadImage('https://aliossupload.newarray.vip/WechatIMG364.jpg')
     ctx.save()
     ctx.beginPath()
     ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius, 0, Math.PI * 2)
