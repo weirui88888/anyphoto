@@ -1,19 +1,19 @@
 const defaultCanvasSetting = {
   width: 750, // 通用的
   englishFonts: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica'],
-  backgroundColor: '#339966', // #1b1c1f
-  color: '#E4D3AE', // #E4D3AE
+  backgroundColor: '#CCCC99', // #1b1c1f
+  color: '#000000', // #E4D3AE
   fontWeight: 'thin',
   textBaseline: 'top',
   textAlign: 'start',
-  fontSize: 40,
+  fontSize: 30,
   lineGap: 10,
   fontSizeIndex: 4,
   x: 40,
   y: 30,
   header: {
     headerAlign: 'center', // left / center / right
-    headerPaddingTop: 30,
+    headerPaddingTop: 40,
     headerPaddingBottom: 20,
     // avatar
     headerAvatarSize: 100,
@@ -24,13 +24,20 @@ const defaultCanvasSetting = {
     // author
     showHeaderAuthor: true,
     headerAuthorFontSize: 30,
-    headerAuthorFontColor: '#E4D3AE',
-    headerAuthorFontWeight: 'medium',
+    headerAuthorFontColor: '#000000',
+    headerAuthorFontWeight: 'bold',
     headAuthorFontSizeIndex: 4,
-    headerAuthorMarginBottom: 10,
+    headerAuthorMarginBottom: 0,
 
-    headerShowCreateTime: true,
-    headerCreateTimePrefix: '摘录于'
+    // createTime
+    showHeaderTime: true,
+    headerTimeFontSize: 25,
+    headerTimeFontColor: '#000000',
+    headerTimeFontWeight: 'medium',
+    headerTimeFontSizeIndex: 4,
+    headerTimeMarginBottom: 10,
+    headerTimeFormat: 'YYYY/MM/DD HH:mm:ss',
+    headerTimePrefix: 'inspiration occurs on'
   }
 }
 

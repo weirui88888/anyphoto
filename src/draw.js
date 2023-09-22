@@ -48,7 +48,7 @@ class Drawer {
     // header
     this.header = header
     this.author = this.anyPhotoConfig.author
-    this.headerHeight = 190
+    this.headerHeight = 249
   }
   async setupCpu() {
     this.barWatcher.start(5, 1, { step: '初始化中' })
@@ -92,6 +92,7 @@ class Drawer {
     ctx.restore()
     return authorWidth
   }
+
   calculateContentTotalLine() {
     const { ctx } = this
     ctx.beginPath()
@@ -168,7 +169,8 @@ class Drawer {
       this.cpu.calculateApplyAvatar
     const { ctx } = this
     // 绘制头像图片
-    const avatar = await loadImage('https://aliossupload.newarray.vip/WechatIMG364.jpg')
+    // https://aliossupload.newarray.vip/WechatIMG364.jpg
+    const avatar = await loadImage('/Users/weirui05/Desktop/WechatIMG38388.jpg')
     ctx.save()
     ctx.beginPath()
     ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius, 0, Math.PI * 2)
@@ -194,6 +196,35 @@ class Drawer {
       ctx.restore()
     }
 
+    return this
+  }
+  async drawTime() {
+    const {
+      showHeaderTime,
+      headerTimeFontSize,
+      headerTimeFontWeight,
+      headerTimeFontColor,
+      headerTimeFontSizeIndex,
+      timeStartPointX,
+      timeStartPointY
+    } = this.cpu.calculateApplyTime
+    if (showHeaderTime) {
+      this.barWatcher.setTotal(6)
+      this.barWatcher.update(5, {
+        step: '绘制创建时间中'
+      })
+      const clock = await loadImage('https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u23f1.png')
+      const { ctx } = this
+      ctx.save()
+      ctx.beginPath()
+      ctx.fillStyle = headerTimeFontColor
+      ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.englishFonts[headerTimeFontSizeIndex]}`
+      ctx.textBaseline = this.textBaseline
+      ctx.textAlign = this.textAlign
+      ctx.fillText('inspiration occurs on 2023/9/23', timeStartPointX, timeStartPointY)
+      ctx.drawImage(clock, timeStartPointX - 42, timeStartPointY - 4, 36, 36)
+      ctx.restore()
+    }
     return this
   }
   async drawAuthor() {
@@ -248,7 +279,7 @@ class Drawer {
       if (error) {
         console.log(error.message)
       } else {
-        this.barWatcher.update(6, {
+        this.barWatcher.update(7, {
           step: '绘制完成'
         })
         this.barWatcher.stop()
@@ -264,6 +295,7 @@ const draw = ({ content, anyPhotoConfig }) => {
     .then(drawer => drawer.setupCanvas())
     .then(drawer => drawer.drawAvatar())
     .then(drawer => drawer.drawAuthor())
+    .then(drawer => drawer.drawTime())
     .then(drawer => drawer.drawing())
     .then(drawer => drawer.generatePng())
 }
