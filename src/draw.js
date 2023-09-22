@@ -38,8 +38,6 @@ class Drawer {
     this.content = content
     this.canvas = createCanvas(this.width, 1)
     this.ctx = this.canvas.getContext('2d')
-    this.measureCanvas = createCanvas(this.width, 1) // measureCanvas target to calculate some width ,such as author width
-    this.measureCtx = this.canvas.getContext('2d')
     this.lineWidthMap = new Map()
     this.totalLineNumber = this.calculateContentTotalLine()
     const maxLineWidth = this.getMaxLineWidth()
@@ -47,29 +45,45 @@ class Drawer {
 
     // header
     this.header = header
+    this.author = this.anyPhotoConfig.author
     this.headerHeight = 0
   }
-  setCanvas() {
-    const { measureCtx } = this
-    // contentHeight compare to use small height
+  async setupCpu() {
     const compareHeight = this.fontSize >= this.lineGap ? this.lineGap / 2 : this.fontSize / 2
     this.contentHeight =
       (this.totalLineNumber - 1) * this.lineGap + this.totalLineNumber * this.fontSize + this.y * 2 + compareHeight
+    this.ctx.save()
     this.cpu = new Cpu({
       canvasHeaderSetting: this.header,
       x: this.x,
       canvasWidth: this.width,
-      authorWidth: measureCtx.measureText(this.anyPhotoConfig.author).width
+      authorWidth: this.calculateAuthorWidth()
     })
     this.height = this.contentHeight
     this.canvas = createCanvas(this.width, this.contentHeight)
     this.ctx = this.canvas.getContext('2d')
-
+    return this
+  }
+  async setupCanvas() {
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.backgroundColor
     ctx.fillRect(0, 0, this.width, this.height)
     return this
+  }
+  // todo应该需要想个办法，去智能的判断字体的宽度，是否大于canvasWidth-2*x
+  calculateAuthorWidth() {
+    const { headerAuthorFontColor, headerAuthorFontSize, headerAuthorFontWeight, headAuthorFontSizeIndex } = this.header
+    const { author } = this.anyPhotoConfig
+    const { ctx } = this
+    ctx.save()
+    ctx.fillStyle = headerAuthorFontColor
+    ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.englishFonts[headAuthorFontSizeIndex]}`
+    ctx.textBaseline = this.textBaseline
+    ctx.textAlign = this.textAlign
+    const authorWidth = ctx.measureText(author).width
+    ctx.restore()
+    return authorWidth
   }
   calculateContentTotalLine() {
     const { ctx } = this
@@ -129,6 +143,7 @@ class Drawer {
     }
     return this
   }
+
   async drawAvatar() {
     const { headerAvatarBorderWidth, headerAvatarBorderColor, avatarRadius, avatarCenterPointX, avatarCenterPointY } =
       this.cpu.calculateApplyAvatar
@@ -160,6 +175,27 @@ class Drawer {
       ctx.restore()
     }
 
+    return this
+  }
+  drawAuthor() {
+    const {
+      showHeaderAuthor,
+      headerAuthorFontSize,
+      headerAuthorFontWeight,
+      authorStartPointX,
+      authorStartPointY,
+      headerAuthorFontColor,
+      headAuthorFontSizeIndex
+    } = this.cpu.calculateApplyAuthor
+    if (showHeaderAuthor) {
+      const { ctx, author } = this
+      ctx.beginPath()
+      ctx.fillStyle = headerAuthorFontColor
+      ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.englishFonts[headAuthorFontSizeIndex]}`
+      ctx.textBaseline = this.textBaseline
+      ctx.textAlign = this.textAlign
+      ctx.fillText(author, authorStartPointX, authorStartPointY)
+    }
     return this
   }
   getMaxLineWidth() {
@@ -197,12 +233,13 @@ class Drawer {
 
 const draw = ({ content, anyPhotoConfig }) => {
   const drawer = new Drawer({ content, anyPhotoConfig })
-  // drawer.setCanvas().drawing().generatePng()
   drawer
-    .setCanvas()
-    .drawing()
-    .drawAvatar()
-    .then(x => x.generatePng())
+    .setupCpu()
+    .then(drawer => drawer.setupCanvas())
+    .then(drawer => drawer.drawing())
+    .then(drawer => drawer.drawAvatar())
+    .then(drawer => drawer.drawAuthor())
+    .then(drawer => drawer.generatePng())
 }
 
 module.exports = draw

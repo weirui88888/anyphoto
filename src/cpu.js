@@ -2,40 +2,50 @@ class Cpu {
   constructor({ canvasHeaderSetting, x, canvasWidth, authorWidth }) {
     this.canvasHeaderSetting = canvasHeaderSetting
     this.x = x // 左边绘制的x坐标（计算过的）
-    this.authorWidth = authorWidth
+    this.authorWidth = authorWidth // author width
     this.canvasWidth = canvasWidth // canvas width
   }
   calculateApplyHeader() {
     return {
-      avatar: this.calculateApplyAvatar
+      avatar: this.calculateApplyAvatar,
+      author: this.calculateApplyAuthor
     }
   }
 
   get calculateApplyAvatar() {
     const { headerAvatarSize, headerAvatarBorderWidth, headerAvatarBorderColor } = this.canvasHeaderSetting
     return {
-      ...this.calculateDomProperty('avatar'),
       avatarSize: headerAvatarSize,
       avatarRadius: headerAvatarSize / 2,
       headerAvatarBorderWidth,
-      headerAvatarBorderColor
+      headerAvatarBorderColor,
+      ...this.calculateDomProperty('avatar')
     }
   }
   get calculateApplyAuthor() {
-    const { headerShowAuthor, headerAuthorFontSize, headerAuthorFontWeight } = this.canvasHeaderSetting
-    return {
-      headerShowAuthor,
+    const {
+      showHeaderAuthor,
       headerAuthorFontSize,
-      headerAuthorFontWeight
+      headerAuthorFontWeight,
+      headerAuthorFontColor,
+      headAuthorFontSizeIndex
+    } = this.canvasHeaderSetting
+    return {
+      showHeaderAuthor,
+      headerAuthorFontSize,
+      headerAuthorFontWeight,
+      headerAuthorFontColor,
+      headAuthorFontSizeIndex,
+      ...this.calculateDomProperty('author')
     }
   }
   calculateDomProperty(dom) {
     switch (dom) {
       case 'avatar':
-        return this.calculateAvatarCenterPointPosition()
+        return this.calculateAvatarCenterPointPosition
 
       case 'author':
-        return this.calculateAuthorStartPointPosition()
+        return this.calculateAuthorStartPointPosition
       case 'time':
         break
 
@@ -44,7 +54,7 @@ class Cpu {
     }
   }
 
-  calculateAvatarCenterPointPosition() {
+  get calculateAvatarCenterPointPosition() {
     const { headerAlign, headerPaddingTop, headerAvatarSize, headerAvatarBorderWidth } = this.canvasHeaderSetting
     const { x, canvasWidth } = this
     switch (headerAlign) {
@@ -75,30 +85,32 @@ class Cpu {
         }
     }
   }
-  calculateAuthorStartPointPosition() {
-    const { headerAlign, headerAvatarMarginBottom } = this.canvasHeaderSetting
-    const { x } = this
+  get calculateAuthorStartPointPosition() {
+    const { headerAlign, headerAvatarMarginBottom, headerAvatarBorderWidth } = this.canvasHeaderSetting
+    const { x, authorWidth, canvasWidth } = this
+    const { bottomY, avatarCenterPointX } = this.calculateAvatarCenterPointPosition
+
     switch (headerAlign) {
       case 'left':
         return {
           authorStartPointX: x,
-          authorStartPointY: this.calculateApplyAvatar.bottomY + headerAvatarMarginBottom
+          authorStartPointY: bottomY + headerAvatarMarginBottom
         }
       case 'center':
         return {
-          authorStartPointX: x,
-          authorStartPointY: this.calculateApplyAvatar.bottomY + headerAvatarMarginBottom
+          authorStartPointX: avatarCenterPointX - authorWidth / 2,
+          authorStartPointY: bottomY + headerAvatarMarginBottom
         }
       case 'right':
         return {
-          authorStartPointX: x,
-          authorStartPointY: this.calculateApplyAvatar.bottomY + headerAvatarMarginBottom
+          authorStartPointX: canvasWidth - x - authorWidth - headerAvatarBorderWidth,
+          authorStartPointY: bottomY + headerAvatarMarginBottom
         }
 
       default:
         return {
-          authorStartPointX: x,
-          authorStartPointY: this.calculateApplyAvatar.bottomY + headerAvatarMarginBottom
+          authorStartPointX: avatarCenterPointX - authorWidth / 2,
+          authorStartPointY: bottomY + headerAvatarMarginBottom
         }
     }
   }

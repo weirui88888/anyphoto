@@ -12,19 +12,21 @@ const defaultCanvasSetting = {
   x: 20,
   y: 30,
   header: {
-    headerAlign: 'center', // left / center / right
+    headerAlign: 'left', // left / center / right
     headerPaddingTop: 30,
     headerPaddingBottom: 20,
     // avatar
     headerAvatarSize: 100,
-    headerAvatarBorderWidth: 5, // 应该要最大10，否则影响布局
+    headerAvatarBorderWidth: 2, // 应该要最大10，否则影响布局
     headerAvatarBorderColor: 'gold',
     headerAvatarMarginBottom: 10,
 
     // author
-    headerShowAuthor: true,
+    showHeaderAuthor: true,
     headerAuthorFontSize: 30,
+    headerAuthorFontColor: '#FF6600',
     headerAuthorFontWeight: 'bold',
+    headAuthorFontSizeIndex: 4,
     headerAuthorMarginBottom: 10,
 
     headerShowCreateTime: true,
