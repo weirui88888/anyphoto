@@ -52,8 +52,11 @@ class Drawer {
     const compareHeight = this.fontSize >= this.lineGap ? this.lineGap / 2 : this.fontSize / 2
     this.contentHeight =
       (this.totalLineNumber - 1) * this.lineGap + this.totalLineNumber * this.fontSize + this.y * 2 + compareHeight
-    // headerHeight avatarHeight authorHeight createTimeHeight
-    this.cpu = new Cpu({ header: this.header, x: this.x, width: this.width })
+    this.cpu = new Cpu({
+      canvasHeaderSetting: this.header,
+      x: this.x,
+      canvasWidth: this.width
+    })
     this.height = this.contentHeight
     this.canvas = createCanvas(this.width, this.contentHeight)
     this.ctx = this.canvas.getContext('2d')
@@ -123,11 +126,8 @@ class Drawer {
     return this
   }
   async drawAvatar() {
-    const {
-      headerAvatarBorderWidth,
-      headerAvatarBorderColor,
-      property: { avatarRadius, avatarCenterPointX, avatarCenterPointY }
-    } = this.cpu.calculateApplyAvatar()
+    const { headerAvatarBorderWidth, headerAvatarBorderColor, avatarRadius, avatarCenterPointX, avatarCenterPointY } =
+      this.cpu.calculateApplyAvatar
     const { ctx } = this
     // 绘制头像图片
     const avatar = await loadImage('https://aliossupload.newarray.vip/WechatIMG39.png')
@@ -145,14 +145,16 @@ class Drawer {
     )
     ctx.restore()
 
-    // 绘制圆形边框
-    ctx.save()
-    ctx.beginPath()
-    ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius + headerAvatarBorderWidth / 2, 0, Math.PI * 2)
-    ctx.lineWidth = headerAvatarBorderWidth
-    ctx.strokeStyle = headerAvatarBorderColor
-    ctx.stroke()
-    ctx.restore()
+    // draw avatar border
+    if (headerAvatarBorderWidth) {
+      ctx.save()
+      ctx.beginPath()
+      ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius + headerAvatarBorderWidth / 2, 0, Math.PI * 2)
+      ctx.lineWidth = headerAvatarBorderWidth
+      ctx.strokeStyle = headerAvatarBorderColor
+      ctx.stroke()
+      ctx.restore()
+    }
 
     return this
   }

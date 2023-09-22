@@ -1,46 +1,50 @@
 class Cpu {
-  constructor({ header, x, width, footer = {}, contentHeight = 0 }) {
-    this.header = header
-    this.footer = footer
-    this.contentHeight = contentHeight
-    this.x = x
-    this.width = width
+  constructor({ canvasHeaderSetting, x, canvasWidth }) {
+    this.canvasHeaderSetting = canvasHeaderSetting
+    this.x = x // 左边绘制的x坐标（计算过的）
+    this.canvasWidth = canvasWidth // canvas width
   }
   calculateApplyHeader() {
-    // const {
-    //   headerAlign,
-    //   headerPaddingTop,
-    //   headerPaddingBottom,
-    //   headerAvatarSize,
-    //   headerShowAuthor,
-    //   headerAuthorFontSize,
-    //   headerShowCreateTime,
-    //   headerCreateTimePrefix
-    // } = this.header
     return {
-      avatar: this.calculateApplyAvatar()
+      avatar: this.calculateApplyAvatar
     }
   }
 
-  calculateApplyAvatar() {
-    const { headerAlign, headerPaddingTop, headerAvatarSize, headerAvatarBorderWidth, headerAvatarBorderColor } =
-      this.header
+  get calculateApplyAvatar() {
+    const { headerAvatarSize, headerAvatarBorderWidth, headerAvatarBorderColor } = this.canvasHeaderSetting
     return {
+      ...this.calculateDomProperty('avatar'),
       avatarSize: headerAvatarSize,
-      property: this.calculateDomProperty('avatar'),
+      avatarRadius: headerAvatarSize / 2,
       headerAvatarBorderWidth,
       headerAvatarBorderColor
     }
   }
+  get calculateApplyAuthor() {
+    const { headerShowAuthor, headerAuthorFontSize, headerAuthorFontWeight } = this.canvasHeaderSetting
+    return {
+      headerShowAuthor,
+      headerAuthorFontSize,
+      headerAuthorFontWeight
+    }
+  }
   calculateDomProperty(dom) {
-    const { headerAlign, headerPaddingTop, headerAvatarSize, headerAvatarBorderWidth, headerAvatarBorderColor } =
-      this.header
+    const {
+      headerAlign,
+      headerPaddingTop,
+      headerAvatarSize,
+      headerAvatarBorderWidth,
+      headerAvatarBorderColor,
+      headerShowAuthor,
+      headerAuthorFontSize,
+      headerAuthorMarginTop,
+      headerAuthorMarginBottom,
+      headerAuthorFontWeight
+    } = this.canvasHeaderSetting
     switch (dom) {
       case 'avatar':
-        return {
-          avatarRadius: headerAvatarSize / 2,
-          ...this.calculateAvatarCenterPointPosition()
-        }
+        return this.calculateAvatarCenterPointPosition()
+
       case 'author':
         break
 
@@ -53,28 +57,31 @@ class Cpu {
   }
   calculateAvatarCenterPointPosition() {
     const { headerAlign, headerPaddingTop, headerAvatarSize, headerAvatarBorderWidth, headerAvatarBorderColor } =
-      this.header
-    const { x, width } = this
+      this.canvasHeaderSetting
+    const { x, canvasWidth } = this
     switch (headerAlign) {
       case 'left':
         return {
           avatarCenterPointX: x + headerAvatarSize / 2 + headerAvatarBorderWidth / 2,
-          avatarCenterPointY: headerPaddingTop + headerAvatarSize / 2
+          avatarCenterPointY: headerPaddingTop + headerAvatarSize / 2,
+          bottomY: headerPaddingTop + headerAvatarSize + headerAvatarBorderWidth // avatar bottom point y
         }
       case 'center':
         return {
-          avatarCenterPointX: width / 2,
-          avatarCenterPointY: headerPaddingTop + headerAvatarSize / 2
+          avatarCenterPointX: canvasWidth / 2,
+          avatarCenterPointY: headerPaddingTop + headerAvatarSize / 2,
+          bottomY: headerPaddingTop + headerAvatarSize + headerAvatarBorderWidth // avatar bottom point y
         }
       case 'right':
         return {
-          avatarCenterPointX: width - x - headerAvatarSize / 2 - headerAvatarBorderWidth / 2,
-          avatarCenterPointY: headerPaddingTop + headerAvatarSize / 2
+          avatarCenterPointX: canvasWidth - x - headerAvatarSize / 2 - headerAvatarBorderWidth / 2,
+          avatarCenterPointY: headerPaddingTop + headerAvatarSize / 2,
+          bottomY: headerPaddingTop + headerAvatarSize + headerAvatarBorderWidth // avatar bottom point y
         }
 
       default:
         return {
-          avatarCenterPointX: width / 2,
+          avatarCenterPointX: canvasWidth / 2,
           avatarCenterPointY: headerPaddingTop + headerAvatarSize / 2
         }
     }

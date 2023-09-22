@@ -3,7 +3,6 @@
 const { Command } = require('commander')
 const pkg = require('../package.json')
 const figlet = require('figlet')
-const { tip } = require('../src/util')
 const { init, generate, github, oss } = require('../src/cmd')
 const { defaultTheme, defaultAuthor, defaultAvatar } = require('../src/config')
 
