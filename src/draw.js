@@ -38,6 +38,8 @@ class Drawer {
     this.content = content
     this.canvas = createCanvas(this.width, 1)
     this.ctx = this.canvas.getContext('2d')
+    this.measureCanvas = createCanvas(this.width, 1) // measureCanvas target to calculate some width ,such as author width
+    this.measureCtx = this.canvas.getContext('2d')
     this.lineWidthMap = new Map()
     this.totalLineNumber = this.calculateContentTotalLine()
     const maxLineWidth = this.getMaxLineWidth()
@@ -48,6 +50,7 @@ class Drawer {
     this.headerHeight = 0
   }
   setCanvas() {
+    const { measureCtx } = this
     // contentHeight compare to use small height
     const compareHeight = this.fontSize >= this.lineGap ? this.lineGap / 2 : this.fontSize / 2
     this.contentHeight =
@@ -55,7 +58,8 @@ class Drawer {
     this.cpu = new Cpu({
       canvasHeaderSetting: this.header,
       x: this.x,
-      canvasWidth: this.width
+      canvasWidth: this.width,
+      authorWidth: measureCtx.measureText(this.anyPhotoConfig.author).width
     })
     this.height = this.contentHeight
     this.canvas = createCanvas(this.width, this.contentHeight)

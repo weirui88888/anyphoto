@@ -1,7 +1,8 @@
 class Cpu {
-  constructor({ canvasHeaderSetting, x, canvasWidth }) {
+  constructor({ canvasHeaderSetting, x, canvasWidth, authorWidth }) {
     this.canvasHeaderSetting = canvasHeaderSetting
     this.x = x // 左边绘制的x坐标（计算过的）
+    this.authorWidth = authorWidth
     this.canvasWidth = canvasWidth // canvas width
   }
   calculateApplyHeader() {
@@ -29,25 +30,12 @@ class Cpu {
     }
   }
   calculateDomProperty(dom) {
-    const {
-      headerAlign,
-      headerPaddingTop,
-      headerAvatarSize,
-      headerAvatarBorderWidth,
-      headerAvatarBorderColor,
-      headerShowAuthor,
-      headerAuthorFontSize,
-      headerAuthorMarginTop,
-      headerAuthorMarginBottom,
-      headerAuthorFontWeight
-    } = this.canvasHeaderSetting
     switch (dom) {
       case 'avatar':
         return this.calculateAvatarCenterPointPosition()
 
       case 'author':
-        break
-
+        return this.calculateAuthorStartPointPosition()
       case 'time':
         break
 
@@ -55,9 +43,9 @@ class Cpu {
         return {}
     }
   }
+
   calculateAvatarCenterPointPosition() {
-    const { headerAlign, headerPaddingTop, headerAvatarSize, headerAvatarBorderWidth, headerAvatarBorderColor } =
-      this.canvasHeaderSetting
+    const { headerAlign, headerPaddingTop, headerAvatarSize, headerAvatarBorderWidth } = this.canvasHeaderSetting
     const { x, canvasWidth } = this
     switch (headerAlign) {
       case 'left':
@@ -82,7 +70,35 @@ class Cpu {
       default:
         return {
           avatarCenterPointX: canvasWidth / 2,
-          avatarCenterPointY: headerPaddingTop + headerAvatarSize / 2
+          avatarCenterPointY: headerPaddingTop + headerAvatarSize / 2,
+          bottomY: headerPaddingTop + headerAvatarSize + headerAvatarBorderWidth // avatar bottom point y
+        }
+    }
+  }
+  calculateAuthorStartPointPosition() {
+    const { headerAlign, headerAvatarMarginBottom } = this.canvasHeaderSetting
+    const { x } = this
+    switch (headerAlign) {
+      case 'left':
+        return {
+          authorStartPointX: x,
+          authorStartPointY: this.calculateApplyAvatar.bottomY + headerAvatarMarginBottom
+        }
+      case 'center':
+        return {
+          authorStartPointX: x,
+          authorStartPointY: this.calculateApplyAvatar.bottomY + headerAvatarMarginBottom
+        }
+      case 'right':
+        return {
+          authorStartPointX: x,
+          authorStartPointY: this.calculateApplyAvatar.bottomY + headerAvatarMarginBottom
+        }
+
+      default:
+        return {
+          authorStartPointX: x,
+          authorStartPointY: this.calculateApplyAvatar.bottomY + headerAvatarMarginBottom
         }
     }
   }

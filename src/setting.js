@@ -19,11 +19,11 @@ const defaultCanvasSetting = {
     headerAvatarSize: 100,
     headerAvatarBorderWidth: 5, // 应该要最大10，否则影响布局
     headerAvatarBorderColor: 'gold',
+    headerAvatarMarginBottom: 10,
 
     // author
     headerShowAuthor: true,
     headerAuthorFontSize: 30,
-    headerAuthorMarginTop: 10,
     headerAuthorFontWeight: 'bold',
     headerAuthorMarginBottom: 10,
 
