@@ -1,3 +1,5 @@
+const cliProgress = require('cli-progress')
+
 const c = require('ansi-colors')
 
 const ora = require('ora')
@@ -28,9 +30,17 @@ const color = (msg, ...args) => {
   return color(c[nextStyle](msg), ...args.slice(1))
 }
 
+const barWatcher = new cliProgress.SingleBar({
+  format: 'Generate Progress ' + color('{bar}', 'green') + ' now status is => ' + color('{step}', 'green'),
+  barCompleteChar: '\u2588',
+  barIncompleteChar: '\u2591',
+  hideCursor: true
+})
+
 module.exports = {
   generateOra,
   sleep,
   color,
-  colorTip
+  colorTip,
+  barWatcher
 }

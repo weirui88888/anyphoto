@@ -1,4 +1,5 @@
 const { createCanvas, registerFont, loadImage } = require('canvas')
+const { barWatcher } = require('./util')
 const Cpu = require('./cpu')
 const path = require('path')
 const base64Img = require('base64-img')
@@ -29,6 +30,7 @@ class Drawer {
     this.maxLineWidth = width - x * 2 // 这里只是预设最大宽度，也就是用width - x * 2，需要先有它，才能计算出来布局，以及每行实际绘制的宽度
     this.fontSize = fontSize
     this.fontSizeIndex = fontSizeIndex
+    this.barWatcher = barWatcher
 
     // content
     this.lineGap = lineGap
@@ -49,6 +51,7 @@ class Drawer {
     this.headerHeight = 0
   }
   async setupCpu() {
+    this.barWatcher.start(5, 1, { step: '初始化中' })
     const compareHeight = this.fontSize >= this.lineGap ? this.lineGap / 2 : this.fontSize / 2
     this.contentHeight =
       (this.totalLineNumber - 1) * this.lineGap + this.totalLineNumber * this.fontSize + this.y * 2 + compareHeight
@@ -65,6 +68,10 @@ class Drawer {
     return this
   }
   async setupCanvas() {
+    this.barWatcher.setTotal(3)
+    this.barWatcher.update(2, {
+      step: '设置画布中'
+    })
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.backgroundColor
@@ -113,7 +120,11 @@ class Drawer {
     this.setLineWidthMap(currentLine, ctx.measureText(words.join(' ')).width)
     return currentLine + 1
   }
-  drawing() {
+  async drawing() {
+    this.barWatcher.setTotal(6)
+    this.barWatcher.update(5, {
+      step: '绘制主体中'
+    })
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.color
@@ -145,6 +156,10 @@ class Drawer {
   }
 
   async drawAvatar() {
+    this.barWatcher.setTotal(4)
+    this.barWatcher.update(3, {
+      step: '绘制头像中'
+    })
     const { headerAvatarBorderWidth, headerAvatarBorderColor, avatarRadius, avatarCenterPointX, avatarCenterPointY } =
       this.cpu.calculateApplyAvatar
     const { ctx } = this
@@ -177,7 +192,7 @@ class Drawer {
 
     return this
   }
-  drawAuthor() {
+  async drawAuthor() {
     const {
       showHeaderAuthor,
       headerAuthorFontSize,
@@ -188,6 +203,10 @@ class Drawer {
       headAuthorFontSizeIndex
     } = this.cpu.calculateApplyAuthor
     if (showHeaderAuthor) {
+      this.barWatcher.setTotal(5)
+      this.barWatcher.update(4, {
+        step: '绘制作者中'
+      })
       const { ctx, author } = this
       ctx.beginPath()
       ctx.fillStyle = headerAuthorFontColor
@@ -225,7 +244,10 @@ class Drawer {
       if (error) {
         console.log(error.message)
       } else {
-        console.log('成功啦')
+        this.barWatcher.update(6, {
+          step: '绘制完成'
+        })
+        this.barWatcher.stop()
       }
     })
   }
@@ -236,9 +258,9 @@ const draw = ({ content, anyPhotoConfig }) => {
   drawer
     .setupCpu()
     .then(drawer => drawer.setupCanvas())
-    .then(drawer => drawer.drawing())
     .then(drawer => drawer.drawAvatar())
     .then(drawer => drawer.drawAuthor())
+    .then(drawer => drawer.drawing())
     .then(drawer => drawer.generatePng())
 }
 
