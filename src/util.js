@@ -1,4 +1,4 @@
-const chalk = require('chalk')
+const c = require('ansi-colors')
 
 const ora = require('ora')
 
@@ -12,13 +12,25 @@ const sleep = time => {
   })
 }
 
-const yellow = msg => console.log(chalk.yellow(msg))
+const colorTip = (msg, ...args) => {
+  if (args.length === 0) {
+    return console.log(msg)
+  }
+  const nextStyle = args[0]
+  return colorTip(c[nextStyle](msg), ...args.slice(1))
+}
 
-const green = msg => console.log(chalk.green(msg))
+const color = (msg, ...args) => {
+  if (args.length === 0) {
+    return msg
+  }
+  const nextStyle = args[0]
+  return color(c[nextStyle](msg), ...args.slice(1))
+}
 
 module.exports = {
   generateOra,
   sleep,
-  green,
-  yellow
+  color,
+  colorTip
 }

@@ -4,7 +4,7 @@ const path = require('path')
 const base64Img = require('base64-img')
 
 class Drawer {
-  constructor({ content, anyPhotoConfig, canvasSetting }) {
+  constructor({ content, anyPhotoConfig }) {
     const {
       width,
       englishFonts,
@@ -19,7 +19,7 @@ class Drawer {
       textAlign,
       fontSizeIndex,
       header
-    } = canvasSetting
+    } = anyPhotoConfig.canvasSetting
     this.anyPhotoConfig = anyPhotoConfig
     this.width = width
     this.fontWeight = fontWeight
@@ -189,14 +189,14 @@ class Drawer {
   }
 }
 
-const draw = ({ content, anyPhotoConfig, canvasSetting }) => {
-  const drawer = new Drawer({ content, anyPhotoConfig, canvasSetting })
+const draw = ({ content, anyPhotoConfig }) => {
+  const drawer = new Drawer({ content, anyPhotoConfig })
   // drawer.setCanvas().drawing().generatePng()
   drawer
     .setCanvas()
     .drawing()
     .drawAvatar()
-    .then((x) => x.generatePng())
+    .then(x => x.generatePng())
 }
 
 module.exports = draw

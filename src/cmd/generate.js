@@ -68,20 +68,23 @@ const getAnyPhotoConfig = ({ options }) => {
   const author = getAnyPhotoConfigByKey({ key: 'author', options })
   const output = getAnyPhotoConfigByKey({ key: 'output', options })
 
-  return handelValidAnyPhotoConfig({
-    theme,
-    avatar,
-    author,
-    output
-  })
+  return {
+    ...handelValidAnyPhotoConfig({
+      theme,
+      avatar,
+      author,
+      output
+    }),
+    // const canvasSetting = defaultCanvasSetting // TODO 这里只是为了方便，最后需要根据用户选项做相关合并
+    canvasSetting: defaultCanvasSetting
+  }
 }
 
 const generate = ({ content, options }) => {
   const anyPhotoConfig = getAnyPhotoConfig({
     options
   })
-  const canvasSetting = defaultCanvasSetting // TODO 这里只是为了方便，最后需要根据用户选项做相关合并
-  draw({ content, anyPhotoConfig, canvasSetting })
+  draw({ content, anyPhotoConfig })
 }
 
 module.exports = generate

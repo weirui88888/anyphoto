@@ -1,4 +1,4 @@
-const { yellow } = require('./util')
+const { colorTip } = require('./util')
 const isImageUrl = require('is-image-url')
 
 const defaultConfigName = 'anyphoto.config.js'
@@ -17,14 +17,15 @@ const optionsCpu = {
   avatar: {
     validate(avatar) {
       const isValidAvatar = isImageUrl(avatar)
-      !isValidAvatar && yellow('Tips: 由于你提供的头像地址不是一个正确的图片地址，将会采用默认值')
+      !isValidAvatar && colorTip('Tips: 由于你提供的头像地址不是一个正确的图片地址，将会采用默认值', 'yellow')
       return isValidAvatar ? avatar : defaultAvatar
     }
   },
   theme: {
     validate(theme) {
       const isValidTheme = validTheme.includes(theme)
-      !isValidTheme && yellow('Tips: 目前仅支持经典和流行两种主题，由于你提供的主题不是一个正确的预设，将会采用默认值')
+      !isValidTheme &&
+        colorTip('Tips: 目前仅支持经典和流行两种主题，由于你提供的主题不是一个正确的预设，将会采用默认值', 'yellow')
       return isValidTheme ? theme : validTheme[0]
     }
   },

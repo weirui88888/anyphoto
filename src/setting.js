@@ -16,7 +16,7 @@ const defaultCanvasSetting = {
     headerPaddingTop: 30,
     headerPaddingBottom: 20,
     headerAvatarSize: 100,
-    headerAvatarBorderWidth: 0,
+    headerAvatarBorderWidth: 10,
     headerAvatarBorderColor: 'gold',
     headerShowAuthor: true,
     headerAuthorFontSize: 30,
