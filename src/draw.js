@@ -1,5 +1,5 @@
 const { createCanvas, registerFont, loadImage } = require('canvas')
-const { barWatcher } = require('./util')
+const { barWatcher, formatDateTime } = require('./util')
 const Cpu = require('./cpu')
 const path = require('path')
 const base64Img = require('base64-img')
@@ -48,7 +48,7 @@ class Drawer {
     // header
     this.header = header
     this.author = this.anyPhotoConfig.author
-    this.headerHeight = 249
+    this.headerHeight = 0
   }
   async setupCpu() {
     this.barWatcher.start(5, 1, { step: '初始化中' })
@@ -60,10 +60,12 @@ class Drawer {
       canvasHeaderSetting: this.header,
       x: this.x,
       canvasWidth: this.width,
-      authorWidth: this.calculateAuthorWidth()
+      authorWidth: this.calculateAuthorWidth,
+      timeWidthPrefixWidth: this.calculateTimeWithPrefixWidth
     })
-    this.height = this.contentHeight
-    this.canvas = createCanvas(this.width, this.contentHeight + this.headerHeight)
+    this.headerHeight = this.cpu.getHeaderHeight
+    this.height = this.headerHeight + this.contentHeight
+    this.canvas = createCanvas(this.width, this.height)
     this.ctx = this.canvas.getContext('2d')
     return this
   }
@@ -75,11 +77,11 @@ class Drawer {
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.backgroundColor
-    ctx.fillRect(0, 0, this.width, this.height + this.headerHeight)
+    ctx.fillRect(0, 0, this.width, this.height)
     return this
   }
   // todo应该需要想个办法，去智能的判断字体的宽度，是否大于canvasWidth-2*x
-  calculateAuthorWidth() {
+  get calculateAuthorWidth() {
     const { headerAuthorFontColor, headerAuthorFontSize, headerAuthorFontWeight, headAuthorFontSizeIndex } = this.header
     const { author } = this.anyPhotoConfig
     const { ctx } = this
@@ -91,6 +93,27 @@ class Drawer {
     const authorWidth = ctx.measureText(author).width
     ctx.restore()
     return authorWidth
+  }
+
+  get getTimeWithPrefix() {
+    const { headerTime, headerTimeFormat, headerTimePrefix } = this.header
+    const formatDateString = formatDateTime(headerTime, headerTimeFormat)
+    return `${headerTimePrefix} ${formatDateString}`
+  }
+
+  get calculateTimeWithPrefixWidth() {
+    const { headerTimeFontColor, headerTimeFontSize, headerTimeFontWeight, headerTimeFontSizeIndex } = this.header
+
+    const prefixTimeString = this.getTimeWithPrefix
+    const { ctx } = this
+    ctx.save()
+    ctx.fillStyle = headerTimeFontColor
+    ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.englishFonts[headerTimeFontSizeIndex]}`
+    ctx.textBaseline = this.textBaseline
+    ctx.textAlign = this.textAlign
+    const timeWithPrefixWidth = ctx.measureText(prefixTimeString).width
+    ctx.restore()
+    return timeWithPrefixWidth
   }
 
   calculateContentTotalLine() {
@@ -135,6 +158,7 @@ class Drawer {
     let words = this.content.split(' ')
     let currentLine = 0
     let idx = 1
+    console.log(this.headerHeight)
     while (words.length > 0 && idx <= words.length) {
       let str = words.slice(0, idx).join(' ')
       let w = ctx.measureText(str).width
@@ -145,7 +169,7 @@ class Drawer {
         ctx.fillText(
           words.slice(0, idx - 1).join(' '),
           this.x,
-          this.y + (this.fontSize + this.lineGap) * currentLine + this.headerHeight
+          this.headerHeight + this.y + (this.fontSize + this.lineGap) * currentLine
         )
         currentLine++
         words = words.splice(idx - 1)
@@ -155,7 +179,7 @@ class Drawer {
       }
     }
     if (idx > 0) {
-      ctx.fillText(words.join(' '), this.x, this.y + (this.fontSize + this.lineGap) * currentLine + this.headerHeight)
+      ctx.fillText(words.join(' '), this.x, this.headerHeight + this.y + (this.fontSize + this.lineGap) * currentLine)
     }
     return this
   }
@@ -208,21 +232,32 @@ class Drawer {
       timeStartPointX,
       timeStartPointY
     } = this.cpu.calculateApplyTime
+    const {
+      showHeaderTimeIcon,
+      timeIconStartPointX,
+      timeIconStartPointY,
+      timeIconWidth,
+      timeIconHeight,
+      headerTimeIcon
+    } = this.cpu.calculateApplyTimeIcon
+
     if (showHeaderTime) {
+      const { ctx } = this
+      ctx.save()
       this.barWatcher.setTotal(6)
       this.barWatcher.update(5, {
         step: '绘制创建时间中'
       })
-      const clock = await loadImage('https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u23f1.png')
-      const { ctx } = this
-      ctx.save()
       ctx.beginPath()
+      if (showHeaderTimeIcon) {
+        const clock = await loadImage(headerTimeIcon)
+        ctx.drawImage(clock, timeIconStartPointX, timeIconStartPointY, timeIconWidth, timeIconHeight)
+      }
       ctx.fillStyle = headerTimeFontColor
       ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.englishFonts[headerTimeFontSizeIndex]}`
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
-      ctx.fillText('inspiration occurs on 2023/9/23', timeStartPointX, timeStartPointY)
-      ctx.drawImage(clock, timeStartPointX - 42, timeStartPointY - 4, 36, 36)
+      ctx.fillText(this.getTimeWithPrefix, timeStartPointX, timeStartPointY)
       ctx.restore()
     }
     return this

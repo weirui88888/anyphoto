@@ -1,10 +1,11 @@
+const isImageUrl = require('is-image-url')
 class Cpu {
-  constructor({ canvasHeaderSetting, x, canvasWidth, authorWidth }) {
+  constructor({ canvasHeaderSetting, x, canvasWidth, authorWidth, timeWidthPrefixWidth }) {
     this.canvasHeaderSetting = canvasHeaderSetting
     this.x = x // 左边绘制的x坐标（计算过的）
     this.authorWidth = authorWidth // author width
     this.canvasWidth = canvasWidth // canvas width
-    this.timeWidth = 400
+    this.timeWidthPrefixWidth = timeWidthPrefixWidth
   }
   calculateApplyHeader() {
     return {
@@ -12,6 +13,10 @@ class Cpu {
       author: this.calculateApplyAuthor,
       time: this.calculateApplyTime
     }
+  }
+  get getHeaderHeight() {
+    const { headerPaddingBottom } = this.canvasHeaderSetting
+    return this.calculateApplyTime.timeBottomY + headerPaddingBottom
   }
 
   get calculateApplyAvatar() {
@@ -42,15 +47,35 @@ class Cpu {
     }
   }
 
+  get calculateApplyTimeIcon() {
+    const {
+      headerTimeFontSize: timeIconWidth,
+      headerTimeFontSize: timeIconHeight,
+      headerTimeIcon
+    } = this.canvasHeaderSetting
+    return {
+      timeIconWidth,
+      timeIconHeight,
+      headerTimeIcon,
+      ...this.calculateDomProperty('timeIcon')
+    }
+  }
   get calculateApplyTime() {
-    const { showHeaderTime, headerTimeFontSize, headerTimeFontWeight, headerTimeFontColor, headerTimeFontSizeIndex } =
-      this.canvasHeaderSetting
+    const {
+      showHeaderTime,
+      headerTimeFontSize,
+      headerTimeFontWeight,
+      headerTimeFontColor,
+      headerTimeFontSizeIndex,
+      headerTimeIcon
+    } = this.canvasHeaderSetting
     return {
       showHeaderTime,
       headerTimeFontSize,
       headerTimeFontWeight,
       headerTimeFontColor,
       headerTimeFontSizeIndex,
+      headerTimeIcon,
       ...this.calculateDomProperty('time')
     }
   }
@@ -60,6 +85,8 @@ class Cpu {
         return this.calculateAvatarCenterPointPosition
       case 'author':
         return this.calculateAuthorStartPointPosition
+      case 'timeIcon':
+        return this.calculateTimeIconStartPointPosition
       case 'time':
         return this.calculateTimeStartPointPosition
       default:
@@ -134,39 +161,100 @@ class Cpu {
         }
     }
   }
-  get calculateTimeStartPointPosition() {
-    const { headerAlign, headerAvatarBorderWidth, showHeaderAuthor, headerAuthorMarginBottom } =
-      this.canvasHeaderSetting
-    const { x, timeWidth, canvasWidth } = this
+  // calculate inspiration come by calculateTimeStartPointPosition
+  get calculateTimeIconStartPointPosition() {
+    const {
+      headerAlign,
+      headerAvatarBorderWidth,
+      showHeaderAuthor,
+      headerAuthorMarginBottom,
+      headerTimeIcon,
+      headerTimeIconGap,
+      headerTimeFontSize
+    } = this.canvasHeaderSetting
+    const { x, timeWidthPrefixWidth, canvasWidth } = this
     const { authorBottomY } = this.calculateAuthorStartPointPosition
     const { avatarCenterPointX } = this.calculateAvatarCenterPointPosition
     // 根据是否展示作者展示进行判断，没作者
+    const timeIconStartPointY = showHeaderAuthor ? authorBottomY + headerAuthorMarginBottom : authorBottomY
+    if (isImageUrl(headerTimeIcon)) {
+      switch (headerAlign) {
+        case 'left':
+          return {
+            showHeaderTimeIcon: true,
+            timeIconStartPointX: x,
+            timeIconStartPointY
+          }
+        case 'center':
+          return {
+            showHeaderTimeIcon: true,
+            timeIconStartPointX:
+              avatarCenterPointX - (timeWidthPrefixWidth + headerTimeFontSize + headerTimeIconGap) / 2,
+            timeIconStartPointY
+          }
+        case 'right':
+          return {
+            showHeaderTimeIcon: true,
+            timeIconStartPointX:
+              canvasWidth - x - timeWidthPrefixWidth - headerAvatarBorderWidth - headerTimeFontSize - headerTimeIconGap,
+            timeIconStartPointY
+          }
+        default:
+          return {
+            showHeaderTimeIcon: false
+          }
+      }
+    } else {
+      return {
+        showHeaderTimeIcon: false
+      }
+    }
+  }
+  get calculateTimeStartPointPosition() {
+    const {
+      headerAlign,
+      headerAvatarBorderWidth,
+      showHeaderAuthor,
+      headerAuthorMarginBottom,
+      headerTimeIconGap,
+      headerTimeFontSize,
+      showHeaderTime
+    } = this.canvasHeaderSetting
+    const { x, timeWidthPrefixWidth, canvasWidth } = this
+    const { authorBottomY } = this.calculateAuthorStartPointPosition
+    const { avatarCenterPointX } = this.calculateAvatarCenterPointPosition
+    const { showHeaderTimeIcon, timeIconStartPointX } = this.calculateTimeIconStartPointPosition
+    // 根据是否展示作者展示进行判断，没作者
     const timeStartPointY = showHeaderAuthor ? authorBottomY + headerAuthorMarginBottom : authorBottomY
+    const timeBottomY = showHeaderTime ? timeStartPointY + headerTimeFontSize : timeStartPointY
+    const timeStartWithIconPointX = timeIconStartPointX + headerTimeFontSize + headerTimeIconGap
     switch (headerAlign) {
       case 'left':
         return {
-          timeStartPointX: x,
+          timeStartPointX: showHeaderTimeIcon ? timeStartWithIconPointX : x,
           timeStartPointY,
-          timeBottomY: 0
+          timeBottomY
         }
       case 'center':
         return {
-          timeStartPointX: avatarCenterPointX - timeWidth / 2,
+          timeStartPointX: showHeaderTimeIcon ? timeStartWithIconPointX : avatarCenterPointX - timeWidthPrefixWidth / 2,
           timeStartPointY,
-          timeBottomY: 0
+          timeBottomY
         }
       case 'right':
         return {
-          timeStartPointX: canvasWidth - x - timeWidth - headerAvatarBorderWidth,
+          timeStartPointX: showHeaderTimeIcon
+            ? timeStartWithIconPointX
+            : canvasWidth - x - timeWidthPrefixWidth - headerAvatarBorderWidth,
           timeStartPointY,
-          timeBottomY: 0
+          timeBottomY
         }
 
       default:
         return {
-          timeStartPointX: avatarCenterPointX - timeWidth / 2,
+          timeStartPointX: showHeaderTimeIcon ? timeStartWithIconPointX : avatarCenterPointX - timeWidthPrefixWidth / 2,
           timeStartPointY,
-          timeBottomY: 0
+          timeBottomY
         }
     }
   }
