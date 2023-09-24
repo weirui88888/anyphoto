@@ -158,7 +158,6 @@ class Drawer {
     let words = this.content.split(' ')
     let currentLine = 0
     let idx = 1
-    console.log(this.headerHeight)
     while (words.length > 0 && idx <= words.length) {
       let str = words.slice(0, idx).join(' ')
       let w = ctx.measureText(str).width
@@ -321,6 +320,21 @@ class Drawer {
       }
     })
   }
+  async drawHeaderLine() {
+    console.log(this.headerHeight, this.x)
+    const { ctx, x, width } = this
+    ctx.save()
+    ctx.strokeStyle = '#FFCC66'
+    // ctx.moveTo(x,this.headerHeight)
+    // NOTE这个是整个canvas宽度
+    // ctx.moveTo(0, this.headerHeight)
+    // ctx.lineTo(width, this.headerHeight)
+    // NOTE这个是最大内容宽度
+    ctx.moveTo(x, this.headerHeight)
+    ctx.lineTo(width - x, this.headerHeight)
+    ctx.stroke()
+    return this
+  }
 }
 
 const draw = ({ content, anyPhotoConfig }) => {
@@ -331,6 +345,7 @@ const draw = ({ content, anyPhotoConfig }) => {
     .then(drawer => drawer.drawAvatar())
     .then(drawer => drawer.drawAuthor())
     .then(drawer => drawer.drawTime())
+    .then(drawer => drawer.drawHeaderLine())
     .then(drawer => drawer.drawing())
     .then(drawer => drawer.generatePng())
 }
