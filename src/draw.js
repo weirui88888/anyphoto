@@ -19,7 +19,8 @@ class Drawer {
       textBaseline,
       textAlign,
       fontSizeIndex,
-      header
+      header,
+      footer
     } = anyPhotoConfig.canvasSetting
     this.anyPhotoConfig = anyPhotoConfig
     this.width = width
@@ -49,6 +50,9 @@ class Drawer {
     this.header = header
     this.author = this.anyPhotoConfig.author
     this.headerHeight = 0
+
+    // footer
+    this.footer = footer
   }
   async setupCpu() {
     this.barWatcher.start(5, 1, { step: '初始化中' })
@@ -193,7 +197,7 @@ class Drawer {
     const { ctx } = this
     // 绘制头像图片
     // https://aliossupload.newarray.vip/WechatIMG364.jpg
-    const avatar = await loadImage('/Users/weirui05/Desktop/WechatIMG38388.jpg')
+    const avatar = await loadImage('/Users/weirui05/Desktop/1a376f96e85b4edb6011a91f9.png')
     ctx.save()
     ctx.beginPath()
     ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius, 0, Math.PI * 2)
@@ -320,20 +324,115 @@ class Drawer {
       }
     })
   }
-  async drawHeaderLine() {
-    console.log(this.headerHeight, this.x)
-    const { ctx, x, width } = this
-    ctx.save()
-    ctx.strokeStyle = '#FFCC66'
-    // ctx.moveTo(x,this.headerHeight)
-    // NOTE这个是整个canvas宽度
-    // ctx.moveTo(0, this.headerHeight)
-    // ctx.lineTo(width, this.headerHeight)
-    // NOTE这个是最大内容宽度
-    ctx.moveTo(x, this.headerHeight)
-    ctx.lineTo(width - x, this.headerHeight)
-    ctx.stroke()
+  // todo如何避免重复代码
+  async drawDivider() {
+    const { ctx } = this
+    const headerDivider = this.getValidDividerProperty(this.header, 'header')
+    const footerDivider = this.getValidDividerProperty(this.footer, 'footer')
+    const {
+      showDivider: showHeaderDivider,
+      strokeStyle: headerDividerStrokeStyle,
+      moveTo: headerDividerMoveTo,
+      lineTo: headerDividerLineTo
+    } = headerDivider
+    const {
+      showDivider: showFooterDivider,
+      strokeStyle: footerDividerStrokeStyle,
+      moveTo: footerDividerMoveTo,
+      lineTo: footerDividerLineTo
+    } = footerDivider
+    if (showHeaderDivider) {
+      ctx.save()
+      ctx.strokeStyle = headerDividerStrokeStyle
+      ctx.moveTo(headerDividerMoveTo.x, headerDividerMoveTo.y)
+      ctx.lineTo(headerDividerLineTo.x, headerDividerLineTo.y)
+      ctx.stroke()
+      ctx.restore()
+    }
+    if (showFooterDivider) {
+      ctx.save()
+      ctx.strokeStyle = footerDividerStrokeStyle
+      ctx.moveTo(footerDividerMoveTo.x, footerDividerMoveTo.y)
+      ctx.lineTo(footerDividerLineTo.x, footerDividerLineTo.y)
+      ctx.stroke()
+      ctx.restore()
+    }
+
     return this
+  }
+  getValidDividerProperty(positionProvider, position) {
+    const { x, color: contentColor, width } = this
+    const applyDividerProperty = {
+      header: {
+        contentWidth: {
+          moveTo: {
+            x,
+            y: this.headerHeight
+          },
+          lineTo: {
+            x: width - x,
+            y: this.headerHeight
+          }
+        },
+        fullWidth: {
+          moveTo: {
+            x: 0,
+            y: this.headerHeight
+          },
+          lineTo: {
+            x: width,
+            y: this.headerHeight
+          }
+        }
+      },
+      footer: {
+        contentWidth: {
+          moveTo: {
+            x,
+            y: this.headerHeight + this.contentHeight - 20
+          },
+          lineTo: {
+            x: width - x,
+            y: this.headerHeight + this.contentHeight - 20
+          }
+        },
+        fullWidth: {
+          moveTo: {
+            x: 0,
+            y: this.headerHeight + this.contentHeight - 20
+          },
+          lineTo: {
+            x: width,
+            y: this.headerHeight + this.contentHeight - 20
+          }
+        }
+      }
+    }
+    // todo消除魔法字符串，判断颜色合格
+    const positionDivider = { showDivider: false }
+    const { divider } = positionProvider
+    let contentWidth = 'contentWidth'
+    let fullWidth = 'fullWidth'
+    const validDividerSize = [contentWidth, fullWidth]
+    if (divider) {
+      const { size, color } = divider
+      let applySize = validDividerSize.includes(size) ? size : validDividerSize[0]
+      if (applySize === contentWidth) {
+        positionDivider.showDivider = true
+        positionDivider.strokeStyle = color || contentColor
+        positionDivider.moveTo = applyDividerProperty[position][contentWidth]['moveTo']
+        positionDivider.lineTo = applyDividerProperty[position][contentWidth]['lineTo']
+      }
+      if (applySize === fullWidth) {
+        positionDivider.showDivider = true
+        positionDivider.strokeStyle = color || contentColor
+        positionDivider.moveTo = applyDividerProperty[position][fullWidth]['moveTo']
+        positionDivider.lineTo = applyDividerProperty[position][fullWidth]['lineTo']
+      }
+      return positionDivider
+    } else {
+      return positionDivider
+    }
   }
 }
 
@@ -345,7 +444,7 @@ const draw = ({ content, anyPhotoConfig }) => {
     .then(drawer => drawer.drawAvatar())
     .then(drawer => drawer.drawAuthor())
     .then(drawer => drawer.drawTime())
-    .then(drawer => drawer.drawHeaderLine())
+    .then(drawer => drawer.drawDivider())
     .then(drawer => drawer.drawing())
     .then(drawer => drawer.generatePng())
 }
