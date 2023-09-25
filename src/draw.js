@@ -437,7 +437,7 @@ class Drawer {
   async drawBackground() {
     const { ctx, width } = this
     ctx.save()
-    const canvasBackgroundImage = await loadCanvasImage('/Users/weirui05/Desktop/pexels-bob-clark-21492.jpg')
+    const canvasBackgroundImage = await loadImage('/Users/weirui05/Desktop/pexels-bob-clark-21492.jpg')
     const canvasWidth = width
     const canvasHeight = this.headerHeight + this.contentHeight
     const { width: canvasBackgroundImageWidth, height: canvasBackgroundImageHeight } = canvasBackgroundImage
