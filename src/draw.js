@@ -389,21 +389,21 @@ class Drawer {
         contentWidth: {
           moveTo: {
             x,
-            y: this.headerHeight + this.contentHeight - 20
+            y: this.headerHeight + this.contentHeight
           },
           lineTo: {
             x: width - x,
-            y: this.headerHeight + this.contentHeight - 20
+            y: this.headerHeight + this.contentHeight
           }
         },
         fullWidth: {
           moveTo: {
             x: 0,
-            y: this.headerHeight + this.contentHeight - 20
+            y: this.headerHeight + this.contentHeight
           },
           lineTo: {
             x: width,
-            y: this.headerHeight + this.contentHeight - 20
+            y: this.headerHeight + this.contentHeight
           }
         }
       }

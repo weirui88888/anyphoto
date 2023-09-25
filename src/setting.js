@@ -9,8 +9,8 @@ const defaultCanvasSetting = {
   fontSize: 30,
   lineGap: 15,
   fontSizeIndex: 4,
-  x: 50,
-  y: 80,
+  x: 20,
+  y: 20,
 
   header: {
     headerAlign: 'center', // left / center / right
@@ -41,20 +41,20 @@ const defaultCanvasSetting = {
     headerTimePrefix: 'milestone on',
     // todo isImageUrl fn is error
     headerTimeIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f389.png',
-    headerTimeIconGap: 12,
+    headerTimeIconGap: 12
 
     // headerDivider
-    divider: {
-      size: 'contentWidth',
-      color: '#ffffff'
-    }
+    // divider: {
+    //   size: 'contentWidth',
+    //   color: '#ffffff'
+    // }
   },
   footer: {
     // footerDivider
-    divider: {
-      size: 'contentWidth',
-      color: '#ffffff'
-    }
+    // divider: {
+    //   size: 'contentWidth',
+    //   color: '#ffffff'
+    // }
   }
 }
 
