@@ -20,7 +20,8 @@ class Drawer {
       textAlign,
       fontSizeIndex,
       header,
-      footer
+      footer,
+      from
     } = anyPhotoConfig.canvasSetting
     this.anyPhotoConfig = anyPhotoConfig
     this.width = width
@@ -43,6 +44,7 @@ class Drawer {
     this.ctx = this.canvas.getContext('2d')
     this.lineWidthMap = new Map()
     this.totalLineNumber = this.calculateContentTotalLine()
+    this.compareHeight = 0
     const maxLineWidth = this.getMaxLineWidth()
     this.x = this.lineWidthMap.size > 1 ? this.setSuitableXWidth(maxLineWidth, this.width, x) : x
 
@@ -51,15 +53,22 @@ class Drawer {
     this.author = this.anyPhotoConfig.author
     this.headerHeight = 0
 
+    // from
+    this.from = from
     // footer
     this.footer = footer
   }
   async setupCpu() {
+    const { from = {}, ctx } = this
+    const { showFrom, fromFontSize, fromMarginTop } = from
     this.barWatcher.start(5, 1, { step: '初始化中' })
-    const compareHeight = this.fontSize >= this.lineGap ? this.lineGap / 2 : this.fontSize / 2
+    this.compareHeight = this.fontSize >= this.lineGap ? this.lineGap / 2 : this.fontSize / 2
     this.contentHeight =
-      (this.totalLineNumber - 1) * this.lineGap + this.totalLineNumber * this.fontSize + this.y * 2 + compareHeight
-    this.ctx.save()
+      (this.totalLineNumber - 1) * this.lineGap + this.totalLineNumber * this.fontSize + this.y * 2 + this.compareHeight
+    if (showFrom) {
+      this.contentHeight = this.contentHeight + fromFontSize + fromMarginTop
+    }
+    ctx.save()
     this.cpu = new Cpu({
       canvasHeaderSetting: this.header,
       x: this.x,
@@ -71,6 +80,21 @@ class Drawer {
     this.height = this.headerHeight + this.contentHeight
     this.canvas = createCanvas(this.width, this.height)
     this.ctx = this.canvas.getContext('2d')
+    return this
+  }
+  async setupFrom() {
+    const { y, ctx, x, from = {} } = this
+    const { showFrom, name, fromFontSize, fromFontColor, fromFontWeight, frmFontSizeIndex } = from
+    if (showFrom) {
+      ctx.save()
+      ctx.fillStyle = fromFontColor
+      ctx.font = `${fromFontWeight} ${fromFontSize}px ${this.englishFonts[frmFontSizeIndex]}`
+      ctx.textBaseline = this.textBaseline
+      ctx.textAlign = this.textAlign
+      console.log(name)
+      ctx.fillText(name, x, this.headerHeight + this.contentHeight - fromFontWeight - y - this.compareHeight)
+      ctx.restore()
+    }
     return this
   }
   async setupCanvas() {
@@ -468,8 +492,9 @@ const draw = ({ content, anyPhotoConfig }) => {
     .then(drawer => drawer.drawAvatar())
     .then(drawer => drawer.drawAuthor())
     .then(drawer => drawer.drawTime())
-    .then(drawer => drawer.drawDivider())
     .then(drawer => drawer.drawing())
+    .then(drawer => drawer.setupFrom())
+    .then(drawer => drawer.drawDivider())
     .then(drawer => drawer.generatePng())
 }
 

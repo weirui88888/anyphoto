@@ -55,6 +55,15 @@ const defaultCanvasSetting = {
     //   size: 'contentWidth',
     //   color: '#ffffff'
     // }
+  },
+  from: {
+    showFrom: true,
+    name: '一个人的朝圣',
+    fromFontSize: 20,
+    fromFontColor: '#FFCC66',
+    fromFontWeight: 'medium',
+    frmFontSizeIndex: 4,
+    fromMarginTop: 0
   }
 }
 
