@@ -1,5 +1,5 @@
 const { createCanvas, registerFont, loadImage } = require('canvas')
-const { barWatcher, formatDateTime } = require('./util')
+const { barWatcher, formatDateTime, loadImage: loadCanvasImage } = require('./util')
 const Cpu = require('./cpu')
 const path = require('path')
 const base64Img = require('base64-img')
@@ -434,6 +434,29 @@ class Drawer {
       return positionDivider
     }
   }
+  async drawBackground() {
+    const { ctx, width } = this
+    ctx.save()
+    const canvasBackgroundImage = await loadCanvasImage('/Users/weirui05/Desktop/pexels-bob-clark-21492.jpg')
+    const canvasWidth = width
+    const canvasHeight = this.headerHeight + this.contentHeight
+    const { width: canvasBackgroundImageWidth, height: canvasBackgroundImageHeight } = canvasBackgroundImage
+    const scaleX = canvasWidth / canvasBackgroundImageWidth
+    const scaleY = canvasHeight / canvasBackgroundImageHeight
+    const scale = Math.min(scaleX, scaleY)
+
+    const offsetX = (canvasWidth - canvasBackgroundImageWidth * scale) / 2
+    const offsetY = (canvasHeight - canvasBackgroundImageHeight * scale) / 2
+    ctx.drawImage(
+      canvasBackgroundImage,
+      offsetX,
+      offsetY,
+      canvasBackgroundImageWidth * scale,
+      canvasBackgroundImageHeight * scale
+    )
+    ctx.restore()
+    return this
+  }
 }
 
 const draw = ({ content, anyPhotoConfig }) => {
@@ -441,6 +464,7 @@ const draw = ({ content, anyPhotoConfig }) => {
   drawer
     .setupCpu()
     .then(drawer => drawer.setupCanvas())
+    .then(drawer => drawer.drawBackground())
     .then(drawer => drawer.drawAvatar())
     .then(drawer => drawer.drawAuthor())
     .then(drawer => drawer.drawTime())

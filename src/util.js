@@ -3,8 +3,11 @@ const cliProgress = require('cli-progress')
 const c = require('ansi-colors')
 
 const ora = require('ora')
+const { Image } = require('canvas')
 
 const generateOra = options => ora(options)
+
+global.Image = Image
 
 const sleep = time => {
   return new Promise(res => {
@@ -56,11 +59,31 @@ const barWatcher = new cliProgress.SingleBar({
   hideCursor: true
 })
 
+const loadImage = (src, attrs = {}) => {
+  const image = new Image()
+  return new Promise(function (resolve, reject) {
+    image.onload = function () {
+      resolve(image)
+    }
+
+    image.onerror = function (err) {
+      reject(err.message)
+    }
+    // // 设置图片的属性
+    // for (const attr in attrs) {
+    //   image.setAttribute(attr, attrs[attr])
+    // }
+
+    image.src = src
+  })
+}
+
 module.exports = {
   generateOra,
   sleep,
   color,
   colorTip,
   barWatcher,
-  formatDateTime
+  formatDateTime,
+  loadImage
 }

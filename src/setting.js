@@ -1,5 +1,5 @@
 const defaultCanvasSetting = {
-  width: 750, // 通用的
+  width: 640, // 通用的
   englishFonts: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica'],
   backgroundColor: '#003300', // #1b1c1f
   color: '#FFCC66', // #FFFFCC
