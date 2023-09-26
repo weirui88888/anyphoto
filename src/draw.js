@@ -1,6 +1,7 @@
 const { createCanvas, registerFont, loadImage } = require('canvas')
 const { barWatcher, formatDateTime, loadImage: loadCanvasImage } = require('./util')
-const Cpu = require('./cpu')
+const HeaderCpu = require('./headerCpu')
+const FooterCpu = require('./footerCpu')
 const path = require('path')
 const base64Img = require('base64-img')
 
@@ -69,15 +70,26 @@ class Drawer {
       this.contentHeight = this.contentHeight + fromFontSize + fromMarginTop
     }
     ctx.save()
-    this.cpu = new Cpu({
+    this.headerCpu = new HeaderCpu({
       canvasHeaderSetting: this.header,
       x: this.x,
       canvasWidth: this.width,
       authorWidth: this.calculateAuthorWidth,
       timeWidthPrefixWidth: this.calculateTimeWithPrefixWidth
     })
-    this.headerHeight = this.cpu.getHeaderHeight
+    this.headerHeight = this.headerCpu.getHeaderHeight
     this.height = this.headerHeight + this.contentHeight
+
+    this.footerCpu = new FooterCpu({
+      canvasFooterSetting: this.footer,
+      x: this.x,
+      canvasWidth: this.width,
+      headerHeight: this.headerHeight,
+      contentHeight: this.contentHeight,
+      sloganWidth: this.calculateSloganWidth
+    })
+    this.footerHeight = this.footerCpu.getFooterHeight
+    this.height = this.height + this.footerHeight
     this.canvas = createCanvas(this.width, this.height)
     this.ctx = this.canvas.getContext('2d')
     return this
@@ -91,8 +103,7 @@ class Drawer {
       ctx.font = `${fromFontWeight} ${fromFontSize}px ${this.englishFonts[frmFontSizeIndex]}`
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
-      console.log(name)
-      ctx.fillText(name, x, this.headerHeight + this.contentHeight - fromFontWeight - y - this.compareHeight)
+      ctx.fillText(name, x, this.headerHeight + this.contentHeight - fromFontSize - y - this.compareHeight)
       ctx.restore()
     }
     return this
@@ -140,6 +151,20 @@ class Drawer {
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     const timeWithPrefixWidth = ctx.measureText(prefixTimeString).width
+    ctx.restore()
+    return timeWithPrefixWidth
+  }
+
+  get calculateSloganWidth() {
+    const { slogan, sloganFontSize, sloganFontColor, sloganFontWeight, sloganFontSizeIndex } = this.footer
+
+    const { ctx } = this
+    ctx.save()
+    ctx.fillStyle = sloganFontColor
+    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.englishFonts[sloganFontSizeIndex]}`
+    ctx.textBaseline = this.textBaseline
+    ctx.textAlign = this.textAlign
+    const timeWithPrefixWidth = ctx.measureText(slogan).width
     ctx.restore()
     return timeWithPrefixWidth
   }
@@ -217,7 +242,7 @@ class Drawer {
       step: '绘制头像中'
     })
     const { headerAvatarBorderWidth, headerAvatarBorderColor, avatarRadius, avatarCenterPointX, avatarCenterPointY } =
-      this.cpu.calculateApplyAvatar
+      this.headerCpu.calculateApplyAvatar
     const { ctx } = this
     // 绘制头像图片
     // https://aliossupload.newarray.vip/WechatIMG364.jpg
@@ -258,7 +283,7 @@ class Drawer {
       headerTimeFontSizeIndex,
       timeStartPointX,
       timeStartPointY
-    } = this.cpu.calculateApplyTime
+    } = this.headerCpu.calculateApplyTime
     const {
       showHeaderTimeIcon,
       timeIconStartPointX,
@@ -266,7 +291,7 @@ class Drawer {
       timeIconWidth,
       timeIconHeight,
       headerTimeIcon
-    } = this.cpu.calculateApplyTimeIcon
+    } = this.headerCpu.calculateApplyTimeIcon
 
     if (showHeaderTime) {
       const { ctx } = this
@@ -298,7 +323,7 @@ class Drawer {
       authorStartPointY,
       headerAuthorFontColor,
       headAuthorFontSizeIndex
-    } = this.cpu.calculateApplyAuthor
+    } = this.headerCpu.calculateApplyAuthor
     if (showHeaderAuthor) {
       this.barWatcher.setTotal(5)
       this.barWatcher.update(4, {
@@ -481,6 +506,38 @@ class Drawer {
     ctx.restore()
     return this
   }
+
+  async drawFooter() {
+    const {
+      slogan,
+      sloganFontSize,
+      sloganFontColor,
+      sloganFontWeight,
+      sloganFontSizeIndex,
+      sloganStartPointX,
+      sloganStartPointY
+    } = this.footerCpu.calculateApplySlogan
+    this.barWatcher.setTotal(7)
+    this.barWatcher.update(6, {
+      step: '绘制口号中'
+    })
+    const { ctx } = this
+    ctx.save()
+    ctx.beginPath()
+    ctx.fillStyle = sloganFontColor
+    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.englishFonts[sloganFontSizeIndex]}`
+    ctx.textBaseline = this.textBaseline
+    ctx.textAlign = this.textAlign
+    ctx.fillText(slogan, sloganStartPointX, sloganStartPointY)
+    const { showQrCode, qrCodeSrc, qrCodeStartPointX, qrCodeStartPointY, qrCodeWidth } =
+      this.footerCpu.calculateApplyQrCode
+    if (showQrCode) {
+      const qrCodeImage = await loadImage(qrCodeSrc)
+      ctx.drawImage(qrCodeImage, qrCodeStartPointX, qrCodeStartPointY, qrCodeWidth, qrCodeWidth)
+    }
+    ctx.restore()
+    return this
+  }
 }
 
 const draw = ({ content, anyPhotoConfig }) => {
@@ -488,13 +545,14 @@ const draw = ({ content, anyPhotoConfig }) => {
   drawer
     .setupCpu()
     .then(drawer => drawer.setupCanvas())
-    .then(drawer => drawer.drawBackground())
+    // .then(drawer => drawer.drawBackground())
     .then(drawer => drawer.drawAvatar())
     .then(drawer => drawer.drawAuthor())
     .then(drawer => drawer.drawTime())
     .then(drawer => drawer.drawing())
     .then(drawer => drawer.setupFrom())
     .then(drawer => drawer.drawDivider())
+    .then(drawer => drawer.drawFooter())
     .then(drawer => drawer.generatePng())
 }
 

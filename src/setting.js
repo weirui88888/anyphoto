@@ -1,7 +1,7 @@
 const defaultCanvasSetting = {
-  width: 640, // 通用的
+  width: 750, // 通用的
   englishFonts: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica'],
-  backgroundColor: '#003300', // #1b1c1f
+  backgroundColor: '#006666', // #1b1c1f
   color: '#FFCC66', // #FFFFCC
   fontWeight: 'bold',
   textBaseline: 'top',
@@ -46,24 +46,33 @@ const defaultCanvasSetting = {
     // headerDivider
     // divider: {
     //   size: 'contentWidth',
-    //   color: '#ffffff'
+    //   color: '#FFCC66'
     // }
   },
   footer: {
     // footerDivider
     // divider: {
     //   size: 'contentWidth',
-    //   color: '#ffffff'
-    // }
+    //   color: '#FFCC66'
+    // },
+    paddingY: 40,
+    slogan: 'wechat reading',
+    sloganPosition: 'left', // left || right
+    sloganFontSize: 16,
+    sloganFontColor: '#FFCC66',
+    sloganFontWeight: 'bold',
+    sloganFontSizeIndex: 4,
+    qrCodeSrc: '/Users/weirui05/Desktop/WechatIMG374.jpg',
+    qrCodePaddingY: 10
   },
   from: {
-    showFrom: true,
-    name: '一个人的朝圣',
-    fromFontSize: 20,
+    showFrom: false,
+    name: '/react and vue',
+    fromFontSize: 16,
     fromFontColor: '#FFCC66',
-    fromFontWeight: 'medium',
+    fromFontWeight: 'bold',
     frmFontSizeIndex: 4,
-    fromMarginTop: 0
+    fromMarginTop: 30
   }
 }
 

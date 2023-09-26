@@ -1,5 +1,5 @@
 const isImageUrl = require('is-image-url')
-class Cpu {
+class HeaderCpu {
   constructor({ canvasHeaderSetting, x, canvasWidth, authorWidth, timeWidthPrefixWidth }) {
     this.canvasHeaderSetting = canvasHeaderSetting
     this.x = x // 左边绘制的x坐标（计算过的）
@@ -260,4 +260,4 @@ class Cpu {
   }
 }
 
-module.exports = Cpu
+module.exports = HeaderCpu
