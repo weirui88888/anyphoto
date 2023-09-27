@@ -14,7 +14,10 @@
   "author": "",
   "license": "ISC",
   "volta": {
-    "node": "18.17.1"
+    "node": "18.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "bin": {
     "anyphoto": "./bin/index.js"
