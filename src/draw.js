@@ -1,5 +1,5 @@
 const { createCanvas, registerFont, loadImage } = require('canvas')
-const { barWatcher, formatDateTime, loadImage: loadCanvasImage } = require('./util')
+const { barWatcher, formatDateTime } = require('./util')
 const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
 const path = require('path')
@@ -10,6 +10,7 @@ class Drawer {
     const {
       width,
       fontFamilys,
+      customFontFamilyPath,
       color,
       backgroundColor,
       fontSize,
@@ -24,6 +25,12 @@ class Drawer {
       footer,
       from
     } = anyPhotoConfig.canvasSetting
+    if (customFontFamilyPath) {
+      registerFont(customFontFamilyPath, {
+        family: 'Custom'
+      })
+    }
+
     this.anyPhotoConfig = anyPhotoConfig
     this.width = width
     this.fontWeight = fontWeight
@@ -101,7 +108,7 @@ class Drawer {
     if (showFrom) {
       ctx.save()
       ctx.fillStyle = fromFontColor
-      ctx.font = `${fromFontWeight} ${fromFontSize}px ${this.fontFamilys[fromFontFamilyIndex]}`
+      ctx.font = `${fromFontWeight} ${fromFontSize}px ${this.fontFamilys[fromFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
       ctx.fillText(name, x, this.headerHeight + this.contentHeight - fromFontSize - y - this.compareHeight)
@@ -128,7 +135,7 @@ class Drawer {
     const { ctx } = this
     ctx.save()
     ctx.fillStyle = headerAuthorFontColor
-    ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.fontFamilys[headAuthorFontFamilyIndex]}`
+    ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.fontFamilys[headAuthorFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     const authorWidth = ctx.measureText(author).width
@@ -137,8 +144,8 @@ class Drawer {
   }
 
   get getTimeWithPrefix() {
-    const { headerTime, headerTimeFormat, headerTimePrefix } = this.header
-    const formatDateString = formatDateTime(headerTime, headerTimeFormat)
+    const { headerTimeFormat, headerTimePrefix } = this.header
+    const formatDateString = formatDateTime(new Date(), headerTimeFormat)
     return `${headerTimePrefix} ${formatDateString}`
   }
 
@@ -149,7 +156,7 @@ class Drawer {
     const { ctx } = this
     ctx.save()
     ctx.fillStyle = headerTimeFontColor
-    ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.fontFamilys[headerTimeFontFamilyIndex]}`
+    ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.fontFamilys[headerTimeFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     const timeWithPrefixWidth = ctx.measureText(prefixTimeString).width
@@ -163,7 +170,7 @@ class Drawer {
     const { ctx } = this
     ctx.save()
     ctx.fillStyle = sloganFontColor
-    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.fontFamilys[sloganFontFamilyIndex]}`
+    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.fontFamilys[sloganFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     const timeWithPrefixWidth = ctx.measureText(slogan).width
@@ -175,7 +182,9 @@ class Drawer {
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.color
-    ctx.font = `${this.fontWeight} ${this.fontSize}px ${this.fontFamilys[this.fontFamilyIndex]}`
+    ctx.font = `${this.fontWeight} ${this.fontSize}px ${this.fontFamilys[this.fontFamilyIndex]},${
+      this.fontFamilys[4]
+    },sans-serif`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     let words = this.content.split(' ')
@@ -207,7 +216,9 @@ class Drawer {
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.color
-    ctx.font = `${this.fontWeight} ${this.fontSize}px ${this.fontFamilys[this.fontFamilyIndex]}`
+    ctx.font = `${this.fontWeight} ${this.fontSize}px ${this.fontFamilys[this.fontFamilyIndex]},${
+      this.fontFamilys[4]
+    },sans-serif`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     let words = this.content.split(' ')
@@ -306,7 +317,7 @@ class Drawer {
         ctx.drawImage(clock, timeIconStartPointX, timeIconStartPointY, timeIconWidth, timeIconHeight)
       }
       ctx.fillStyle = headerTimeFontColor
-      ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.fontFamilys[headerTimeFontFamilyIndex]}`
+      ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.fontFamilys[headerTimeFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
       ctx.fillText(this.getTimeWithPrefix, timeStartPointX, timeStartPointY)
@@ -332,7 +343,7 @@ class Drawer {
       const { ctx, author } = this
       ctx.beginPath()
       ctx.fillStyle = headerAuthorFontColor
-      ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.fontFamilys[headAuthorFontFamilyIndex]}`
+      ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.fontFamilys[headAuthorFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
       ctx.fillText(author, authorStartPointX, authorStartPointY)
@@ -525,7 +536,7 @@ class Drawer {
     ctx.save()
     ctx.beginPath()
     ctx.fillStyle = sloganFontColor
-    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.fontFamilys[sloganFontFamilyIndex]}`
+    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.fontFamilys[sloganFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     ctx.fillText(slogan, sloganStartPointX, sloganStartPointY)

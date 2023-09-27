@@ -64,7 +64,7 @@ const getAnyPhotoConfig = ({ options }) => {
       author,
       output
     }),
-    canvasSetting: getUserAnyPhotoConfigByKey('canvasSetting') || defaultCanvasSetting
+    canvasSetting: getUserAnyPhotoConfigByKey({ defaultKey: 'canvasSetting' }) || defaultCanvasSetting
   }
 }
 

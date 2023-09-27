@@ -1,7 +1,8 @@
 module.exports = {
   theme1: {
     width: 750,
-    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica'],
+    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
+    customFontFamilyPath: '',
     backgroundColor: '#006666',
     color: '#FFCC66',
     fontWeight: 'bold',
@@ -9,7 +10,7 @@ module.exports = {
     textAlign: 'start',
     fontSize: 30,
     lineGap: 15,
-    fontFamilyIndex: 4,
+    fontFamilyIndex: 6,
     x: 20,
     y: 20,
 
@@ -28,7 +29,7 @@ module.exports = {
       headerAuthorFontSize: 30,
       headerAuthorFontColor: '#FFCC66',
       headerAuthorFontWeight: 'bold',
-      headAuthorFontFamilyIndex: 4,
+      headAuthorFontFamilyIndex: 6,
       headerAuthorMarginBottom: 5,
 
       // createTime
@@ -36,8 +37,7 @@ module.exports = {
       headerTimeFontSize: 20,
       headerTimeFontColor: '#FFCC66',
       headerTimeFontWeight: 'medium',
-      headerTimeFontFamilyIndex: 4,
-      headerTime: new Date(),
+      headerTimeFontFamilyIndex: 6,
       headerTimeFormat: 'YYYY/MM/DD HH:mm:ss',
       headerTimePrefix: 'milestone on',
       headerTimeIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f389.png',
@@ -58,7 +58,7 @@ module.exports = {
       sloganFontSize: 16,
       sloganFontColor: '#FFCC66',
       sloganFontWeight: 'bold',
-      sloganFontFamilyIndex: 4,
+      sloganFontFamilyIndex: 6,
       qrCodeSrc: '/Users/weirui05/Desktop/WechatIMG374.jpg',
       qrCodePaddingY: 10
     },
@@ -68,13 +68,14 @@ module.exports = {
       fromFontSize: 16,
       fromFontColor: '#FFCC66',
       fromFontWeight: 'bold',
-      fromFontFamilyIndex: 4,
+      fromFontFamilyIndex: 6,
       fromMarginTop: 30
     }
   },
   theme2: {
     width: 750,
-    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica'],
+    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
+    customFontFamilyPath: '',
     backgroundColor: '#006666',
     color: '#FFCC66',
     fontWeight: 'bold',
@@ -82,7 +83,7 @@ module.exports = {
     textAlign: 'start',
     fontSize: 30,
     lineGap: 15,
-    fontFamilyIndex: 4,
+    fontFamilyIndex: 6,
     x: 20,
     y: 20,
 
@@ -92,7 +93,7 @@ module.exports = {
       headerPaddingBottom: 30,
       // avatar
       headerAvatarSize: 80,
-      headerAvatarBorderWidth: 4,
+      headerAvatarBorderWidth: 6,
       headerAvatarBorderColor: '#FFCC00',
       headerAvatarMarginBottom: 20,
 
@@ -101,7 +102,7 @@ module.exports = {
       headerAuthorFontSize: 30,
       headerAuthorFontColor: '#FFCC66',
       headerAuthorFontWeight: 'bold',
-      headAuthorFontFamilyIndex: 4,
+      headAuthorFontFamilyIndex: 6,
       headerAuthorMarginBottom: 5,
 
       // createTime
@@ -109,8 +110,7 @@ module.exports = {
       headerTimeFontSize: 20,
       headerTimeFontColor: '#FFCC66',
       headerTimeFontWeight: 'medium',
-      headerTimeFontFamilyIndex: 4,
-      headerTime: new Date(),
+      headerTimeFontFamilyIndex: 6,
       headerTimeFormat: 'YYYY/MM/DD HH:mm:ss',
       headerTimePrefix: 'milestone on',
       headerTimeIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f389.png',
@@ -131,7 +131,7 @@ module.exports = {
       sloganFontSize: 16,
       sloganFontColor: '#FFCC66',
       sloganFontWeight: 'bold',
-      sloganFontFamilyIndex: 4,
+      sloganFontFamilyIndex: 6,
       qrCodeSrc: '/Users/weirui05/Desktop/WechatIMG374.jpg',
       qrCodePaddingY: 10
     },
@@ -141,7 +141,7 @@ module.exports = {
       fromFontSize: 16,
       fromFontColor: '#FFCC66',
       fromFontWeight: 'bold',
-      fromFontFamilyIndex: 4,
+      fromFontFamilyIndex: 6,
       fromMarginTop: 30
     }
   }
