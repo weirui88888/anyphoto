@@ -177,13 +177,16 @@ class HeaderCpu {
       headerAuthorMarginBottom,
       headerTimeIcon,
       headerTimeIconGap,
+      headerTimeIconOffsetY,
       headerTimeFontSize
     } = this.canvasHeaderSetting
     const { x, timeWidthPrefixWidth, canvasWidth } = this
     const { authorBottomY } = this.calculateAuthorStartPointPosition
     const { avatarCenterPointX } = this.calculateAvatarCenterPointPosition
     // 根据是否展示作者展示进行判断，没作者
-    const timeIconStartPointY = showHeaderAuthor ? authorBottomY + headerAuthorMarginBottom : authorBottomY
+    const timeIconStartPointY = showHeaderAuthor
+      ? authorBottomY + headerAuthorMarginBottom + headerTimeIconOffsetY
+      : authorBottomY + headerTimeIconOffsetY
     if (isImageUrl(headerTimeIcon)) {
       switch (headerAlign) {
         case 'left':

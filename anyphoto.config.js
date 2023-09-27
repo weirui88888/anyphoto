@@ -2,14 +2,14 @@ const anyPhotoConfig = {
   defaultOutputDirPath: 'anyphoto',
   defaultOutputName: 'anyphoto',
   defaultOutputNameHandle(defaultOutputName) {
-    return `${defaultOutputName}.${+Date.now()}`
+    return defaultOutputName
   },
-  defaultAvatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',
+  defaultAvatar: '/Users/weirui/Desktop/WechatIMG39.png',
   defaultAuthor: 'AnyPhoto',
   canvasSetting: {
     width: 750,
     fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
-    customFontFamilyPath: '/Users/weirui05/Desktop/Pacifico-Regular.ttf',
+    customFontFamilyPath: '/Users/weirui/Desktop/Caveat-VariableFont_wght.ttf',
     fallbackFontFamilyIndex: 4,
     backgroundColor: '#006666',
     color: '#FFCC66',
@@ -42,8 +42,9 @@ const anyPhotoConfig = {
       headerTimeFontFamilyIndex: 6,
       headerTimeFormat: 'YYYY/MM/DD HH:mm:ss',
       headerTimePrefix: 'milestone on',
-      headerTimeIcon: '',
-      headerTimeIconGap: 12
+      headerTimeIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f352.png',
+      headerTimeIconGap: 6,
+      headerTimeIconOffsetY: 2
     },
     footer: {
       paddingY: 60,

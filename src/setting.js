@@ -41,7 +41,8 @@ const defaultCanvasSetting = {
     headerTimeFormat: 'YYYY/MM/DD HH:mm:ss',
     headerTimePrefix: 'milestone on',
     headerTimeIcon: '',
-    headerTimeIconGap: 12
+    headerTimeIconGap: 12,
+    headerTimeIconOffsetY: 0
     // divider: {
     //   size: 'contentWidth',
     //   color: '#FFCC66'
