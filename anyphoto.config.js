@@ -34,7 +34,7 @@ const anyPhotoConfig = {
       headerAuthorFontColor: '#FFCC66',
       headerAuthorFontWeight: 'bold',
       headAuthorFontFamilyIndex: 6,
-      headerAuthorMarginBottom: 5,
+      headerAuthorMarginBottom: 20,
       showHeaderTime: true,
       headerTimeFontSize: 20,
       headerTimeFontColor: '#FFCC66',
