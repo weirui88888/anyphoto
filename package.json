@@ -8,8 +8,9 @@
     "src"
   ],
   "scripts": {
+    "postinstall": "husky install",
     "lint": "eslint . --fix",
-    "anyphoto": "node ./bin/index.js generate 'React lets you build user interfaces out of individual pieces called components. Create your own React components like Thumbnail, LikeButton, and Video. Then combine them into entire screens, pages, and apps.' --author React"
+    "commit": "cz"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,16 @@
   },
   "bin": {
     "anyphoto": "./bin/index.js"
+  },
+  "lint-staged": {
+    "*.js": [
+      "pnpm lint"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "dependencies": {
     "@types/node": "^20.6.2",
@@ -32,10 +43,16 @@
     "ora": "5.4.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.0.1",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
-    "eslint-plugin-promise": "^6.0.0"
+    "eslint-plugin-promise": "^6.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1"
   }
 }
