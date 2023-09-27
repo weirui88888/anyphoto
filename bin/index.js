@@ -26,7 +26,11 @@ program
   .argument('<content>', 'Any content you like')
   .option('--avatar <url>', 'The avatar of the photo')
   .option('--author <name>', 'The author name of the photo')
-  .option('--output <folder name>', 'The place where the photo be generated')
+  .option('--outputDirPath <output dirPath>', 'The place where the photo be generated')
+  .option(
+    '--outputName <output name>',
+    'The name of the photo, which will be combined with the current time by default'
+  )
   .action((content, options) => {
     generate({
       content,

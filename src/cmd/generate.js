@@ -1,6 +1,13 @@
 const path = require('path')
 const fs = require('fs')
-const { defaultAuthor, defaultAvatar, defaultOutput, defaultConfigName, optionsCpu } = require('../config')
+const {
+  defaultAuthor,
+  defaultAvatar,
+  defaultOutputDirPath,
+  defaultOutputName,
+  defaultConfigName,
+  optionsCpu
+} = require('../config')
 const { defaultCanvasSetting } = require('../setting')
 const draw = require('../draw')
 
@@ -47,8 +54,10 @@ const getAnyPhotoConfigByKey = ({ key, options }) => {
       return defaultAuthor
     case 'defaultAvatar':
       return defaultAvatar
-    case 'defaultOutput':
-      return defaultOutput
+    case 'defaultOutputDirPath':
+      return defaultOutputDirPath
+    case 'defaultOutputName':
+      return defaultOutputName
     default:
       return ''
   }
@@ -56,13 +65,15 @@ const getAnyPhotoConfigByKey = ({ key, options }) => {
 const getAnyPhotoConfig = ({ options }) => {
   const avatar = getAnyPhotoConfigByKey({ key: 'avatar', options })
   const author = getAnyPhotoConfigByKey({ key: 'author', options })
-  const output = getAnyPhotoConfigByKey({ key: 'output', options })
+  const outputDirPath = getAnyPhotoConfigByKey({ key: 'outputDirPath', options })
+  const outputName = getAnyPhotoConfigByKey({ key: 'outputName', options })
 
   return {
     ...handelValidAnyPhotoConfig({
       avatar,
       author,
-      output
+      outputDirPath,
+      outputName
     }),
     canvasSetting: getUserAnyPhotoConfigByKey({ defaultKey: 'canvasSetting' }) || defaultCanvasSetting
   }

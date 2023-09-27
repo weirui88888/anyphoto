@@ -2,7 +2,6 @@ const { createCanvas, registerFont, loadImage } = require('canvas')
 const { barWatcher, formatDateTime } = require('./util')
 const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
-const path = require('path')
 const base64Img = require('base64-img')
 
 class Drawer {
@@ -384,10 +383,15 @@ class Drawer {
     return calculateHalfWidth > x ? calculateHalfWidth : x
   }
 
+  get generateOutputName() {
+    const { outputName } = this.anyPhotoConfig
+    return `${outputName}`
+  }
+
   async generatePng() {
     const base64img = this.canvas.toDataURL()
-    const { output: outputDirPath } = this.anyPhotoConfig
-    base64Img.img(base64img, outputDirPath, 'anyphoto', (error, filepath) => {
+    const { outputDirPath, outputName } = this.anyPhotoConfig
+    base64Img.img(base64img, outputDirPath, outputName, (error, filepath) => {
       if (error) {
         console.log(error.message)
       } else {

@@ -1,5 +1,6 @@
 const anyPhotoConfig = {
-  defaultOutput: 'anyphoto',
+  defaultOutputDirPath: 'anyphotod',
+  defaultOutputName: 'anyphoto',
   defaultAvatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',
   defaultAuthor: 'AnyPhoto',
   canvasSetting: {
