@@ -46,6 +46,7 @@ module.exports = {
     return `const anyPhotoConfig = {
   defaultOutputDirPath: '${defaultOutputDirPath}',
   defaultOutputName: '${defaultOutputName}',
+  defaultOutputNameHandle(defaultOutputName) {},
   defaultAvatar: '${defaultAvatar}',
   defaultAuthor: '${defaultAuthor}',
   canvasSetting: ${JSON.stringify(themes[theme], null, 4)}

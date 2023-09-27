@@ -384,14 +384,19 @@ class Drawer {
   }
 
   get generateOutputName() {
-    const { outputName } = this.anyPhotoConfig
-    return `${outputName}`
+    const { outputName, defaultOutputNameHandle } = this.anyPhotoConfig
+    if (typeof defaultOutputNameHandle === 'function') {
+      const handledOutputName = defaultOutputNameHandle(outputName)
+      return typeof handledOutputName === 'string' ? handledOutputName : outputName
+    } else {
+      return outputName
+    }
   }
 
   async generatePng() {
     const base64img = this.canvas.toDataURL()
-    const { outputDirPath, outputName } = this.anyPhotoConfig
-    base64Img.img(base64img, outputDirPath, outputName, (error, filepath) => {
+    const { outputDirPath } = this.anyPhotoConfig
+    base64Img.img(base64img, outputDirPath, this.generateOutputName, (error, filepath) => {
       if (error) {
         console.log(error.message)
       } else {

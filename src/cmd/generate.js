@@ -75,6 +75,7 @@ const getAnyPhotoConfig = ({ options }) => {
       outputDirPath,
       outputName
     }),
+    defaultOutputNameHandle: getUserAnyPhotoConfigByKey({ defaultKey: 'defaultOutputNameHandle' }),
     canvasSetting: getUserAnyPhotoConfigByKey({ defaultKey: 'canvasSetting' }) || defaultCanvasSetting
   }
 }

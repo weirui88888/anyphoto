@@ -1,6 +1,9 @@
 const anyPhotoConfig = {
-  defaultOutputDirPath: 'anyphotod',
+  defaultOutputDirPath: 'anyphoto',
   defaultOutputName: 'anyphoto',
+  defaultOutputNameHandle(defaultOutputName) {
+    return `${defaultOutputName}.${+Date.now()}`
+  },
   defaultAvatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',
   defaultAuthor: 'AnyPhoto',
   canvasSetting: {
