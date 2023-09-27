@@ -4,16 +4,8 @@ const anyPhotoConfig = {
   defaultAuthor: 'AnyPhoto',
   canvasSetting: {
     width: 750,
-    fontFamilys: [
-      'Arial',
-      'Times New Roman',
-      'Verdana',
-      'Tahoma',
-      'Courier New',
-      'Helvetica',
-      'Custom'
-    ],
-    customFontFamilyPath: '',
+    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
+    customFontFamilyPath: '/Users/weirui05/Desktop/Pacifico-Regular.ttf',
     fallbackFontFamilyIndex: 4,
     backgroundColor: '#006666',
     color: '#FFCC66',

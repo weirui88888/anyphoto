@@ -17,9 +17,6 @@
   "volta": {
     "node": "18.0.0"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "bin": {
     "anyphoto": "./bin/index.js"
   },
