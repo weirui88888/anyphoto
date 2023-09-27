@@ -2,8 +2,8 @@ const path = require('path')
 const fs = require('fs')
 const { defaultConfigName, initConfig } = require('../config')
 const { generateOra, sleep, color } = require('../util')
-// TODO 看看能不能引入什么包实现语言版本自然切换
-const init = async ({ configDirname }) => {
+const init = async ({ configDirname, theme }) => {
+  console.log(theme)
   const configPath = path.join(configDirname, defaultConfigName)
   const initOra = generateOra({
     spinner: 'dots',
@@ -24,7 +24,6 @@ const init = async ({ configDirname }) => {
       initOra.fail(err.message)
       throw err
     }
-    // anyphoto generate <word>
     initOra.succeed(
       `[ ${color(defaultConfigName, 'green')} ] generated ${color('successful', 'green')} ! \nnow you can ${color(
         'edit',
@@ -36,7 +35,6 @@ const init = async ({ configDirname }) => {
       )}`
     )
   })
-  return 'init'
 }
 
 module.exports = init

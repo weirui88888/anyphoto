@@ -52,6 +52,7 @@ class Drawer {
     // header
     this.header = header
     this.author = this.anyPhotoConfig.author
+    this.avatar = this.anyPhotoConfig.avatar
     this.headerHeight = 0
 
     // from
@@ -122,7 +123,7 @@ class Drawer {
   // todo应该需要想个办法，去智能的判断字体的宽度，是否大于canvasWidth-2*x
   get calculateAuthorWidth() {
     const { headerAuthorFontColor, headerAuthorFontSize, headerAuthorFontWeight, headAuthorFontSizeIndex } = this.header
-    const { author } = this.anyPhotoConfig
+    const { author } = this
     const { ctx } = this
     ctx.save()
     ctx.fillStyle = headerAuthorFontColor
@@ -243,10 +244,8 @@ class Drawer {
     })
     const { headerAvatarBorderWidth, headerAvatarBorderColor, avatarRadius, avatarCenterPointX, avatarCenterPointY } =
       this.headerCpu.calculateApplyAvatar
-    const { ctx } = this
-    // 绘制头像图片
-    // https://aliossupload.newarray.vip/WechatIMG364.jpg
-    const avatar = await loadImage('/Users/weirui05/Desktop/1a376f96e85b4edb6011a91f9.png')
+    const { ctx, avatar: avatarSrc } = this
+    const avatar = await loadImage(avatarSrc)
     ctx.save()
     ctx.beginPath()
     ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius, 0, Math.PI * 2)

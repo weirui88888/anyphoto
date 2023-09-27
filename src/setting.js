@@ -1,8 +1,8 @@
 const defaultCanvasSetting = {
-  width: 750, // 通用的
+  width: 750,
   englishFonts: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica'],
-  backgroundColor: '#006666', // #1b1c1f
-  color: '#FFCC66', // #FFFFCC
+  backgroundColor: '#006666',
+  color: '#FFCC66',
   fontWeight: 'bold',
   textBaseline: 'top',
   textAlign: 'start',
@@ -18,7 +18,7 @@ const defaultCanvasSetting = {
     headerPaddingBottom: 30,
     // avatar
     headerAvatarSize: 80,
-    headerAvatarBorderWidth: 4, // 应该要最大10，否则影响布局
+    headerAvatarBorderWidth: 4,
     headerAvatarBorderColor: '#FFCC00',
     headerAvatarMarginBottom: 20,
 

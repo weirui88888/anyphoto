@@ -1,13 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const {
-  defaultAuthor,
-  defaultTheme,
-  defaultAvatar,
-  defaultOutput,
-  defaultConfigName,
-  optionsCpu
-} = require('../config')
+const { defaultAuthor, defaultAvatar, defaultOutput, defaultConfigName, optionsCpu } = require('../config')
 const { defaultCanvasSetting } = require('../setting')
 const draw = require('../draw')
 
@@ -50,8 +43,6 @@ const getAnyPhotoConfigByKey = ({ key, options }) => {
   const userConfigByKey = getUserAnyPhotoConfigByKey({ defaultKey })
   if (userConfigByKey) return userConfigByKey
   switch (defaultKey) {
-    case 'defaultTheme':
-      return defaultTheme
     case 'defaultAuthor':
       return defaultAuthor
     case 'defaultAvatar':
@@ -63,14 +54,12 @@ const getAnyPhotoConfigByKey = ({ key, options }) => {
   }
 }
 const getAnyPhotoConfig = ({ options }) => {
-  const theme = getAnyPhotoConfigByKey({ key: 'theme', options })
   const avatar = getAnyPhotoConfigByKey({ key: 'avatar', options })
   const author = getAnyPhotoConfigByKey({ key: 'author', options })
   const output = getAnyPhotoConfigByKey({ key: 'output', options })
 
   return {
     ...handelValidAnyPhotoConfig({
-      theme,
       avatar,
       author,
       output
