@@ -3,7 +3,7 @@ const themes = require('./themes')
 const isImageUrl = require('is-image-url')
 
 const defaultConfigName = 'anyphoto.config.js'
-const defaultAvatar = 'https://m0-file2.bybutter.com/head-image/21e8a53c1e9d514eff1099f43465721b.jpg'
+const defaultAvatar = '/Users/weirui05/Desktop/WechatIMG38388.jpg'
 const defaultAuthor = 'AnyPhoto'
 const defaultOutput = 'anyphoto'
 

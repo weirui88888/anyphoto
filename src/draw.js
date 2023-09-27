@@ -11,6 +11,7 @@ class Drawer {
       width,
       fontFamilys,
       customFontFamilyPath,
+      fallbackFontFamilyIndex,
       color,
       backgroundColor,
       fontSize,
@@ -30,8 +31,8 @@ class Drawer {
         family: 'Custom'
       })
     }
-
     this.anyPhotoConfig = anyPhotoConfig
+    this.fallbackFontFamilyIndex = fallbackFontFamilyIndex
     this.width = width
     this.fontWeight = fontWeight
     this.fontFamilys = fontFamilys
@@ -108,7 +109,7 @@ class Drawer {
     if (showFrom) {
       ctx.save()
       ctx.fillStyle = fromFontColor
-      ctx.font = `${fromFontWeight} ${fromFontSize}px ${this.fontFamilys[fromFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
+      ctx.font = this.setupFont(fromFontWeight, fromFontSize, fromFontFamilyIndex)
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
       ctx.fillText(name, x, this.headerHeight + this.contentHeight - fromFontSize - y - this.compareHeight)
@@ -135,7 +136,7 @@ class Drawer {
     const { ctx } = this
     ctx.save()
     ctx.fillStyle = headerAuthorFontColor
-    ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.fontFamilys[headAuthorFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
+    ctx.font = this.setupFont(headerAuthorFontWeight, headerAuthorFontSize, headAuthorFontFamilyIndex)
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     const authorWidth = ctx.measureText(author).width
@@ -156,7 +157,7 @@ class Drawer {
     const { ctx } = this
     ctx.save()
     ctx.fillStyle = headerTimeFontColor
-    ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.fontFamilys[headerTimeFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
+    ctx.font = this.setupFont(headerTimeFontWeight, headerTimeFontSize, headerTimeFontFamilyIndex)
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     const timeWithPrefixWidth = ctx.measureText(prefixTimeString).width
@@ -170,7 +171,7 @@ class Drawer {
     const { ctx } = this
     ctx.save()
     ctx.fillStyle = sloganFontColor
-    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.fontFamilys[sloganFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
+    ctx.font = this.setupFont(sloganFontWeight, sloganFontSize, sloganFontFamilyIndex)
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     const timeWithPrefixWidth = ctx.measureText(slogan).width
@@ -182,9 +183,7 @@ class Drawer {
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.color
-    ctx.font = `${this.fontWeight} ${this.fontSize}px ${this.fontFamilys[this.fontFamilyIndex]},${
-      this.fontFamilys[4]
-    },sans-serif`
+    ctx.font = this.setupFont(this.fontWeight, this.fontSize, this.fontFamilyIndex)
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     let words = this.content.split(' ')
@@ -208,6 +207,11 @@ class Drawer {
     this.setLineWidthMap(currentLine, ctx.measureText(words.join(' ')).width)
     return currentLine + 1
   }
+  setupFont(fontWeight, fontSize, familyIndex) {
+    return `${fontWeight} ${fontSize}px ${this.fontFamilys[familyIndex]},${
+      this.fontFamilys[this.fallbackFontFamilyIndex]
+    },sans-serif`
+  }
   async drawing() {
     this.barWatcher.setTotal(6)
     this.barWatcher.update(5, {
@@ -216,9 +220,7 @@ class Drawer {
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.color
-    ctx.font = `${this.fontWeight} ${this.fontSize}px ${this.fontFamilys[this.fontFamilyIndex]},${
-      this.fontFamilys[4]
-    },sans-serif`
+    ctx.font = this.setupFont(this.fontWeight, this.fontSize, this.fontFamilyIndex)
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     let words = this.content.split(' ')
@@ -317,7 +319,7 @@ class Drawer {
         ctx.drawImage(clock, timeIconStartPointX, timeIconStartPointY, timeIconWidth, timeIconHeight)
       }
       ctx.fillStyle = headerTimeFontColor
-      ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.fontFamilys[headerTimeFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
+      ctx.font = this.setupFont(headerTimeFontWeight, headerTimeFontSize, headerTimeFontFamilyIndex)
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
       ctx.fillText(this.getTimeWithPrefix, timeStartPointX, timeStartPointY)
@@ -343,7 +345,7 @@ class Drawer {
       const { ctx, author } = this
       ctx.beginPath()
       ctx.fillStyle = headerAuthorFontColor
-      ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.fontFamilys[headAuthorFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
+      ctx.font = this.setupFont(headerAuthorFontWeight, headerAuthorFontSize, headAuthorFontFamilyIndex)
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
       ctx.fillText(author, authorStartPointX, authorStartPointY)
@@ -536,7 +538,7 @@ class Drawer {
     ctx.save()
     ctx.beginPath()
     ctx.fillStyle = sloganFontColor
-    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.fontFamilys[sloganFontFamilyIndex]},${this.fontFamilys[4]},sans-serif`
+    ctx.font = this.setupFont(sloganFontWeight, sloganFontSize, sloganFontFamilyIndex)
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     ctx.fillText(slogan, sloganStartPointX, sloganStartPointY)
