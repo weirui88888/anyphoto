@@ -8,6 +8,7 @@
     "src"
   ],
   "scripts": {
+    "lint": "eslint . --fix",
     "anyphoto": "node ./bin/index.js generate 'React lets you build user interfaces out of individual pieces called components. Create your own React components like Thumbnail, LikeButton, and Video. Then combine them into entire screens, pages, and apps.' --author React"
   },
   "keywords": [],
@@ -32,5 +33,12 @@
     "figlet": "^1.6.0",
     "is-image-url": "^1.1.8",
     "ora": "5.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.1",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise": "^6.0.0"
   }
 }

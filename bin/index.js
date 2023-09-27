@@ -2,11 +2,9 @@
 
 const { Command } = require('commander')
 const pkg = require('../package.json')
-const figlet = require('figlet')
-const { init, generate, github, oss } = require('../src/cmd')
-const { defaultTheme, defaultAuthor, defaultAvatar } = require('../src/config')
-
-// console.log(figlet.textSync('Any Photo'))
+// eslint-disable-next-line no-unused-vars
+const { init, generate, github } = require('../src/cmd')
+const { showAnyPhotoFiglet } = require('../src/util')
 
 const program = new Command()
 
@@ -18,6 +16,7 @@ program
   .option('--theme <theme>', 'The theme of the photo you want to use', 'theme1')
   .description('Initialize configuration file')
   .action((configDirname = process.cwd(), { theme }) => {
+    showAnyPhotoFiglet()
     init({ configDirname, theme })
   })
 

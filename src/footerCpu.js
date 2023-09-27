@@ -7,10 +7,12 @@ class FooterCpu {
     this.grandTotalHeight = headerHeight + contentHeight
     this.sloganWidth = sloganWidth
   }
+
   get getFooterHeight() {
     const { paddingY, sloganFontSize } = this.canvasFooterSetting
     return paddingY * 2 + sloganFontSize + sloganFontSize / 2
   }
+
   get calculateApplySlogan() {
     const { slogan, sloganFontSize, sloganFontColor, sloganFontWeight, sloganFontFamilyIndex } =
       this.canvasFooterSetting
@@ -24,6 +26,7 @@ class FooterCpu {
       ...this.calculateSloganPosition
     }
   }
+
   get calculateApplyQrCode() {
     const { qrCodeSrc } = this.canvasFooterSetting
     if (isImageUrl(qrCodeSrc)) {
@@ -38,6 +41,7 @@ class FooterCpu {
       }
     }
   }
+
   get calculateSloganPosition() {
     const { paddingY, sloganPosition } = this.canvasFooterSetting
     const { sloganWidth, x, canvasWidth, grandTotalHeight } = this
@@ -59,6 +63,7 @@ class FooterCpu {
         }
     }
   }
+
   get calculateQrCodePosition() {
     const { qrCodePaddingY, sloganPosition } = this.canvasFooterSetting
     const qrCodeWidth = this.getFooterHeight - qrCodePaddingY * 2

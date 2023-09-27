@@ -7,6 +7,7 @@ class HeaderCpu {
     this.canvasWidth = canvasWidth // canvas width
     this.timeWidthPrefixWidth = timeWidthPrefixWidth
   }
+
   calculateApplyHeader() {
     return {
       avatar: this.calculateApplyAvatar,
@@ -14,6 +15,7 @@ class HeaderCpu {
       time: this.calculateApplyTime
     }
   }
+
   get getHeaderHeight() {
     const { headerPaddingBottom } = this.canvasHeaderSetting
     return this.calculateApplyTime.timeBottomY + headerPaddingBottom
@@ -29,6 +31,7 @@ class HeaderCpu {
       ...this.calculateDomProperty('avatar')
     }
   }
+
   get calculateApplyAuthor() {
     const {
       showHeaderAuthor,
@@ -60,6 +63,7 @@ class HeaderCpu {
       ...this.calculateDomProperty('timeIcon')
     }
   }
+
   get calculateApplyTime() {
     const {
       showHeaderTime,
@@ -79,6 +83,7 @@ class HeaderCpu {
       ...this.calculateDomProperty('time')
     }
   }
+
   calculateDomProperty(dom) {
     switch (dom) {
       case 'avatar':
@@ -125,6 +130,7 @@ class HeaderCpu {
         }
     }
   }
+
   get calculateAuthorStartPointPosition() {
     const { headerAlign, headerAvatarMarginBottom, headerAvatarBorderWidth, showHeaderAuthor, headerAuthorFontSize } =
       this.canvasHeaderSetting
@@ -161,6 +167,7 @@ class HeaderCpu {
         }
     }
   }
+
   // calculate inspiration come by calculateTimeStartPointPosition
   get calculateTimeIconStartPointPosition() {
     const {
@@ -210,6 +217,7 @@ class HeaderCpu {
       }
     }
   }
+
   get calculateTimeStartPointPosition() {
     const {
       headerAlign,

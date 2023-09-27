@@ -31,7 +31,7 @@ const handelValidAnyPhotoConfig = options => {
   return Object.keys(options).reduce((config, option) => {
     return {
       ...config,
-      [option]: optionsCpu[option]['validate'](options[option])
+      [option]: optionsCpu[option].validate(options[option])
     }
   }, {})
 }

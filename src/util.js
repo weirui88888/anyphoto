@@ -1,18 +1,14 @@
 const cliProgress = require('cli-progress')
-
+const figlet = require('figlet')
 const c = require('ansi-colors')
-
 const ora = require('ora')
-const { Image } = require('canvas')
 
 const generateOra = options => ora(options)
 
-global.Image = Image
-
 const sleep = time => {
-  return new Promise(res => {
+  return new Promise(resolve => {
     setTimeout(() => {
-      res()
+      resolve()
     }, time * 1000)
   })
 }
@@ -52,6 +48,10 @@ const formatDateTime = (date, format) => {
   })
 }
 
+const showAnyPhotoFiglet = () => {
+  console.log(color(figlet.textSync('AnyPhoto'), 'green', 'bold'))
+}
+
 const barWatcher = new cliProgress.SingleBar({
   format: 'Generate Progress ' + color('{bar}', 'green') + ' now status is => ' + color('{step}', 'green'),
   barCompleteChar: '\u2588',
@@ -64,6 +64,7 @@ module.exports = {
   sleep,
   color,
   colorTip,
+  showAnyPhotoFiglet,
   barWatcher,
   formatDateTime
 }

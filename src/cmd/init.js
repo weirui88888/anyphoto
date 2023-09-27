@@ -8,7 +8,7 @@ const init = async ({ configDirname, theme }) => {
   const userTheme = themes[theme] ? theme : 'theme1'
   const initOra = generateOra({
     spinner: 'dots',
-    text: `anyphoto configuration file is being generated...`
+    text: 'anyphoto configuration file is being generated...'
   })
   initOra.start()
   await sleep(1)

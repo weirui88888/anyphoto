@@ -68,6 +68,7 @@ class Drawer {
     // footer
     this.footer = footer
   }
+
   async setupCpu() {
     const { from = {}, ctx } = this
     const { showFrom, fromFontSize, fromMarginTop } = from
@@ -103,6 +104,7 @@ class Drawer {
     this.ctx = this.canvas.getContext('2d')
     return this
   }
+
   async setupFrom() {
     const { y, ctx, x, from = {} } = this
     const { showFrom, name, fromFontSize, fromFontColor, fromFontWeight, fromFontFamilyIndex } = from
@@ -117,8 +119,10 @@ class Drawer {
     }
     return this
   }
+
   async setupCanvas() {
     this.barWatcher.setTotal(3)
+
     this.barWatcher.update(2, {
       step: '设置画布中'
     })
@@ -128,6 +132,7 @@ class Drawer {
     ctx.fillRect(0, 0, this.width, this.height)
     return this
   }
+
   // todo应该需要想个办法，去智能的判断字体的宽度，是否大于canvasWidth-2*x
   get calculateAuthorWidth() {
     const { headerAuthorFontColor, headerAuthorFontSize, headerAuthorFontWeight, headAuthorFontFamilyIndex } =
@@ -190,10 +195,10 @@ class Drawer {
     let currentLine = 0
     let idx = 1
     while (words.length > 0 && idx <= words.length) {
-      let str = words.slice(0, idx).join(' ')
-      let w = ctx.measureText(str).width
+      const str = words.slice(0, idx).join(' ')
+      const w = ctx.measureText(str).width
       if (w > this.maxLineWidth) {
-        if (idx == 1) {
+        if (idx === 1) {
           idx = 2
         }
         this.setLineWidthMap(currentLine, ctx.measureText(words.slice(0, idx - 1).join(' ')).width)
@@ -207,11 +212,13 @@ class Drawer {
     this.setLineWidthMap(currentLine, ctx.measureText(words.join(' ')).width)
     return currentLine + 1
   }
+
   setupFont(fontWeight, fontSize, familyIndex) {
     return `${fontWeight} ${fontSize}px ${this.fontFamilys[familyIndex]},${
       this.fontFamilys[this.fallbackFontFamilyIndex]
     },sans-serif`
   }
+
   async drawing() {
     this.barWatcher.setTotal(6)
     this.barWatcher.update(5, {
@@ -227,10 +234,10 @@ class Drawer {
     let currentLine = 0
     let idx = 1
     while (words.length > 0 && idx <= words.length) {
-      let str = words.slice(0, idx).join(' ')
-      let w = ctx.measureText(str).width
+      const str = words.slice(0, idx).join(' ')
+      const w = ctx.measureText(str).width
       if (w > this.maxLineWidth) {
-        if (idx == 1) {
+        if (idx === 1) {
           idx = 2
         }
         ctx.fillText(
@@ -287,6 +294,7 @@ class Drawer {
 
     return this
   }
+
   async drawTime() {
     const {
       showHeaderTime,
@@ -327,6 +335,7 @@ class Drawer {
     }
     return this
   }
+
   async drawAuthor() {
     const {
       showHeaderAuthor,
@@ -352,20 +361,24 @@ class Drawer {
     }
     return this
   }
+
   getMaxLineWidth() {
     let max = 1
     let maxLineWidth = this.lineWidthMap.get(1)
     for (const [line, width] of this.lineWidthMap.entries()) {
       if (width > maxLineWidth) {
+        // eslint-disable-next-line no-unused-vars
         max = line
         maxLineWidth = width
       }
     }
     return Math.ceil(maxLineWidth)
   }
+
   setLineWidthMap(line, width) {
     this.lineWidthMap.set(line + 1, width)
   }
+
   setSuitableXWidth(maxLineWidth, targetWidth, x) {
     const calculateHalfWidth = (targetWidth - maxLineWidth) / 2
     return calculateHalfWidth > x ? calculateHalfWidth : x
@@ -375,7 +388,7 @@ class Drawer {
     const base64img = this.canvas.toDataURL()
     const { output } = this.anyPhotoConfig
     const drawImgPath = path.join(process.cwd(), output)
-    base64Img.img(base64img, drawImgPath, `anyphoto`, (error, filepath) => {
+    base64Img.img(base64img, drawImgPath, 'anyphoto', (error, filepath) => {
       if (error) {
         console.log(error.message)
       } else {
@@ -386,6 +399,7 @@ class Drawer {
       }
     })
   }
+
   // todo如何避免重复代码
   async drawDivider() {
     const { ctx } = this
@@ -422,6 +436,7 @@ class Drawer {
 
     return this
   }
+
   getValidDividerProperty(positionProvider, position) {
     const { x, color: contentColor, width } = this
     const applyDividerProperty = {
@@ -473,29 +488,30 @@ class Drawer {
     // todo消除魔法字符串，判断颜色合格
     const positionDivider = { showDivider: false }
     const { divider } = positionProvider
-    let contentWidth = 'contentWidth'
-    let fullWidth = 'fullWidth'
+    const contentWidth = 'contentWidth'
+    const fullWidth = 'fullWidth'
     const validDividerSize = [contentWidth, fullWidth]
     if (divider) {
       const { size, color } = divider
-      let applySize = validDividerSize.includes(size) ? size : validDividerSize[0]
+      const applySize = validDividerSize.includes(size) ? size : validDividerSize[0]
       if (applySize === contentWidth) {
         positionDivider.showDivider = true
         positionDivider.strokeStyle = color || contentColor
-        positionDivider.moveTo = applyDividerProperty[position][contentWidth]['moveTo']
-        positionDivider.lineTo = applyDividerProperty[position][contentWidth]['lineTo']
+        positionDivider.moveTo = applyDividerProperty[position][contentWidth].moveTo
+        positionDivider.lineTo = applyDividerProperty[position][contentWidth].lineTo
       }
       if (applySize === fullWidth) {
         positionDivider.showDivider = true
         positionDivider.strokeStyle = color || contentColor
-        positionDivider.moveTo = applyDividerProperty[position][fullWidth]['moveTo']
-        positionDivider.lineTo = applyDividerProperty[position][fullWidth]['lineTo']
+        positionDivider.moveTo = applyDividerProperty[position][fullWidth].moveTo
+        positionDivider.lineTo = applyDividerProperty[position][fullWidth].lineTo
       }
       return positionDivider
     } else {
       return positionDivider
     }
   }
+
   async drawBackground() {
     const { ctx, width } = this
     ctx.save()
