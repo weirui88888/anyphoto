@@ -1,4 +1,5 @@
 const { colorTip } = require('./util')
+const themes = require('./themes')
 const isImageUrl = require('is-image-url')
 
 const defaultConfigName = 'anyphoto.config.js'
@@ -35,14 +36,12 @@ module.exports = {
   defaultOutput,
   optionsCpu,
   locale: 'english',
-  initConfig: () => {
+  initConfig: theme => {
     return `const anyPhotoConfig = {
   defaultOutput: '${defaultOutput}',
   defaultAvatar: '${defaultAvatar}',
   defaultAuthor: '${defaultAuthor}',
-  canvasSetting: {
-    width: 750
-  }
+  canvasSetting: ${JSON.stringify(themes[theme], null, 4)}
 }
 module.exports = anyPhotoConfig
 `

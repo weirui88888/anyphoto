@@ -9,7 +9,7 @@ class Drawer {
   constructor({ content, anyPhotoConfig }) {
     const {
       width,
-      englishFonts,
+      fontFamilys,
       color,
       backgroundColor,
       fontSize,
@@ -19,7 +19,7 @@ class Drawer {
       y,
       textBaseline,
       textAlign,
-      fontSizeIndex,
+      fontFamilyIndex,
       header,
       footer,
       from
@@ -27,12 +27,12 @@ class Drawer {
     this.anyPhotoConfig = anyPhotoConfig
     this.width = width
     this.fontWeight = fontWeight
-    this.englishFonts = englishFonts
+    this.fontFamilys = fontFamilys
     this.color = color
     this.backgroundColor = backgroundColor
     this.maxLineWidth = width - x * 2 // 这里只是预设最大宽度，也就是用width - x * 2，需要先有它，才能计算出来布局，以及每行实际绘制的宽度
     this.fontSize = fontSize
-    this.fontSizeIndex = fontSizeIndex
+    this.fontFamilyIndex = fontFamilyIndex
     this.barWatcher = barWatcher
 
     // content
@@ -97,11 +97,11 @@ class Drawer {
   }
   async setupFrom() {
     const { y, ctx, x, from = {} } = this
-    const { showFrom, name, fromFontSize, fromFontColor, fromFontWeight, frmFontSizeIndex } = from
+    const { showFrom, name, fromFontSize, fromFontColor, fromFontWeight, fromFontFamilyIndex } = from
     if (showFrom) {
       ctx.save()
       ctx.fillStyle = fromFontColor
-      ctx.font = `${fromFontWeight} ${fromFontSize}px ${this.englishFonts[frmFontSizeIndex]}`
+      ctx.font = `${fromFontWeight} ${fromFontSize}px ${this.fontFamilys[fromFontFamilyIndex]}`
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
       ctx.fillText(name, x, this.headerHeight + this.contentHeight - fromFontSize - y - this.compareHeight)
@@ -122,12 +122,13 @@ class Drawer {
   }
   // todo应该需要想个办法，去智能的判断字体的宽度，是否大于canvasWidth-2*x
   get calculateAuthorWidth() {
-    const { headerAuthorFontColor, headerAuthorFontSize, headerAuthorFontWeight, headAuthorFontSizeIndex } = this.header
+    const { headerAuthorFontColor, headerAuthorFontSize, headerAuthorFontWeight, headAuthorFontFamilyIndex } =
+      this.header
     const { author } = this
     const { ctx } = this
     ctx.save()
     ctx.fillStyle = headerAuthorFontColor
-    ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.englishFonts[headAuthorFontSizeIndex]}`
+    ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.fontFamilys[headAuthorFontFamilyIndex]}`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     const authorWidth = ctx.measureText(author).width
@@ -142,13 +143,13 @@ class Drawer {
   }
 
   get calculateTimeWithPrefixWidth() {
-    const { headerTimeFontColor, headerTimeFontSize, headerTimeFontWeight, headerTimeFontSizeIndex } = this.header
+    const { headerTimeFontColor, headerTimeFontSize, headerTimeFontWeight, headerTimeFontFamilyIndex } = this.header
 
     const prefixTimeString = this.getTimeWithPrefix
     const { ctx } = this
     ctx.save()
     ctx.fillStyle = headerTimeFontColor
-    ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.englishFonts[headerTimeFontSizeIndex]}`
+    ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.fontFamilys[headerTimeFontFamilyIndex]}`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     const timeWithPrefixWidth = ctx.measureText(prefixTimeString).width
@@ -157,12 +158,12 @@ class Drawer {
   }
 
   get calculateSloganWidth() {
-    const { slogan, sloganFontSize, sloganFontColor, sloganFontWeight, sloganFontSizeIndex } = this.footer
+    const { slogan, sloganFontSize, sloganFontColor, sloganFontWeight, sloganFontFamilyIndex } = this.footer
 
     const { ctx } = this
     ctx.save()
     ctx.fillStyle = sloganFontColor
-    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.englishFonts[sloganFontSizeIndex]}`
+    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.fontFamilys[sloganFontFamilyIndex]}`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     const timeWithPrefixWidth = ctx.measureText(slogan).width
@@ -174,7 +175,7 @@ class Drawer {
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.color
-    ctx.font = `${this.fontWeight} ${this.fontSize}px ${this.englishFonts[this.fontSizeIndex]}`
+    ctx.font = `${this.fontWeight} ${this.fontSize}px ${this.fontFamilys[this.fontFamilyIndex]}`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     let words = this.content.split(' ')
@@ -206,7 +207,7 @@ class Drawer {
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.color
-    ctx.font = `${this.fontWeight} ${this.fontSize}px ${this.englishFonts[this.fontSizeIndex]}`
+    ctx.font = `${this.fontWeight} ${this.fontSize}px ${this.fontFamilys[this.fontFamilyIndex]}`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     let words = this.content.split(' ')
@@ -279,7 +280,7 @@ class Drawer {
       headerTimeFontSize,
       headerTimeFontWeight,
       headerTimeFontColor,
-      headerTimeFontSizeIndex,
+      headerTimeFontFamilyIndex,
       timeStartPointX,
       timeStartPointY
     } = this.headerCpu.calculateApplyTime
@@ -305,7 +306,7 @@ class Drawer {
         ctx.drawImage(clock, timeIconStartPointX, timeIconStartPointY, timeIconWidth, timeIconHeight)
       }
       ctx.fillStyle = headerTimeFontColor
-      ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.englishFonts[headerTimeFontSizeIndex]}`
+      ctx.font = `${headerTimeFontWeight} ${headerTimeFontSize}px ${this.fontFamilys[headerTimeFontFamilyIndex]}`
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
       ctx.fillText(this.getTimeWithPrefix, timeStartPointX, timeStartPointY)
@@ -321,7 +322,7 @@ class Drawer {
       authorStartPointX,
       authorStartPointY,
       headerAuthorFontColor,
-      headAuthorFontSizeIndex
+      headAuthorFontFamilyIndex
     } = this.headerCpu.calculateApplyAuthor
     if (showHeaderAuthor) {
       this.barWatcher.setTotal(5)
@@ -331,7 +332,7 @@ class Drawer {
       const { ctx, author } = this
       ctx.beginPath()
       ctx.fillStyle = headerAuthorFontColor
-      ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.englishFonts[headAuthorFontSizeIndex]}`
+      ctx.font = `${headerAuthorFontWeight} ${headerAuthorFontSize}px ${this.fontFamilys[headAuthorFontFamilyIndex]}`
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
       ctx.fillText(author, authorStartPointX, authorStartPointY)
@@ -512,7 +513,7 @@ class Drawer {
       sloganFontSize,
       sloganFontColor,
       sloganFontWeight,
-      sloganFontSizeIndex,
+      sloganFontFamilyIndex,
       sloganStartPointX,
       sloganStartPointY
     } = this.footerCpu.calculateApplySlogan
@@ -524,7 +525,7 @@ class Drawer {
     ctx.save()
     ctx.beginPath()
     ctx.fillStyle = sloganFontColor
-    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.englishFonts[sloganFontSizeIndex]}`
+    ctx.font = `${sloganFontWeight} ${sloganFontSize}px ${this.fontFamilys[sloganFontFamilyIndex]}`
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     ctx.fillText(slogan, sloganStartPointX, sloganStartPointY)

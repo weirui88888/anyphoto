@@ -15,7 +15,7 @@ program.name(pkg.name).description(pkg.description).version(pkg.version)
 program
   .command('init')
   .argument('[configDirname]', 'The path to the configuration file, defaults to the current project root directory')
-  .option('--theme <number>', 'The theme of the photo you want to use', 1)
+  .option('--theme <theme>', 'The theme of the photo you want to use', 'theme1')
   .description('Initialize configuration file')
   .action((configDirname = process.cwd(), { theme }) => {
     init({ configDirname, theme })

@@ -12,14 +12,15 @@ class FooterCpu {
     return paddingY * 2 + sloganFontSize + sloganFontSize / 2
   }
   get calculateApplySlogan() {
-    const { slogan, sloganFontSize, sloganFontColor, sloganFontWeight, sloganFontSizeIndex } = this.canvasFooterSetting
+    const { slogan, sloganFontSize, sloganFontColor, sloganFontWeight, sloganFontFamilyIndex } =
+      this.canvasFooterSetting
 
     return {
       slogan,
       sloganFontSize,
       sloganFontColor,
       sloganFontWeight,
-      sloganFontSizeIndex,
+      sloganFontFamilyIndex,
       ...this.calculateSloganPosition
     }
   }

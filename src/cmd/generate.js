@@ -64,8 +64,7 @@ const getAnyPhotoConfig = ({ options }) => {
       author,
       output
     }),
-    // const canvasSetting = defaultCanvasSetting // TODO 这里只是为了方便，最后需要根据用户选项做相关合并
-    canvasSetting: defaultCanvasSetting
+    canvasSetting: getUserAnyPhotoConfigByKey('canvasSetting') || defaultCanvasSetting
   }
 }
 

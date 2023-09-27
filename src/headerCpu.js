@@ -35,14 +35,14 @@ class HeaderCpu {
       headerAuthorFontSize,
       headerAuthorFontWeight,
       headerAuthorFontColor,
-      headAuthorFontSizeIndex
+      headAuthorFontFamilyIndex
     } = this.canvasHeaderSetting
     return {
       showHeaderAuthor,
       headerAuthorFontSize,
       headerAuthorFontWeight,
       headerAuthorFontColor,
-      headAuthorFontSizeIndex,
+      headAuthorFontFamilyIndex,
       ...this.calculateDomProperty('author')
     }
   }
@@ -66,7 +66,7 @@ class HeaderCpu {
       headerTimeFontSize,
       headerTimeFontWeight,
       headerTimeFontColor,
-      headerTimeFontSizeIndex,
+      headerTimeFontFamilyIndex,
       headerTimeIcon
     } = this.canvasHeaderSetting
     return {
@@ -74,7 +74,7 @@ class HeaderCpu {
       headerTimeFontSize,
       headerTimeFontWeight,
       headerTimeFontColor,
-      headerTimeFontSizeIndex,
+      headerTimeFontFamilyIndex,
       headerTimeIcon,
       ...this.calculateDomProperty('time')
     }

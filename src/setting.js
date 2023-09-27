@@ -1,6 +1,6 @@
 const defaultCanvasSetting = {
   width: 750,
-  englishFonts: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica'],
+  fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica'],
   backgroundColor: '#006666',
   color: '#FFCC66',
   fontWeight: 'bold',
@@ -8,12 +8,12 @@ const defaultCanvasSetting = {
   textAlign: 'start',
   fontSize: 30,
   lineGap: 15,
-  fontSizeIndex: 4,
+  fontFamilyIndex: 4,
   x: 20,
   y: 20,
 
   header: {
-    headerAlign: 'center', // left / center / right
+    headerAlign: 'center',
     headerPaddingTop: 30,
     headerPaddingBottom: 30,
     // avatar
@@ -27,7 +27,7 @@ const defaultCanvasSetting = {
     headerAuthorFontSize: 30,
     headerAuthorFontColor: '#FFCC66',
     headerAuthorFontWeight: 'bold',
-    headAuthorFontSizeIndex: 4,
+    headAuthorFontFamilyIndex: 4,
     headerAuthorMarginBottom: 5,
 
     // createTime
@@ -35,22 +35,18 @@ const defaultCanvasSetting = {
     headerTimeFontSize: 20,
     headerTimeFontColor: '#FFCC66',
     headerTimeFontWeight: 'medium',
-    headerTimeFontSizeIndex: 4,
+    headerTimeFontFamilyIndex: 4,
     headerTime: new Date(),
     headerTimeFormat: 'YYYY/MM/DD HH:mm:ss',
     headerTimePrefix: 'milestone on',
-    // todo isImageUrl fn is error
     headerTimeIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f389.png',
-    headerTimeIconGap: 12
-
-    // headerDivider
-    // divider: {
-    //   size: 'contentWidth',
-    //   color: '#FFCC66'
-    // }
+    headerTimeIconGap: 12,
+    divider: {
+      size: 'contentWidth',
+      color: '#FFCC66'
+    }
   },
   footer: {
-    // footerDivider
     // divider: {
     //   size: 'contentWidth',
     //   color: '#FFCC66'
@@ -61,7 +57,7 @@ const defaultCanvasSetting = {
     sloganFontSize: 16,
     sloganFontColor: '#FFCC66',
     sloganFontWeight: 'bold',
-    sloganFontSizeIndex: 4,
+    sloganFontFamilyIndex: 4,
     qrCodeSrc: '/Users/weirui05/Desktop/WechatIMG374.jpg',
     qrCodePaddingY: 10
   },
@@ -71,7 +67,7 @@ const defaultCanvasSetting = {
     fromFontSize: 16,
     fromFontColor: '#FFCC66',
     fromFontWeight: 'bold',
-    frmFontSizeIndex: 4,
+    fromFontFamilyIndex: 4,
     fromMarginTop: 30
   }
 }
