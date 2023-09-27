@@ -1,3 +1,4 @@
+const path = require('path')
 const { colorTip } = require('./util')
 const themes = require('./themes')
 const isImageUrl = require('is-image-url')
@@ -21,10 +22,8 @@ const optionsCpu = {
     }
   },
   output: {
-    validate(output) {
-      // TODO:这里应该允许用户直接指定在某个地方生成图片
-      // 比如 /Users/weirui05/Desktop 或者 /Users/weirui05/Desktop/my.jpg
-      return output
+    validate(outputDirPath) {
+      return path.isAbsolute(outputDirPath) ? outputDirPath : path.join(process.cwd(), outputDirPath)
     }
   }
 }

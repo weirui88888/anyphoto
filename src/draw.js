@@ -386,9 +386,8 @@ class Drawer {
 
   async generatePng() {
     const base64img = this.canvas.toDataURL()
-    const { output } = this.anyPhotoConfig
-    const drawImgPath = path.join(process.cwd(), output)
-    base64Img.img(base64img, drawImgPath, 'anyphoto', (error, filepath) => {
+    const { output: outputDirPath } = this.anyPhotoConfig
+    base64Img.img(base64img, outputDirPath, 'anyphoto', (error, filepath) => {
       if (error) {
         console.log(error.message)
       } else {
