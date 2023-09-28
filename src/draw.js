@@ -37,11 +37,10 @@ class Drawer {
     this.fontFamilys = fontFamilys
     this.color = color
     this.backgroundColor = backgroundColor
-    this.maxLineWidth = width - x * 2 // 这里只是预设最大宽度，也就是用width - x * 2，需要先有它，才能计算出来布局，以及每行实际绘制的宽度
+    this.maxLineWidth = width - x * 2 // Here we just preset the maximum width, that is, use width - x * 2. You need it first to calculate the layout and the actual width of each line drawn.
     this.fontSize = fontSize
     this.fontFamilyIndex = fontFamilyIndex
     this.barWatcher = barWatcher
-
     // content
     this.lineGap = lineGap
     this.textBaseline = textBaseline
@@ -51,17 +50,15 @@ class Drawer {
     this.canvas = createCanvas(this.width, 1)
     this.ctx = this.canvas.getContext('2d')
     this.lineWidthMap = new Map()
-    this.totalLineNumber = this.calculateContentTotalLine()
+    this.totalLineNumber = this.calculateContentTotalLine
     this.compareHeight = 0
-    const maxLineWidth = this.getMaxLineWidth()
+    const maxLineWidth = this.getMaxLineWidth
     this.x = this.lineWidthMap.size > 1 ? this.setSuitableXWidth(maxLineWidth, this.width, x) : x
-
     // header
     this.header = header
     this.author = this.anyPhotoConfig.author
     this.avatar = this.anyPhotoConfig.avatar
     this.headerHeight = 0
-
     // from
     this.from = from
     // footer
@@ -162,6 +159,7 @@ class Drawer {
     ctx.save()
     ctx.fillStyle = headerTimeFontColor
     ctx.font = this.setupFont(headerTimeFontWeight, headerTimeFontSize, headerTimeFontFamilyIndex)
+    // TODO 这下面的两行代码能否共用
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     const timeWithPrefixWidth = ctx.measureText(prefixTimeString).width
@@ -183,7 +181,7 @@ class Drawer {
     return timeWithPrefixWidth
   }
 
-  calculateContentTotalLine() {
+  get calculateContentTotalLine() {
     const { ctx } = this
     ctx.beginPath()
     ctx.fillStyle = this.color
@@ -361,7 +359,7 @@ class Drawer {
     return this
   }
 
-  getMaxLineWidth() {
+  get getMaxLineWidth() {
     let max = 1
     let maxLineWidth = this.lineWidthMap.get(1)
     for (const [line, width] of this.lineWidthMap.entries()) {
