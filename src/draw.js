@@ -104,7 +104,7 @@ class Drawer {
     return this
   }
 
-  async setupFrom() {
+  async drawFrom() {
     const { y, ctx, x, from = {} } = this
     const { showFrom, name, fromFontSize, fromFontColor, fromFontWeight, fromFontFamilyIndex } = from
     if (showFrom) {
@@ -218,7 +218,7 @@ class Drawer {
     },sans-serif`
   }
 
-  async drawing() {
+  async drawContent() {
     this.barWatcher.setTotal(6)
     this.barWatcher.update(5, {
       step: '绘制主体中'
@@ -586,8 +586,8 @@ const draw = ({ content, anyPhotoConfig }) => {
     .then(drawer => drawer.drawAvatar())
     .then(drawer => drawer.drawAuthor())
     .then(drawer => drawer.drawTime())
-    .then(drawer => drawer.drawing())
-    .then(drawer => drawer.setupFrom())
+    .then(drawer => drawer.drawContent())
+    .then(drawer => drawer.drawFrom())
     .then(drawer => drawer.drawDivider())
     .then(drawer => drawer.drawFooter())
     .then(drawer => drawer.generatePng())

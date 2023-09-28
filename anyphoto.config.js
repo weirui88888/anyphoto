@@ -4,12 +4,12 @@ const anyPhotoConfig = {
   defaultOutputNameHandle(defaultOutputName) {
     return defaultOutputName
   },
-  defaultAvatar: '/Users/weirui/Desktop/WechatIMG39.png',
+  defaultAvatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',
   defaultAuthor: 'AnyPhoto',
   canvasSetting: {
     width: 750,
     fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
-    customFontFamilyPath: '/Users/weirui/Desktop/Caveat-VariableFont_wght.ttf',
+    customFontFamilyPath: '/Users/weirui05/Desktop/Caveat-VariableFont_wght.ttf',
     fallbackFontFamilyIndex: 4,
     backgroundColor: '#006666',
     color: '#FFCC66',
@@ -49,8 +49,8 @@ const anyPhotoConfig = {
     footer: {
       paddingY: 60,
       slogan: 'wechat reading',
-      sloganPosition: 'left',
-      sloganFontSize: 16,
+      sloganPosition: 'right',
+      sloganFontSize: 25,
       sloganFontColor: '#FFCC66',
       sloganFontWeight: 'bold',
       sloganFontFamilyIndex: 6,
