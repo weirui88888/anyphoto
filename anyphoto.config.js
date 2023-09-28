@@ -48,7 +48,7 @@ const anyPhotoConfig = {
     },
     footer: {
       paddingY: 60,
-      slogan: 'wechat reading',
+      slogan: 'xdz‘baba',
       sloganPosition: 'right',
       sloganFontSize: 25,
       sloganFontColor: '#FFCC66',

@@ -2,6 +2,7 @@ const { createCanvas, registerFont, loadImage } = require('canvas')
 const { barWatcher, formatDateTime } = require('./util')
 const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
+const UnderLineCpu = require('./underlineCpu')
 const base64Img = require('base64-img')
 
 class Drawer {
@@ -50,6 +51,8 @@ class Drawer {
     this.canvas = createCanvas(this.width, 1)
     this.ctx = this.canvas.getContext('2d')
     this.lineWidthMap = new Map()
+    this.lineKeywordIdentifier = {}
+    this.lineContent = {}
     this.totalLineNumber = this.calculateContentTotalLine
     this.compareHeight = 0
     const maxLineWidth = this.getMaxLineWidth
@@ -192,13 +195,14 @@ class Drawer {
     let currentLine = 0
     let idx = 1
     while (words.length > 0 && idx <= words.length) {
-      const str = words.slice(0, idx).join(' ')
+      const str = words.slice(0, idx).join(' ').replace(/[{}]/g, '')
       const w = ctx.measureText(str).width
       if (w > this.maxLineWidth) {
         if (idx === 1) {
           idx = 2
         }
         this.setLineWidthMap(currentLine, ctx.measureText(words.slice(0, idx - 1).join(' ')).width)
+        this.setLineKeywordIdentifier(currentLine, words.slice(0, idx - 1).join(' '))
         currentLine++
         words = words.splice(idx - 1)
         idx = 1
@@ -207,6 +211,7 @@ class Drawer {
       }
     }
     this.setLineWidthMap(currentLine, ctx.measureText(words.join(' ')).width)
+    this.setLineKeywordIdentifier(currentLine, words.join(' '))
     return currentLine + 1
   }
 
@@ -231,14 +236,17 @@ class Drawer {
     let currentLine = 0
     let idx = 1
     while (words.length > 0 && idx <= words.length) {
-      const str = words.slice(0, idx).join(' ')
+      const str = words.slice(0, idx).join(' ').replace(/[{}]/g, '')
       const w = ctx.measureText(str).width
       if (w > this.maxLineWidth) {
         if (idx === 1) {
           idx = 2
         }
         ctx.fillText(
-          words.slice(0, idx - 1).join(' '),
+          words
+            .slice(0, idx - 1)
+            .join(' ')
+            .replace(/[{}]/g, ''),
           this.x,
           this.headerHeight + this.y + (this.fontSize + this.lineGap) * currentLine
         )
@@ -250,7 +258,11 @@ class Drawer {
       }
     }
     if (idx > 0) {
-      ctx.fillText(words.join(' '), this.x, this.headerHeight + this.y + (this.fontSize + this.lineGap) * currentLine)
+      ctx.fillText(
+        words.join(' ').replace(/[{}]/g, ''),
+        this.x,
+        this.headerHeight + this.y + (this.fontSize + this.lineGap) * currentLine
+      )
     }
     return this
   }
@@ -374,6 +386,25 @@ class Drawer {
 
   setLineWidthMap(line, width) {
     this.lineWidthMap.set(line + 1, width)
+  }
+
+  setLineKeywordIdentifier(line, content) {
+    this.lineContent[line] = content
+    const identifierPositions = []
+    let index = content.indexOf('{')
+    if (index === -1) {
+      index = content.indexOf('}')
+    }
+    while (index !== -1) {
+      if (content[index] === '{') {
+        identifierPositions.push({ key: 'startIdentifier', index, content })
+        index = content.indexOf('}', index + 1)
+      } else if (content[index] === '}') {
+        identifierPositions.push({ key: 'endIdentifier', index, content })
+        index = content.indexOf('{', index + 1)
+      }
+    }
+    this.lineKeywordIdentifier[line] = identifierPositions
   }
 
   setSuitableXWidth(maxLineWidth, targetWidth, x) {
@@ -573,6 +604,31 @@ class Drawer {
     ctx.restore()
     return this
   }
+
+  async drawUnderline() {
+    const { lineKeywordIdentifier, lineContent } = this
+    let allLineKeywordIdentifier = []
+    // eslint-disable-next-line no-unused-vars
+    for (const [line, keywordIdentifier] of Object.entries(lineKeywordIdentifier)) {
+      allLineKeywordIdentifier = [...allLineKeywordIdentifier, ...keywordIdentifier]
+    }
+    if (allLineKeywordIdentifier.length === 0) return this
+    const underlineCpu = new UnderLineCpu({
+      lineKeywordIdentifier,
+      lineContent,
+      ctx: this.ctx,
+      x: this.x,
+      y: this.y,
+      headerHeight: this.headerHeight,
+      fontStyle: this.setupFont(this.fontWeight, this.fontSize, this.fontFamilyIndex),
+      textAlign: this.textAlign,
+      textBaseline: this.textBaseline,
+      fontSize: this.fontSize,
+      lineGap: this.lineGap
+    })
+    underlineCpu.underlineKeyWord()
+    return this
+  }
 }
 
 const draw = ({ content, anyPhotoConfig }) => {
@@ -585,6 +641,7 @@ const draw = ({ content, anyPhotoConfig }) => {
     .then(drawer => drawer.drawAuthor())
     .then(drawer => drawer.drawTime())
     .then(drawer => drawer.drawContent())
+    .then(drawer => drawer.drawUnderline())
     .then(drawer => drawer.drawFrom())
     .then(drawer => drawer.drawDivider())
     .then(drawer => drawer.drawFooter())
