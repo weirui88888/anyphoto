@@ -1,8 +1,7 @@
 #! /usr/bin/env node
-
+/* eslint-disable no-unused-vars */
 const { Command } = require('commander')
 const pkg = require('../package.json')
-// eslint-disable-next-line no-unused-vars
 const { init, generate, github } = require('../src/cmd')
 const { showAnyPhotoFiglet } = require('../src/util')
 
@@ -32,22 +31,24 @@ program
     'The name of the photo, which will be combined with the current time by default'
   )
   .action((content, options) => {
-    // // const testContent1 =
-    // //   'For a moment the {last sunshine fell with} romantic affection upon her glowing face her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving a pleasant street at dusk.'
-    // // const testContent2 =
-    //   'For a moment the {last sunshine fell with} romantic {affection upon her glowing face} her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving a pleasant street at dusk.'
-    // const testContent3 =
-    //   'For a moment the {last sunshine fell with romantic affection upon her glowing face her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving} a pleasant street at dusk.'
-    // const testContent4 =
-    //   'For a {moment} the last sunshine fell with romantic affection {upon} her glowing face her voice {compelled} me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like {children leaving} a pleasant street at dusk.'
-    // const testContent5 =
-    //   '{For} a moment the last sunshine fell with romantic affection upon her {glowing} face her voice compelled me forward breathlessly as I {listened—then} the glow faded, each light deserting her with lingering {regret} like children leaving a pleasant street at dusk.'
+    const testContent1 =
+      'For a moment the {last sunshine fell with} romantic affection upon her glowing face her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving a pleasant street at dusk.'
+    const testContent2 =
+      'For a moment the {last sunshine fell with} romantic {affection upon her glowing face} her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving a pleasant street at dusk.'
+    const testContent3 =
+      'For a moment the {last sunshine fell with romantic affection upon her glowing face her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving} a pleasant street at dusk.'
+    const testContent4 =
+      'For a {moment} the last sunshine fell with romantic affection {upon} her glowing face her voice {compelled} me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like {children leaving} a pleasant street at dusk.'
+    const testContent5 =
+      '{For} a moment the last sunshine fell with romantic affection upon her {glowing} face her voice compelled me forward breathlessly as I {listened—then} the glow faded, each light deserting her with lingering {regret} like children leaving a pleasant street at dusk.'
     const testContent6 =
-      'I made an interesting {open source technology} product from 0 to 1. Although I experienced many difficulties along the way, I am very {excited} and {happy} now.'
-    // const testContent7 =
-    //   'For a moment the last sunshine fell with romantic affection upon her glowing face her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving a pleasant street at dusk.'
+      'I made {an} {interesting} {open source technology} product {from} 0 to 1. Although I experienced many difficulties along the way, I am very {excited} and {happy} now.'
+    const testContent7 =
+      'For a {moment} the last sunshine {fell with romantic affection upon} her glowing face her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving a pleasant street at dusk.'
+    const testContent8 =
+      '{For} {a} {moment} {the} {last} {sunshine} {fell} {with} {romantic} {affection} {upon} {her} {glowing} {face} {her} {voice} {compelled} {me} {forward} {breathlessly} {as} {I} {listened—then} {the} {glow} {faded}, {each} {light} {deserting} {her} {with} {lingering} {regret} {like} {children} {leaving} {a} {pleasant} {street} {at} {dusk}.'
     generate({
-      content: testContent6,
+      content: `${testContent7}`,
       options
     })
   })

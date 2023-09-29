@@ -433,6 +433,7 @@ class Drawer {
           step: '绘制完成'
         })
         this.barWatcher.stop()
+        console.timeEnd('draw')
       }
     })
   }
@@ -632,6 +633,7 @@ class Drawer {
 }
 
 const draw = ({ content, anyPhotoConfig }) => {
+  console.time('draw')
   const drawer = new Drawer({ content, anyPhotoConfig })
   drawer
     .setupCpu()
