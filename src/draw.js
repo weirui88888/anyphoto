@@ -24,7 +24,8 @@ class Drawer {
       fontFamilyIndex,
       header,
       footer,
-      from
+      from,
+      underline
     } = anyPhotoConfig.canvasSetting
     if (customFontFamilyPath) {
       registerFont(customFontFamilyPath, {
@@ -66,6 +67,8 @@ class Drawer {
     this.from = from
     // footer
     this.footer = footer
+    // underline
+    this.underline = underline
   }
 
   async setupCpu() {
@@ -620,6 +623,7 @@ class Drawer {
       ctx: this.ctx,
       x: this.x,
       y: this.y,
+      underlineConfig: this.underline,
       headerHeight: this.headerHeight,
       fontStyle: this.setupFont(this.fontWeight, this.fontSize, this.fontFamilyIndex),
       textAlign: this.textAlign,

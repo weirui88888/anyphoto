@@ -14,4 +14,4 @@ const color3 = {
   backgroundColor: '#ff770f'
 }
 
-module.exports = color1
+module.exports = color2

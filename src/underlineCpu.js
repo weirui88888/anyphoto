@@ -11,7 +11,8 @@ class UnderLineCpu {
     textAlign,
     textBaseline,
     fontSize,
-    lineGap
+    lineGap,
+    underlineConfig = {}
   }) {
     this.lineKeywordIdentifier = lineKeywordIdentifier
     this.lineContent = lineContent
@@ -24,6 +25,13 @@ class UnderLineCpu {
     this.headerHeight = headerHeight
     this.fontSize = fontSize
     this.lineGap = lineGap
+    this.underlineConfig = {
+      shape: 'line',
+      color: '#fff',
+      lineWidth: 3,
+      offsetY: 10,
+      ...underlineConfig
+    }
   }
 
   get getLineUnderlinePositionsIndex() {
@@ -88,8 +96,8 @@ class UnderLineCpu {
   }
 
   getLineUnderlinePositions(lineUnderlineIndex) {
-    const { ctx, x, headerHeight, y, fontSize, lineGap } = this
-    // console.log(lineUnderlineIndex)
+    const { ctx, x, headerHeight, y, fontSize, lineGap, underlineConfig } = this
+    const { offsetY } = underlineConfig
     ctx.font = this.fontStyle
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
@@ -98,7 +106,7 @@ class UnderLineCpu {
       if (lineUnderlinePositions.length === 0) continue
       for (const { content, underlineStart, underlineEnd } of lineUnderlinePositions) {
         const underlineStartPointX = x + ctx.measureText(content.slice(0, underlineStart).replace(/[{}]/g, '')).width
-        const underlineStartPointY = headerHeight + y + (fontSize + lineGap) * line + fontSize + 10
+        const underlineStartPointY = headerHeight + y + (fontSize + lineGap) * line + fontSize + offsetY
         const underlineEndPointX = x + ctx.measureText(content.slice(0, underlineEnd).replace(/[{}]/g, '')).width
         const underlineEndPointY = underlineStartPointY
         underlinePositions.push({ underlineStartPointX, underlineStartPointY, underlineEndPointX, underlineEndPointY })
@@ -108,8 +116,11 @@ class UnderLineCpu {
   }
 
   underlineKeyWord() {
-    const { ctx } = this
+    const { ctx, underlineConfig } = this
+    const { shape, color, lineWidth } = underlineConfig
     const { shouldUnderline, lineUnderlineIndex } = this.getLineUnderlinePositionsIndex
+    ctx.strokeStyle = color
+    ctx.lineWidth = lineWidth
     if (shouldUnderline) {
       const underlinePositions = this.getLineUnderlinePositions(lineUnderlineIndex)
       for (const {
@@ -118,13 +129,48 @@ class UnderLineCpu {
         underlineEndPointX,
         underlineEndPointY
       } of underlinePositions) {
-        ctx.beginPath()
-        ctx.strokeStyle = '#FFFFCC'
-        ctx.lineWidth = '1'
-        ctx.moveTo(underlineStartPointX, underlineStartPointY)
-        ctx.lineTo(underlineEndPointX, underlineEndPointY)
-        ctx.stroke()
+        if (shape === 'line') {
+          ctx.beginPath()
+          ctx.moveTo(underlineStartPointX, underlineStartPointY)
+          ctx.lineTo(underlineEndPointX, underlineEndPointY)
+          ctx.stroke()
+        }
+        if (shape === 'wave') {
+          this.underlineWaveKeyWord({
+            underlineStartPointX,
+            underlineStartPointY,
+            underlineEndPointX,
+            underlineEndPointY
+          })
+        }
       }
+    }
+  }
+
+  underlineWaveKeyWord({ underlineStartPointX, underlineStartPointY, underlineEndPointX, underlineEndPointY }) {
+    const { ctx, underlineConfig } = this
+    const {
+      color,
+      lineWidth,
+      amplitude = 6, // 振幅，这个数字越大，振幅越大
+      wavelength = 90 // 波长，这个数字越大，波长越小
+    } = underlineConfig
+    ctx.beginPath()
+    ctx.strokeStyle = color
+    ctx.lineWidth = lineWidth
+
+    let counter = 0
+    let x = underlineStartPointX
+    let y = underlineStartPointY
+
+    const increase = ((wavelength / 180) * Math.PI) / 9
+    for (let i = underlineStartPointX; i <= underlineEndPointX; i += 1) {
+      ctx.moveTo(x, y)
+      x = i
+      y = underlineStartPointY - Math.sin(counter) * amplitude
+      counter += increase
+      ctx.lineTo(x, y)
+      ctx.stroke()
     }
   }
 }

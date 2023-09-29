@@ -66,6 +66,14 @@ const anyPhotoConfig = {
       fromFontWeight: 'bold',
       fromFontFamilyIndex: 6,
       fromMarginTop: 30
+    },
+    underline: {
+      shape: 'wave',
+      color: '#FF6600',
+      lineWidth: 2,
+      amplitude: 2, // 振幅，这个数字越大，振幅越大
+      wavelength: 180, // 波长，这个数字越大，波长越小
+      offsetY: 10
     }
   }
 }

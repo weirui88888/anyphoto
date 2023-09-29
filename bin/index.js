@@ -33,10 +33,12 @@ program
   .action((content, options) => {
     const testContent1 =
       'For a moment the {last sunshine fell with} romantic affection upon her glowing face her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving a pleasant street at dusk.'
-    const testContent2 =
+    const testContent12 =
       'For a moment the {last sunshine fell with} romantic {affection upon her glowing face} her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving a pleasant street at dusk.'
-    const testContent3 =
-      'For a moment the {last sunshine fell with romantic affection upon her glowing face her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving} a pleasant street at dusk.'
+    const testContent123 =
+      'For a moment the {last sunshine fell with} romantic {affection upon her glowing face} her voice compelled me forward breathlessly as I listened—then {the glow faded, each light} deserting her with lingering regret like children leaving a pleasant street at dusk.'
+    const testContent1234 =
+      'For a moment the {last sunshine fell with} romantic {affection upon her glowing face} her voice compelled me forward breathlessly as I listened—then {the glow faded, each light} deserting her with lingering regret like children leaving a {pleasant street} at dusk.'
     const testContent4 =
       'For a {moment} the last sunshine fell with romantic affection {upon} her glowing face her voice {compelled} me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like {children leaving} a pleasant street at dusk.'
     const testContent5 =
@@ -45,10 +47,10 @@ program
       'I made {an} {interesting} {open source technology} product {from} 0 to 1. Although I experienced many difficulties along the way, I am very {excited} and {happy} now.'
     const testContent7 =
       'For a {moment} the last sunshine {fell with romantic affection upon} her glowing face her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving a pleasant street at dusk.'
-    const testContent8 =
+    const testContentallword =
       '{For} {a} {moment} {the} {last} {sunshine} {fell} {with} {romantic} {affection} {upon} {her} {glowing} {face} {her} {voice} {compelled} {me} {forward} {breathlessly} {as} {I} {listened—then} {the} {glow} {faded}, {each} {light} {deserting} {her} {with} {lingering} {regret} {like} {children} {leaving} {a} {pleasant} {street} {at} {dusk}.'
     generate({
-      content: `${testContent7}`,
+      content: `${testContent1234}`,
       options
     })
   })
