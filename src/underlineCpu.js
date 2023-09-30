@@ -12,7 +12,7 @@ class UnderLineCpu {
     textBaseline,
     fontSize,
     lineGap,
-    underlineConfig = {}
+    canvasUnderlineSetting = {}
   }) {
     this.lineKeywordIdentifier = lineKeywordIdentifier
     this.lineContent = lineContent
@@ -25,12 +25,12 @@ class UnderLineCpu {
     this.headerHeight = headerHeight
     this.fontSize = fontSize
     this.lineGap = lineGap
-    this.underlineConfig = {
+    this.canvasUnderlineSetting = {
       shape: 'line',
       color: '#fff',
       lineWidth: 3,
       offsetY: 10,
-      ...underlineConfig
+      ...canvasUnderlineSetting
     }
   }
 
@@ -96,8 +96,8 @@ class UnderLineCpu {
   }
 
   getLineUnderlinePositions(lineUnderlineIndex) {
-    const { ctx, x, headerHeight, y, fontSize, lineGap, underlineConfig } = this
-    const { offsetY } = underlineConfig
+    const { ctx, x, headerHeight, y, fontSize, lineGap, canvasUnderlineSetting } = this
+    const { offsetY } = canvasUnderlineSetting
     ctx.font = this.fontStyle
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
@@ -116,8 +116,8 @@ class UnderLineCpu {
   }
 
   underlineKeyWord() {
-    const { ctx, underlineConfig } = this
-    const { shape, color, lineWidth } = underlineConfig
+    const { ctx, canvasUnderlineSetting } = this
+    const { shape, color, lineWidth } = canvasUnderlineSetting
     const { shouldUnderline, lineUnderlineIndex } = this.getLineUnderlinePositionsIndex
     ctx.strokeStyle = color
     ctx.lineWidth = lineWidth
@@ -148,13 +148,13 @@ class UnderLineCpu {
   }
 
   underlineWaveKeyWord({ underlineStartPointX, underlineStartPointY, underlineEndPointX, underlineEndPointY }) {
-    const { ctx, underlineConfig } = this
+    const { ctx, canvasUnderlineSetting } = this
     const {
       color,
       lineWidth,
       amplitude = 6, // 振幅，这个数字越大，振幅越大
       wavelength = 90 // 波长，这个数字越大，波长越小
-    } = underlineConfig
+    } = canvasUnderlineSetting
     ctx.beginPath()
     ctx.strokeStyle = color
     ctx.lineWidth = lineWidth

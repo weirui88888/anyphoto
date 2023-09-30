@@ -9,6 +9,8 @@ class Drawer {
   constructor({ content, anyPhotoConfig }) {
     const {
       width,
+      x,
+      y,
       fontFamilys,
       customFontFamilyPath,
       fallbackFontFamilyIndex,
@@ -17,8 +19,6 @@ class Drawer {
       fontSize,
       fontWeight,
       lineGap,
-      x,
-      y,
       textBaseline,
       textAlign,
       fontFamilyIndex,
@@ -72,43 +72,58 @@ class Drawer {
   }
 
   async setupCpu() {
-    const { from = {}, ctx } = this
+    const {
+      from = {},
+      ctx,
+      barWatcher,
+      fontSize,
+      lineGap,
+      totalLineNumber,
+      x,
+      y,
+      header,
+      footer,
+      width,
+      calculateAuthorWidth,
+      calculateTimeWithPrefixWidth,
+      calculateSloganWidth
+    } = this
     const { showFrom, fromFontSize, fromMarginTop } = from
-    this.barWatcher.start(5, 1, { step: '初始化中' })
-    this.compareHeight = this.fontSize >= this.lineGap ? this.lineGap / 2 : this.fontSize / 2
-    this.contentHeight =
-      (this.totalLineNumber - 1) * this.lineGap + this.totalLineNumber * this.fontSize + this.y * 2 + this.compareHeight
+    // DONE STEP1
+    barWatcher.start(5, 1, { step: 'Initializing' })
+    this.compareHeight = fontSize >= lineGap ? lineGap / 2 : fontSize / 2
+    this.contentHeight = (totalLineNumber - 1) * lineGap + totalLineNumber * fontSize + y * 2 + this.compareHeight
     if (showFrom) {
       this.contentHeight = this.contentHeight + fromFontSize + fromMarginTop
     }
     ctx.save()
     this.headerCpu = new HeaderCpu({
-      canvasHeaderSetting: this.header,
-      x: this.x,
-      canvasWidth: this.width,
-      authorWidth: this.calculateAuthorWidth,
-      timeWidthPrefixWidth: this.calculateTimeWithPrefixWidth
+      x,
+      canvasHeaderSetting: header,
+      canvasWidth: width,
+      authorWidth: calculateAuthorWidth,
+      timeWidthPrefixWidth: calculateTimeWithPrefixWidth
     })
     this.headerHeight = this.headerCpu.getHeaderHeight
     this.height = this.headerHeight + this.contentHeight
 
     this.footerCpu = new FooterCpu({
-      canvasFooterSetting: this.footer,
-      x: this.x,
-      canvasWidth: this.width,
+      x,
+      canvasFooterSetting: footer,
+      canvasWidth: width,
       headerHeight: this.headerHeight,
       contentHeight: this.contentHeight,
-      sloganWidth: this.calculateSloganWidth
+      sloganWidth: calculateSloganWidth
     })
     this.footerHeight = this.footerCpu.getFooterHeight
     this.height = this.height + this.footerHeight
-    this.canvas = createCanvas(this.width, this.height)
+    this.canvas = createCanvas(width, this.height)
     this.ctx = this.canvas.getContext('2d')
     return this
   }
 
   async drawFrom() {
-    const { y, ctx, x, from = {} } = this
+    const { y, ctx, x, from = {}, headerHeight, contentHeight, compareHeight } = this
     const { showFrom, name, fromFontSize, fromFontColor, fromFontWeight, fromFontFamilyIndex } = from
     if (showFrom) {
       ctx.save()
@@ -116,36 +131,339 @@ class Drawer {
       ctx.font = this.setupFont(fromFontWeight, fromFontSize, fromFontFamilyIndex)
       ctx.textBaseline = this.textBaseline
       ctx.textAlign = this.textAlign
-      ctx.fillText(name, x, this.headerHeight + this.contentHeight - fromFontSize - y - this.compareHeight)
+      ctx.fillText(name, x, headerHeight + contentHeight - fromFontSize - y - compareHeight)
       ctx.restore()
     }
     return this
   }
 
   async setupCanvas() {
-    this.barWatcher.setTotal(3)
-
-    this.barWatcher.update(2, {
-      step: '设置画布中'
+    const { ctx, barWatcher, width, height, backgroundColor, textBaseline, textAlign } = this
+    ctx.textBaseline = textBaseline
+    ctx.textAlign = textAlign
+    // DONE STEP2
+    barWatcher.setTotal(3)
+    barWatcher.update(2, {
+      step: 'Set up canvas'
     })
-    const { ctx } = this
     ctx.beginPath()
-    ctx.fillStyle = this.backgroundColor
-    ctx.fillRect(0, 0, this.width, this.height)
+    ctx.fillStyle = backgroundColor
+    ctx.fillRect(0, 0, width, height)
     return this
   }
 
-  // todo应该需要想个办法，去智能的判断字体的宽度，是否大于canvasWidth-2*x
+  async drawAvatar() {
+    const { ctx, avatar: avatarSrc, barWatcher, headerCpu } = this
+    // DONE STEP3
+    barWatcher.setTotal(4)
+    barWatcher.update(3, {
+      step: 'Drawing Avatar'
+    })
+    const { headerAvatarBorderWidth, headerAvatarBorderColor, avatarRadius, avatarCenterPointX, avatarCenterPointY } =
+      headerCpu.calculateApplyAvatar
+    const avatar = await loadImage(avatarSrc)
+    ctx.save()
+    ctx.beginPath()
+    ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius, 0, Math.PI * 2)
+    ctx.closePath()
+    ctx.clip()
+    ctx.drawImage(
+      avatar,
+      avatarCenterPointX - avatarRadius,
+      avatarCenterPointY - avatarRadius,
+      avatarRadius * 2,
+      avatarRadius * 2
+    )
+    ctx.restore()
+    if (headerAvatarBorderWidth) {
+      ctx.save()
+      ctx.beginPath()
+      ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius + headerAvatarBorderWidth / 2, 0, Math.PI * 2)
+      ctx.lineWidth = headerAvatarBorderWidth
+      ctx.strokeStyle = headerAvatarBorderColor
+      ctx.stroke()
+      ctx.restore()
+    }
+    return this
+  }
+
+  async drawAuthor() {
+    const { ctx, author, headerCpu, barWatcher } = this
+    const {
+      showHeaderAuthor,
+      headerAuthorFontSize,
+      headerAuthorFontWeight,
+      authorStartPointX,
+      authorStartPointY,
+      headerAuthorFontColor,
+      headAuthorFontFamilyIndex
+    } = headerCpu.calculateApplyAuthor
+    if (showHeaderAuthor) {
+      // DONE STEP4
+      barWatcher.setTotal(5)
+      barWatcher.update(4, {
+        step: 'Drawing Author'
+      })
+      ctx.beginPath()
+      ctx.fillStyle = headerAuthorFontColor
+      ctx.font = this.setupFont(headerAuthorFontWeight, headerAuthorFontSize, headAuthorFontFamilyIndex)
+      ctx.fillText(author, authorStartPointX, authorStartPointY)
+    }
+    return this
+  }
+
+  async drawTime() {
+    const { ctx, headerCpu, barWatcher, getTimeWithPrefix } = this
+    const {
+      showHeaderTime,
+      headerTimeFontSize,
+      headerTimeFontWeight,
+      headerTimeFontColor,
+      headerTimeFontFamilyIndex,
+      timeStartPointX,
+      timeStartPointY
+    } = headerCpu.calculateApplyTime
+    const {
+      showHeaderTimeIcon,
+      timeIconStartPointX,
+      timeIconStartPointY,
+      timeIconWidth,
+      timeIconHeight,
+      headerTimeIcon
+    } = headerCpu.calculateApplyTimeIcon
+
+    if (showHeaderTime) {
+      ctx.save()
+      // DONE STEP5
+      barWatcher.setTotal(6)
+      barWatcher.update(5, {
+        step: 'Drawing Create Time'
+      })
+      ctx.beginPath()
+      if (showHeaderTimeIcon) {
+        const clock = await loadImage(headerTimeIcon)
+        ctx.drawImage(clock, timeIconStartPointX, timeIconStartPointY, timeIconWidth, timeIconHeight)
+      }
+      ctx.fillStyle = headerTimeFontColor
+      ctx.font = this.setupFont(headerTimeFontWeight, headerTimeFontSize, headerTimeFontFamilyIndex)
+      ctx.fillText(getTimeWithPrefix, timeStartPointX, timeStartPointY)
+      ctx.restore()
+    }
+    return this
+  }
+
+  async drawContent() {
+    const { ctx, x, headerHeight, y, barWatcher, lineGap, color, fontWeight, fontSize, fontFamilyIndex, maxLineWidth } =
+      this
+    // DONE STEP6
+    barWatcher.setTotal(7)
+    barWatcher.update(6, {
+      step: 'Drawing Content'
+    })
+    ctx.beginPath()
+    ctx.fillStyle = color
+    ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
+    let words = this.content.split(' ')
+    let currentLine = 0
+    let idx = 1
+    while (words.length > 0 && idx <= words.length) {
+      const str = words.slice(0, idx).join(' ').replace(/[{}]/g, '')
+      const w = ctx.measureText(str).width
+      if (w > maxLineWidth) {
+        if (idx === 1) {
+          idx = 2
+        }
+        ctx.fillText(
+          words
+            .slice(0, idx - 1)
+            .join(' ')
+            .replace(/[{}]/g, ''),
+          x,
+          headerHeight + y + (fontSize + lineGap) * currentLine
+        )
+        currentLine++
+        words = words.splice(idx - 1)
+        idx = 1
+      } else {
+        idx++
+      }
+    }
+    if (idx > 0) {
+      ctx.fillText(words.join(' ').replace(/[{}]/g, ''), x, headerHeight + y + (fontSize + lineGap) * currentLine)
+    }
+    return this
+  }
+
+  async drawFooter() {
+    const { ctx, footerCpu, barWatcher } = this
+    const {
+      slogan,
+      sloganFontSize,
+      sloganFontColor,
+      sloganFontWeight,
+      sloganFontFamilyIndex,
+      sloganStartPointX,
+      sloganStartPointY
+    } = footerCpu.calculateApplySlogan
+    // DONE STEP7
+    barWatcher.setTotal(8)
+    barWatcher.update(7, {
+      step: 'Drawing Slogan'
+    })
+    ctx.save()
+    ctx.beginPath()
+    ctx.fillStyle = sloganFontColor
+    ctx.font = this.setupFont(sloganFontWeight, sloganFontSize, sloganFontFamilyIndex)
+    ctx.textBaseline = this.textBaseline
+    ctx.textAlign = this.textAlign
+    ctx.fillText(slogan, sloganStartPointX, sloganStartPointY)
+    const { showQrCode, qrCodeSrc, qrCodeStartPointX, qrCodeStartPointY, qrCodeWidth } =
+      this.footerCpu.calculateApplyQrCode
+    if (showQrCode) {
+      const qrCodeImage = await loadImage(qrCodeSrc)
+      ctx.drawImage(qrCodeImage, qrCodeStartPointX, qrCodeStartPointY, qrCodeWidth, qrCodeWidth)
+    }
+    ctx.restore()
+    return this
+  }
+
+  async drawDivider() {
+    const { ctx, header, footer } = this
+    const headerDivider = this.getValidDividerProperty(header, 'header')
+    const footerDivider = this.getValidDividerProperty(footer, 'footer')
+    const {
+      showDivider: showHeaderDivider,
+      strokeStyle: headerDividerStrokeStyle,
+      moveTo: headerDividerMoveTo,
+      lineTo: headerDividerLineTo
+    } = headerDivider
+    const {
+      showDivider: showFooterDivider,
+      strokeStyle: footerDividerStrokeStyle,
+      moveTo: footerDividerMoveTo,
+      lineTo: footerDividerLineTo
+    } = footerDivider
+    if (showHeaderDivider) {
+      ctx.save()
+      ctx.strokeStyle = headerDividerStrokeStyle
+      ctx.lineWidth = 0.5
+      ctx.moveTo(headerDividerMoveTo.x, headerDividerMoveTo.y)
+      ctx.lineTo(headerDividerLineTo.x, headerDividerLineTo.y)
+      ctx.stroke()
+      ctx.restore()
+    }
+    if (showFooterDivider) {
+      ctx.save()
+      ctx.strokeStyle = footerDividerStrokeStyle
+      ctx.moveTo(footerDividerMoveTo.x, footerDividerMoveTo.y)
+      ctx.lineTo(footerDividerLineTo.x, footerDividerLineTo.y)
+      ctx.stroke()
+      ctx.restore()
+    }
+
+    return this
+  }
+
+  async drawBackground() {
+    const { ctx, width, headerHeight, contentHeight } = this
+    ctx.save()
+    const canvasBackgroundImage = await loadImage('/Users/weirui05/Desktop/pexels-bob-clark-21492.jpg')
+    const canvasWidth = width
+    const canvasHeight = headerHeight + contentHeight
+    const { width: canvasBackgroundImageWidth, height: canvasBackgroundImageHeight } = canvasBackgroundImage
+    const scaleX = canvasWidth / canvasBackgroundImageWidth
+    const scaleY = canvasHeight / canvasBackgroundImageHeight
+    const scale = Math.min(scaleX, scaleY)
+
+    const offsetX = (canvasWidth - canvasBackgroundImageWidth * scale) / 2
+    const offsetY = (canvasHeight - canvasBackgroundImageHeight * scale) / 2
+    ctx.drawImage(
+      canvasBackgroundImage,
+      offsetX,
+      offsetY,
+      canvasBackgroundImageWidth * scale,
+      canvasBackgroundImageHeight * scale
+    )
+    ctx.restore()
+    return this
+  }
+
+  async drawUnderline() {
+    const {
+      ctx,
+      x,
+      y,
+      underline,
+      headerHeight,
+      fontWeight,
+      fontSize,
+      fontFamilyIndex,
+      textAlign,
+      textBaseline,
+      lineGap,
+      lineKeywordIdentifier,
+      lineContent
+    } = this
+    let allLineKeywordIdentifier = []
+    // eslint-disable-next-line no-unused-vars
+    for (const [line, keywordIdentifier] of Object.entries(lineKeywordIdentifier)) {
+      allLineKeywordIdentifier = [...allLineKeywordIdentifier, ...keywordIdentifier]
+    }
+    if (allLineKeywordIdentifier.length === 0) return this
+    const underlineCpu = new UnderLineCpu({
+      lineKeywordIdentifier,
+      lineContent,
+      ctx,
+      x,
+      y,
+      canvasUnderlineSetting: underline,
+      headerHeight,
+      fontStyle: this.setupFont(fontWeight, fontSize, fontFamilyIndex),
+      textAlign,
+      textBaseline,
+      fontSize,
+      lineGap
+    })
+    underlineCpu.underlineKeyWord()
+    return this
+  }
+
+  async generatePng() {
+    const { canvas, anyPhotoConfig, generateOutputName, barWatcher } = this
+    const base64img = canvas.toDataURL()
+    const { outputDirPath } = anyPhotoConfig
+    base64Img.img(base64img, outputDirPath, generateOutputName, (error, filepath) => {
+      if (error) {
+        console.log(error.message)
+      } else {
+        barWatcher.update(8, {
+          step: '🎉 Congratulations,Drawing End,Enjoy It' // todo open this in a new tab
+        })
+        barWatcher.stop()
+        console.timeEnd('draw')
+      }
+    })
+  }
+
+  get getMaxLineWidth() {
+    let max = 1
+    let maxLineWidth = this.lineWidthMap.get(1)
+    for (const [line, width] of this.lineWidthMap.entries()) {
+      if (width > maxLineWidth) {
+        // eslint-disable-next-line no-unused-vars
+        max = line
+        maxLineWidth = width
+      }
+    }
+    return Math.ceil(maxLineWidth)
+  }
+
   get calculateAuthorWidth() {
-    const { headerAuthorFontColor, headerAuthorFontSize, headerAuthorFontWeight, headAuthorFontFamilyIndex } =
-      this.header
-    const { author } = this
-    const { ctx } = this
+    const { author, ctx, header } = this
+    const { headerAuthorFontColor, headerAuthorFontSize, headerAuthorFontWeight, headAuthorFontFamilyIndex } = header
     ctx.save()
     ctx.fillStyle = headerAuthorFontColor
     ctx.font = this.setupFont(headerAuthorFontWeight, headerAuthorFontSize, headAuthorFontFamilyIndex)
-    ctx.textBaseline = this.textBaseline
-    ctx.textAlign = this.textAlign
     const authorWidth = ctx.measureText(author).width
     ctx.restore()
     return authorWidth
@@ -158,49 +476,40 @@ class Drawer {
   }
 
   get calculateTimeWithPrefixWidth() {
-    const { headerTimeFontColor, headerTimeFontSize, headerTimeFontWeight, headerTimeFontFamilyIndex } = this.header
-
-    const prefixTimeString = this.getTimeWithPrefix
-    const { ctx } = this
+    const { ctx, getTimeWithPrefix, header } = this
+    const { headerTimeFontColor, headerTimeFontSize, headerTimeFontWeight, headerTimeFontFamilyIndex } = header
+    const prefixTimeString = getTimeWithPrefix
     ctx.save()
     ctx.fillStyle = headerTimeFontColor
     ctx.font = this.setupFont(headerTimeFontWeight, headerTimeFontSize, headerTimeFontFamilyIndex)
-    // TODO 这下面的两行代码能否共用
-    ctx.textBaseline = this.textBaseline
-    ctx.textAlign = this.textAlign
     const timeWithPrefixWidth = ctx.measureText(prefixTimeString).width
     ctx.restore()
     return timeWithPrefixWidth
   }
 
   get calculateSloganWidth() {
-    const { slogan, sloganFontSize, sloganFontColor, sloganFontWeight, sloganFontFamilyIndex } = this.footer
-
-    const { ctx } = this
+    const { ctx, footer } = this
+    const { slogan, sloganFontSize, sloganFontColor, sloganFontWeight, sloganFontFamilyIndex } = footer
     ctx.save()
     ctx.fillStyle = sloganFontColor
     ctx.font = this.setupFont(sloganFontWeight, sloganFontSize, sloganFontFamilyIndex)
-    ctx.textBaseline = this.textBaseline
-    ctx.textAlign = this.textAlign
     const timeWithPrefixWidth = ctx.measureText(slogan).width
     ctx.restore()
     return timeWithPrefixWidth
   }
 
   get calculateContentTotalLine() {
-    const { ctx } = this
+    const { ctx, color, fontWeight, fontSize, fontFamilyIndex, maxLineWidth } = this
     ctx.beginPath()
-    ctx.fillStyle = this.color
-    ctx.font = this.setupFont(this.fontWeight, this.fontSize, this.fontFamilyIndex)
-    ctx.textBaseline = this.textBaseline
-    ctx.textAlign = this.textAlign
+    ctx.fillStyle = color
+    ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
     let words = this.content.split(' ')
     let currentLine = 0
     let idx = 1
     while (words.length > 0 && idx <= words.length) {
       const str = words.slice(0, idx).join(' ').replace(/[{}]/g, '')
       const w = ctx.measureText(str).width
-      if (w > this.maxLineWidth) {
+      if (w > maxLineWidth) {
         if (idx === 1) {
           idx = 2
         }
@@ -218,173 +527,19 @@ class Drawer {
     return currentLine + 1
   }
 
+  get generateOutputName() {
+    const { outputName, defaultOutputNameHandle } = this.anyPhotoConfig
+    if (typeof defaultOutputNameHandle === 'function') {
+      const handledOutputName = defaultOutputNameHandle(outputName)
+      return typeof handledOutputName === 'string' ? handledOutputName : outputName
+    } else {
+      return outputName
+    }
+  }
+
   setupFont(fontWeight, fontSize, familyIndex) {
-    return `${fontWeight} ${fontSize}px ${this.fontFamilys[familyIndex]},${
-      this.fontFamilys[this.fallbackFontFamilyIndex]
-    },sans-serif`
-  }
-
-  async drawContent() {
-    this.barWatcher.setTotal(6)
-    this.barWatcher.update(5, {
-      step: '绘制主体中'
-    })
-    const { ctx } = this
-    ctx.beginPath()
-    ctx.fillStyle = this.color
-    ctx.font = this.setupFont(this.fontWeight, this.fontSize, this.fontFamilyIndex)
-    ctx.textBaseline = this.textBaseline
-    ctx.textAlign = this.textAlign
-    let words = this.content.split(' ')
-    let currentLine = 0
-    let idx = 1
-    while (words.length > 0 && idx <= words.length) {
-      const str = words.slice(0, idx).join(' ').replace(/[{}]/g, '')
-      const w = ctx.measureText(str).width
-      if (w > this.maxLineWidth) {
-        if (idx === 1) {
-          idx = 2
-        }
-        ctx.fillText(
-          words
-            .slice(0, idx - 1)
-            .join(' ')
-            .replace(/[{}]/g, ''),
-          this.x,
-          this.headerHeight + this.y + (this.fontSize + this.lineGap) * currentLine
-        )
-        currentLine++
-        words = words.splice(idx - 1)
-        idx = 1
-      } else {
-        idx++
-      }
-    }
-    if (idx > 0) {
-      ctx.fillText(
-        words.join(' ').replace(/[{}]/g, ''),
-        this.x,
-        this.headerHeight + this.y + (this.fontSize + this.lineGap) * currentLine
-      )
-    }
-    return this
-  }
-
-  async drawAvatar() {
-    this.barWatcher.setTotal(4)
-    this.barWatcher.update(3, {
-      step: '绘制头像中'
-    })
-    const { headerAvatarBorderWidth, headerAvatarBorderColor, avatarRadius, avatarCenterPointX, avatarCenterPointY } =
-      this.headerCpu.calculateApplyAvatar
-    const { ctx, avatar: avatarSrc } = this
-    const avatar = await loadImage(avatarSrc)
-    ctx.save()
-    ctx.beginPath()
-    ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius, 0, Math.PI * 2)
-    ctx.closePath()
-    ctx.clip()
-    ctx.drawImage(
-      avatar,
-      avatarCenterPointX - avatarRadius,
-      avatarCenterPointY - avatarRadius,
-      avatarRadius * 2,
-      avatarRadius * 2
-    )
-    ctx.restore()
-
-    // draw avatar border
-    if (headerAvatarBorderWidth) {
-      ctx.save()
-      ctx.beginPath()
-      ctx.arc(avatarCenterPointX, avatarCenterPointY, avatarRadius + headerAvatarBorderWidth / 2, 0, Math.PI * 2)
-      ctx.lineWidth = headerAvatarBorderWidth
-      ctx.strokeStyle = headerAvatarBorderColor
-      ctx.stroke()
-      ctx.restore()
-    }
-
-    return this
-  }
-
-  async drawTime() {
-    const {
-      showHeaderTime,
-      headerTimeFontSize,
-      headerTimeFontWeight,
-      headerTimeFontColor,
-      headerTimeFontFamilyIndex,
-      timeStartPointX,
-      timeStartPointY
-    } = this.headerCpu.calculateApplyTime
-    const {
-      showHeaderTimeIcon,
-      timeIconStartPointX,
-      timeIconStartPointY,
-      timeIconWidth,
-      timeIconHeight,
-      headerTimeIcon
-    } = this.headerCpu.calculateApplyTimeIcon
-
-    if (showHeaderTime) {
-      const { ctx } = this
-      ctx.save()
-      this.barWatcher.setTotal(6)
-      this.barWatcher.update(5, {
-        step: '绘制创建时间中'
-      })
-      ctx.beginPath()
-      if (showHeaderTimeIcon) {
-        const clock = await loadImage(headerTimeIcon)
-        ctx.drawImage(clock, timeIconStartPointX, timeIconStartPointY, timeIconWidth, timeIconHeight)
-      }
-      ctx.fillStyle = headerTimeFontColor
-      ctx.font = this.setupFont(headerTimeFontWeight, headerTimeFontSize, headerTimeFontFamilyIndex)
-      ctx.textBaseline = this.textBaseline
-      ctx.textAlign = this.textAlign
-      ctx.fillText(this.getTimeWithPrefix, timeStartPointX, timeStartPointY)
-      ctx.restore()
-    }
-    return this
-  }
-
-  async drawAuthor() {
-    const {
-      showHeaderAuthor,
-      headerAuthorFontSize,
-      headerAuthorFontWeight,
-      authorStartPointX,
-      authorStartPointY,
-      headerAuthorFontColor,
-      headAuthorFontFamilyIndex
-    } = this.headerCpu.calculateApplyAuthor
-    if (showHeaderAuthor) {
-      this.barWatcher.setTotal(5)
-      this.barWatcher.update(4, {
-        step: '绘制作者中'
-      })
-      const { ctx, author } = this
-      ctx.beginPath()
-      ctx.fillStyle = headerAuthorFontColor
-      ctx.font = this.setupFont(headerAuthorFontWeight, headerAuthorFontSize, headAuthorFontFamilyIndex)
-      ctx.textBaseline = this.textBaseline
-      ctx.textAlign = this.textAlign
-      ctx.fillText(author, authorStartPointX, authorStartPointY)
-    }
-    return this
-  }
-
-  get getMaxLineWidth() {
-    let max = 1
-    let maxLineWidth = this.lineWidthMap.get(1)
-    for (const [line, width] of this.lineWidthMap.entries()) {
-      if (width > maxLineWidth) {
-        // eslint-disable-next-line no-unused-vars
-        max = line
-        maxLineWidth = width
-      }
-    }
-    return Math.ceil(maxLineWidth)
+    const { fontFamilys, fallbackFontFamilyIndex } = this
+    return `${fontWeight} ${fontSize}px ${fontFamilys[familyIndex]},${fontFamilys[fallbackFontFamilyIndex]},sans-serif`
   }
 
   setLineWidthMap(line, width) {
@@ -415,91 +570,28 @@ class Drawer {
     return calculateHalfWidth > x ? calculateHalfWidth : x
   }
 
-  get generateOutputName() {
-    const { outputName, defaultOutputNameHandle } = this.anyPhotoConfig
-    if (typeof defaultOutputNameHandle === 'function') {
-      const handledOutputName = defaultOutputNameHandle(outputName)
-      return typeof handledOutputName === 'string' ? handledOutputName : outputName
-    } else {
-      return outputName
-    }
-  }
-
-  async generatePng() {
-    const base64img = this.canvas.toDataURL()
-    const { outputDirPath } = this.anyPhotoConfig
-    base64Img.img(base64img, outputDirPath, this.generateOutputName, (error, filepath) => {
-      if (error) {
-        console.log(error.message)
-      } else {
-        this.barWatcher.update(7, {
-          step: '绘制完成'
-        })
-        this.barWatcher.stop()
-        console.timeEnd('draw')
-      }
-    })
-  }
-
-  // todo如何避免重复代码
-  async drawDivider() {
-    const { ctx } = this
-    const headerDivider = this.getValidDividerProperty(this.header, 'header')
-    const footerDivider = this.getValidDividerProperty(this.footer, 'footer')
-    const {
-      showDivider: showHeaderDivider,
-      strokeStyle: headerDividerStrokeStyle,
-      moveTo: headerDividerMoveTo,
-      lineTo: headerDividerLineTo
-    } = headerDivider
-    const {
-      showDivider: showFooterDivider,
-      strokeStyle: footerDividerStrokeStyle,
-      moveTo: footerDividerMoveTo,
-      lineTo: footerDividerLineTo
-    } = footerDivider
-    if (showHeaderDivider) {
-      ctx.save()
-      ctx.strokeStyle = headerDividerStrokeStyle
-      ctx.moveTo(headerDividerMoveTo.x, headerDividerMoveTo.y)
-      ctx.lineTo(headerDividerLineTo.x, headerDividerLineTo.y)
-      ctx.stroke()
-      ctx.restore()
-    }
-    if (showFooterDivider) {
-      ctx.save()
-      ctx.strokeStyle = footerDividerStrokeStyle
-      ctx.moveTo(footerDividerMoveTo.x, footerDividerMoveTo.y)
-      ctx.lineTo(footerDividerLineTo.x, footerDividerLineTo.y)
-      ctx.stroke()
-      ctx.restore()
-    }
-
-    return this
-  }
-
   getValidDividerProperty(positionProvider, position) {
-    const { x, color: contentColor, width } = this
+    const { x, color: contentColor, width, headerHeight, contentHeight } = this
     const applyDividerProperty = {
       header: {
         contentWidth: {
           moveTo: {
             x,
-            y: this.headerHeight
+            y: headerHeight
           },
           lineTo: {
             x: width - x,
-            y: this.headerHeight
+            y: headerHeight
           }
         },
         fullWidth: {
           moveTo: {
             x: 0,
-            y: this.headerHeight
+            y: headerHeight
           },
           lineTo: {
             x: width,
-            y: this.headerHeight
+            y: headerHeight
           }
         }
       },
@@ -507,26 +599,25 @@ class Drawer {
         contentWidth: {
           moveTo: {
             x,
-            y: this.headerHeight + this.contentHeight
+            y: headerHeight + contentHeight
           },
           lineTo: {
             x: width - x,
-            y: this.headerHeight + this.contentHeight
+            y: headerHeight + contentHeight
           }
         },
         fullWidth: {
           moveTo: {
             x: 0,
-            y: this.headerHeight + this.contentHeight
+            y: headerHeight + contentHeight
           },
           lineTo: {
             x: width,
-            y: this.headerHeight + this.contentHeight
+            y: headerHeight + contentHeight
           }
         }
       }
     }
-    // todo消除魔法字符串，判断颜色合格
     const positionDivider = { showDivider: false }
     const { divider } = positionProvider
     const contentWidth = 'contentWidth'
@@ -551,88 +642,6 @@ class Drawer {
     } else {
       return positionDivider
     }
-  }
-
-  async drawBackground() {
-    const { ctx, width } = this
-    ctx.save()
-    const canvasBackgroundImage = await loadImage('/Users/weirui05/Desktop/pexels-bob-clark-21492.jpg')
-    const canvasWidth = width
-    const canvasHeight = this.headerHeight + this.contentHeight
-    const { width: canvasBackgroundImageWidth, height: canvasBackgroundImageHeight } = canvasBackgroundImage
-    const scaleX = canvasWidth / canvasBackgroundImageWidth
-    const scaleY = canvasHeight / canvasBackgroundImageHeight
-    const scale = Math.min(scaleX, scaleY)
-
-    const offsetX = (canvasWidth - canvasBackgroundImageWidth * scale) / 2
-    const offsetY = (canvasHeight - canvasBackgroundImageHeight * scale) / 2
-    ctx.drawImage(
-      canvasBackgroundImage,
-      offsetX,
-      offsetY,
-      canvasBackgroundImageWidth * scale,
-      canvasBackgroundImageHeight * scale
-    )
-    ctx.restore()
-    return this
-  }
-
-  async drawFooter() {
-    const {
-      slogan,
-      sloganFontSize,
-      sloganFontColor,
-      sloganFontWeight,
-      sloganFontFamilyIndex,
-      sloganStartPointX,
-      sloganStartPointY
-    } = this.footerCpu.calculateApplySlogan
-    this.barWatcher.setTotal(7)
-    this.barWatcher.update(6, {
-      step: '绘制口号中'
-    })
-    const { ctx } = this
-    ctx.save()
-    ctx.beginPath()
-    ctx.fillStyle = sloganFontColor
-    ctx.font = this.setupFont(sloganFontWeight, sloganFontSize, sloganFontFamilyIndex)
-    ctx.textBaseline = this.textBaseline
-    ctx.textAlign = this.textAlign
-    ctx.fillText(slogan, sloganStartPointX, sloganStartPointY)
-    const { showQrCode, qrCodeSrc, qrCodeStartPointX, qrCodeStartPointY, qrCodeWidth } =
-      this.footerCpu.calculateApplyQrCode
-    if (showQrCode) {
-      const qrCodeImage = await loadImage(qrCodeSrc)
-      ctx.drawImage(qrCodeImage, qrCodeStartPointX, qrCodeStartPointY, qrCodeWidth, qrCodeWidth)
-    }
-    ctx.restore()
-    return this
-  }
-
-  async drawUnderline() {
-    const { lineKeywordIdentifier, lineContent } = this
-    let allLineKeywordIdentifier = []
-    // eslint-disable-next-line no-unused-vars
-    for (const [line, keywordIdentifier] of Object.entries(lineKeywordIdentifier)) {
-      allLineKeywordIdentifier = [...allLineKeywordIdentifier, ...keywordIdentifier]
-    }
-    if (allLineKeywordIdentifier.length === 0) return this
-    const underlineCpu = new UnderLineCpu({
-      lineKeywordIdentifier,
-      lineContent,
-      ctx: this.ctx,
-      x: this.x,
-      y: this.y,
-      underlineConfig: this.underline,
-      headerHeight: this.headerHeight,
-      fontStyle: this.setupFont(this.fontWeight, this.fontSize, this.fontFamilyIndex),
-      textAlign: this.textAlign,
-      textBaseline: this.textBaseline,
-      fontSize: this.fontSize,
-      lineGap: this.lineGap
-    })
-    underlineCpu.underlineKeyWord()
-    return this
   }
 }
 
