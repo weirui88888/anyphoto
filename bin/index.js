@@ -22,7 +22,7 @@ program
 program
   .command('generate')
   .description('Generate photo by inspiration')
-  .argument('<content>', 'Any content you like')
+  .argument('[content]', 'Any content you like')
   .option('--avatar <url>', 'The avatar of the photo')
   .option('--author <name>', 'The author name of the photo')
   .option('--outputDirPath <output dirPath>', 'The place where the photo be generated')
@@ -51,10 +51,12 @@ program
       'For a {moment} the last sunshine {fell with romantic affection upon} her glowing face her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving a pleasant street at dusk.'
     const testContentallword =
       '{For} {a} {moment} {the} {last} {sunshine} {fell} {with} {romantic} {affection} {upon} {her} {glowing} {face} {her} {voice} {compelled} {me} {forward} {breathlessly} {as} {I} {listened—then} {the} {glow} {faded}, {each} {light} {deserting} {her} {with} {lingering} {regret} {like} {children} {leaving} {a} {pleasant} {street} {at} {dusk}.'
-    const long =
-      'On a bright and sunny morning, a gentle breeze caressed the garden by the lakeside as a stunning woman strolled gracefully. Her figure was tall and elegant, commanding attention with every step she took. Her radiant smile illuminated the surroundings, captivating the hearts of those who were fortunate enough to catch a glimpse of her. Her lustrous, flowing hair cascaded down her shoulders like a waterfall of dark chocolate, effortlessly framing her exquisite face. Her eyes, like pools of shimmering sapphires, held a depth that seemed to reveal an entire universe of emotions. They sparkled with intelligence and curiosity, drawing others into her magnetic gaze.Her delicate features were akin to a masterpiece crafted by the most skilled of artisans. Her perfectly sculpted cheekbones accentuated her soft, flawless complexion, akin to the petals of a freshly bloomed rose. Her lips, adorned with a shade of natural pink, curved into a gentle smile that could melt the coldest of hearts.As she moved with grace and poise, her attire mirrored her inner radiance. She wore a flowing dress that embraced her curves, its fabric dancing in harmony with the wind. The vibrant hues of the dress mirrored the kaleidoscope of colors found in a summer garden, enhancing her natural beauty.But it wasn just her physical appearance that made her captivating. Her inner beauty shone through her every action. With each interaction, her kindness and warmth enveloped those around her, making them feel cherished and valued. Her words flowed like poetry, carrying a wisdom that belied her youthful visage.'
+
+    const longString1234 =
+      '   On a bright and sunny morning, {a gentle breeze caressed the garden} by the lakeside as a stunning {woman} strolled gracefully.                                                                                 Her figure was tall and elegant, {commanding} attention with every step she {took}. Her radiant smile {illuminated} the surroundings, captivating the hearts of those who were fortunate enough to catch a glimpse of her.                                                                      Her lustrous, flowing hair cascaded down {her shoulders like a waterfall of dark chocolate}, effortlessly framing her exquisite face. Her eyes, like pools of shimmering sapphires, held a depth that seemed to reveal an entire universe of emotions. They sparkled with intelligence and curiosity, drawing others into her magnetic gaze.'
+
     generate({
-      content: `${long}`,
+      content,
       options
     })
   })

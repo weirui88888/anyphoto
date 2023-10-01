@@ -1,73 +1,74 @@
-const { fontColor, backgroundColor } = require('./src/color')
 const anyPhotoConfig = {
+  defaultContent: 'Generate personalized photos easily! Create your own unique style in just a few steps. Add avatar, date, author and QR code to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and let your photos tell a story!  #frontenddevelopment #personalizedphoto #creativetools',
   defaultOutputDirPath: 'anyphoto',
   defaultOutputName: 'anyphoto',
-  defaultOutputNameHandle(defaultOutputName) {
-    return defaultOutputName
-  },
+  defaultOutputNameHandle(defaultOutputName) {},
   defaultAvatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',
   defaultAuthor: 'AnyPhoto',
   canvasSetting: {
-    width: 1000,
-    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
+    width: 750,
+    fontFamilys: [
+      'Arial',
+      'Times New Roman',
+      'Verdana',
+      'Tahoma',
+      'Courier New',
+      'Helvetica',
+      'Custom'
+    ],
     customFontFamilyPath: '/Users/weirui05/Desktop/Caveat-VariableFont_wght.ttf',
     fallbackFontFamilyIndex: 4,
-    backgroundColor,
-    color: fontColor,
+    backgroundColor: '#006666',
+    color: '#FFCC66',
     fontWeight: 'bold',
     textBaseline: 'top',
     textAlign: 'start',
     fontSize: 30,
     lineGap: 15,
     fontFamilyIndex: 6,
-    x: 40,
+    x: 20,
     y: 20,
     header: {
-      headerAlign: 'left',
+      headerAlign: 'center',
       headerPaddingTop: 30,
       headerPaddingBottom: 30,
       headerAvatarSize: 80,
       headerAvatarBorderWidth: 4,
-      headerAvatarBorderColor: '#ffffff',
+      headerAvatarBorderColor: '#FFCC00',
       headerAvatarMarginBottom: 20,
       showHeaderAuthor: true,
       headerAuthorFontSize: 30,
-      headerAuthorFontColor: fontColor,
+      headerAuthorFontColor: '#FFCC66',
       headerAuthorFontWeight: 'bold',
       headAuthorFontFamilyIndex: 6,
-      headerAuthorMarginBottom: 20,
+      headerAuthorMarginBottom: 5,
       showHeaderTime: true,
-      headerTimeFontSize: 26,
-      headerTimeFontColor: fontColor,
-      headerTimeFontWeight: 'bold',
+      headerTimeFontSize: 20,
+      headerTimeFontColor: '#FFCC66',
+      headerTimeFontWeight: 'medium',
       headerTimeFontFamilyIndex: 6,
-      headerTimeFormat: 'YYYY/MM/DD',
-      headerTimePrefix: 'milestone on',
-      headerTimeIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f352.png',
-      headerTimeIconGap: 6,
-      headerTimeIconOffsetY: 2
-      // divider: {
-      //   size: 'contentWidth',
-      //   color: '#fff'
-      // }
+      headerTimeFormat: 'YYYY/MM/DD HH:mm:ss',
+      headerTimePrefix: 'Nice to meet you at',
+      headerTimeIcon: '',
+      headerTimeIconGap: 12,
+      headerTimeIconOffsetY: 0
     },
     footer: {
       paddingY: 60,
-      slogan: 'xdz‘baba',
+      slogan: 'Let your photos tell a story',
       sloganPosition: 'left',
-      sloganFontSize: 25,
-      sloganFontColor: fontColor,
+      sloganFontSize: 16,
+      sloganFontColor: '#FFCC66',
       sloganFontWeight: 'bold',
       sloganFontFamilyIndex: 6,
-      qrCodeSrc:
-        'https://p3-pc.douyinpic.com/img/aweme-avatar/tos-cn-avt-0015_9fa4843931320d05782a97604552033c~c5_300x300.jpeg?from=2956013662',
-      qrCodePaddingY: 20
+      qrCodeSrc: '',
+      qrCodePaddingY: 10
     },
     from: {
       showFrom: false,
-      name: '/react and vue',
+      name: '/ Anyphoto',
       fromFontSize: 16,
-      fromFontColor: fontColor,
+      fromFontColor: '#FFCC66',
       fromFontWeight: 'bold',
       fromFontFamilyIndex: 6,
       fromMarginTop: 30
@@ -75,9 +76,9 @@ const anyPhotoConfig = {
     underline: {
       shape: 'wave',
       color: '#fff',
-      lineWidth: 1,
-      amplitude: 1, // 振幅，这个数字越大，振幅越大
-      wavelength: 120, // 波长，这个数字越大，波长越小
+      lineWidth: 2,
+      amplitude: 2,
+      wavelength: 180,
       offsetY: 10
     }
   }

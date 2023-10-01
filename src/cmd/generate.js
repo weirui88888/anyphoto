@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const {
+  defaultContent,
   defaultAuthor,
   defaultAvatar,
   defaultOutputDirPath,
@@ -84,7 +85,8 @@ const generate = ({ content, options }) => {
   const anyPhotoConfig = getAnyPhotoConfig({
     options
   })
-  draw({ content, anyPhotoConfig })
+  const handleContent = content || getUserAnyPhotoConfigByKey({ defaultKey: 'defaultContent' }) || defaultContent
+  draw({ content: handleContent, anyPhotoConfig })
 }
 
 module.exports = generate

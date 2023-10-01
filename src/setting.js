@@ -1,7 +1,7 @@
 const defaultCanvasSetting = {
   width: 750,
   fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
-  customFontFamilyPath: '/Users/weirui05/Desktop/Pacifico-Regular.ttf',
+  customFontFamilyPath: '/Users/weirui05/Desktop/Caveat-VariableFont_wght.ttf',
   fallbackFontFamilyIndex: 4,
   backgroundColor: '#006666',
   color: '#FFCC66',
@@ -39,7 +39,7 @@ const defaultCanvasSetting = {
     headerTimeFontWeight: 'medium',
     headerTimeFontFamilyIndex: 6,
     headerTimeFormat: 'YYYY/MM/DD HH:mm:ss',
-    headerTimePrefix: 'milestone on',
+    headerTimePrefix: 'Nice to meet you at',
     headerTimeIcon: '',
     headerTimeIconGap: 12,
     headerTimeIconOffsetY: 0
@@ -54,7 +54,7 @@ const defaultCanvasSetting = {
     //   color: '#FFCC66'
     // },
     paddingY: 60,
-    slogan: 'wechat reading',
+    slogan: 'Let your photos tell a story',
     sloganPosition: 'left', // left || right
     sloganFontSize: 16,
     sloganFontColor: '#FFCC66',
@@ -65,7 +65,7 @@ const defaultCanvasSetting = {
   },
   from: {
     showFrom: false,
-    name: '/react and vue',
+    name: '/ Anyphoto',
     fromFontSize: 16,
     fromFontColor: '#FFCC66',
     fromFontWeight: 'bold',
