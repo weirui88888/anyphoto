@@ -1,21 +1,14 @@
 const anyPhotoConfig = {
-  defaultContent: 'Generate personalized photos easily! Create your own unique style in just a few steps. Add avatar, date, author and QR code to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and let your photos tell a story!  #frontenddevelopment #personalizedphoto #creativetools',
+  defaultContent:
+    'Generate personalized photos easily! Create your own unique style in just a few steps. Add avatar, date, author and QR code to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and let your photos tell a story!  #frontenddevelopment #personalizedphoto #creativetools',
   defaultOutputDirPath: 'anyphoto',
   defaultOutputName: 'anyphoto',
   defaultOutputNameHandle(defaultOutputName) {},
-  defaultAvatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',
+  defaultAvatar: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f308.png',
   defaultAuthor: 'AnyPhoto',
   canvasSetting: {
     width: 750,
-    fontFamilys: [
-      'Arial',
-      'Times New Roman',
-      'Verdana',
-      'Tahoma',
-      'Courier New',
-      'Helvetica',
-      'Custom'
-    ],
+    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
     customFontFamilyPath: '/Users/weirui05/Desktop/Caveat-VariableFont_wght.ttf',
     fallbackFontFamilyIndex: 4,
     backgroundColor: '#006666',

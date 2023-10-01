@@ -1,4 +1,5 @@
 const { createCanvas, registerFont, loadImage } = require('canvas')
+const { exec } = require('child_process')
 const { barWatcher, formatDateTime } = require('./util')
 const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
@@ -440,6 +441,8 @@ class Drawer {
           step: '🎉 Congratulations,Drawing End,Enjoy It' // todo open this in a new tab
         })
         barWatcher.stop()
+        // 使用命令行指令打开VSCode窗口
+        exec(`code ${filepath}`)
         console.timeEnd('draw')
       }
     })
