@@ -49,15 +49,15 @@ const anyPhotoConfig = {
       headerTimeFontFamilyIndex: 6,
       headerTimeFormat: 'YYYY/MM/DD HH:mm:ss',
       headerTimePrefix: 'Nice to meet you at',
-      headerTimeIcon: '',
-      headerTimeIconGap: 12,
-      headerTimeIconOffsetY: 0
+      headerTimeIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f308.png',
+      headerTimeIconGap: 6,
+      headerTimeIconOffsetY: 4
     },
     footer: {
       paddingY: 60,
-      slogan: 'Let your photos tell a story',
-      sloganPosition: 'left',
-      sloganFontSize: 16,
+      slogan: 'By AnyPhoto',
+      sloganPosition: 'right',
+      sloganFontSize: 20,
       sloganFontColor: '#FFCC66',
       sloganFontWeight: 'bold',
       sloganFontFamilyIndex: 6,
@@ -65,9 +65,9 @@ const anyPhotoConfig = {
       qrCodePaddingY: 10
     },
     from: {
-      showFrom: false,
-      name: '/ Anyphoto',
-      fromFontSize: 16,
+      showFrom: true,
+      name: '/ Let your photos tell a story',
+      fromFontSize: 20,
       fromFontColor: '#FFCC66',
       fromFontWeight: 'bold',
       fromFontFamilyIndex: 6,

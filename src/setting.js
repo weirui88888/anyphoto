@@ -40,9 +40,9 @@ const defaultCanvasSetting = {
     headerTimeFontFamilyIndex: 6,
     headerTimeFormat: 'YYYY/MM/DD HH:mm:ss',
     headerTimePrefix: 'Nice to meet you at',
-    headerTimeIcon: '',
-    headerTimeIconGap: 12,
-    headerTimeIconOffsetY: 0
+    headerTimeIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f308.png',
+    headerTimeIconGap: 6,
+    headerTimeIconOffsetY: 4
     // divider: {
     //   size: 'contentWidth',
     //   color: '#FFCC66'
@@ -54,9 +54,9 @@ const defaultCanvasSetting = {
     //   color: '#FFCC66'
     // },
     paddingY: 60,
-    slogan: 'Let your photos tell a story',
-    sloganPosition: 'left', // left || right
-    sloganFontSize: 16,
+    slogan: 'By AnyPhoto',
+    sloganPosition: 'right', // left || right
+    sloganFontSize: 20,
     sloganFontColor: '#FFCC66',
     sloganFontWeight: 'bold',
     sloganFontFamilyIndex: 6,
@@ -64,9 +64,9 @@ const defaultCanvasSetting = {
     qrCodePaddingY: 10
   },
   from: {
-    showFrom: false,
-    name: '/ Anyphoto',
-    fromFontSize: 16,
+    showFrom: true,
+    name: '/ Let your photos tell a story',
+    fromFontSize: 20,
     fromFontColor: '#FFCC66',
     fromFontWeight: 'bold',
     fromFontFamilyIndex: 6,
