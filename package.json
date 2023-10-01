@@ -10,7 +10,8 @@
   "scripts": {
     "postinstall": "husky install",
     "lint": "eslint . --fix",
-    "commit": "cz"
+    "commit": "cz",
+    "gen": "node ./bin/index.js generate"
   },
   "keywords": [],
   "author": "",
