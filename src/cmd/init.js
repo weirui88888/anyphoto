@@ -1,11 +1,11 @@
 const path = require('path')
 const fs = require('fs')
 const themes = require('../themes')
-const { defaultConfigName, initConfig } = require('../config')
+const { defaultConfigName, initConfig, defaultTheme } = require('../config')
 const { generateOra, sleep, color } = require('../util')
 const init = async ({ configDirname, theme }) => {
   const configPath = path.join(configDirname, defaultConfigName)
-  const userTheme = themes[theme] ? theme : 'theme1'
+  const userTheme = themes[theme] ? theme : defaultTheme
   const initOra = generateOra({
     spinner: 'dots',
     text: 'anyphoto configuration file is being generated...'
@@ -14,7 +14,14 @@ const init = async ({ configDirname, theme }) => {
   await sleep(1)
   if (fs.existsSync(configPath)) {
     return initOra.succeed(
-      `${color('configPath', 'green')} file has been created! \nnow you can ${color('edit', 'blue')} it in ${color(
+      `${color(
+        'configPath',
+        'green'
+      )} file has been created already! (If you want to generate other theme configuration files, please ${color(
+        'delete',
+        'red',
+        'italic'
+      )} the old one first) \nnow you can ${color('edit', 'blue')} it in ${color(
         configPath,
         'green',
         'underline'

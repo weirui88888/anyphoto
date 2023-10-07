@@ -5,6 +5,7 @@ const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
 const UnderLineCpu = require('./underlineCpu')
 const base64Img = require('base64-img')
+const { defaultLanguage } = require('./config')
 
 class Drawer {
   constructor({ content, anyPhotoConfig }) {
@@ -34,6 +35,8 @@ class Drawer {
       })
     }
     this.anyPhotoConfig = anyPhotoConfig
+    // language
+    this.language = this.anyPhotoConfig.language
     this.fallbackFontFamilyIndex = fallbackFontFamilyIndex
     this.width = width
     this.fontWeight = fontWeight
@@ -59,8 +62,6 @@ class Drawer {
     this.compareHeight = 0
     const maxLineWidth = this.getMaxLineWidth
     this.x = this.lineWidthMap.size > 1 ? this.setSuitableXWidth(maxLineWidth, this.width, x) : x
-    // language
-    this.language = this.anyPhotoConfig.language
     // header
     this.header = header
     this.author = this.anyPhotoConfig.author
@@ -288,7 +289,7 @@ class Drawer {
     ctx.beginPath()
     ctx.fillStyle = color
     ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
-    const separator = language === 'en' ? ' ' : ''
+    const separator = language === defaultLanguage ? ' ' : ''
     let words = this.content.split(separator)
     let currentLine = 0
     let idx = 1
@@ -372,7 +373,7 @@ class Drawer {
     if (showHeaderDivider) {
       ctx.save()
       ctx.strokeStyle = headerDividerStrokeStyle
-      ctx.lineWidth = 0.5
+      ctx.lineWidth = 1
       ctx.moveTo(headerDividerMoveTo.x, headerDividerMoveTo.y)
       ctx.lineTo(headerDividerLineTo.x, headerDividerLineTo.y)
       ctx.stroke()
@@ -535,7 +536,7 @@ class Drawer {
     ctx.beginPath()
     ctx.fillStyle = color
     ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
-    const separator = language === 'en' ? ' ' : ''
+    const separator = language === defaultLanguage ? ' ' : ''
     let words = this.content.split(separator)
     let currentLine = 0
     let idx = 1

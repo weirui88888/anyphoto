@@ -1,15 +1,23 @@
 const anyPhotoConfig = {
-  defaultContent:
-    'Generate personalized photos easily! Create your own unique style in just a few steps. Add avatar, date, author and QR code to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and let your photos tell a story!  #frontenddevelopment #personalizedphoto #creativetools',
+  defaultLanguage: 'en',
+  defaultContent: 'Generate personalized photos {easily}! Create your own unique style in just a few steps. Add {avatar}, {description}, {date}, {author} and {QR code} to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and {let your photos tell a story}!  #frontenddevelopment #personalizedphoto #creativetools',
   defaultOutputDirPath: 'anyphoto',
   defaultOutputName: 'anyphoto',
   defaultOutputNameHandle(defaultOutputName) {},
-  defaultAvatar: '/Users/weirui05/Desktop/WechatIMG396.jpg',
+  defaultAvatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',
   defaultAuthor: 'AnyPhoto',
   canvasSetting: {
-    width: 1250,
-    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
-    customFontFamilyPath: '/Users/weirui05/Desktop/LXGWWenKai-Regular.ttf',
+    width: 750,
+    fontFamilys: [
+      'Arial',
+      'Times New Roman',
+      'Verdana',
+      'Tahoma',
+      'Courier New',
+      'Helvetica',
+      'Custom'
+    ],
+    customFontFamilyPath: '/Users/weirui05/Desktop/Caveat-VariableFont_wght.ttf',
     fallbackFontFamilyIndex: 4,
     backgroundColor: '#006666',
     color: '#FFCC66',
@@ -17,9 +25,9 @@ const anyPhotoConfig = {
     textBaseline: 'top',
     textAlign: 'start',
     fontSize: 30,
-    lineGap: 20,
+    lineGap: 15,
     fontFamilyIndex: 6,
-    x: 40,
+    x: 20,
     y: 20,
     header: {
       headerAlign: 'center',
@@ -34,15 +42,15 @@ const anyPhotoConfig = {
       headerAuthorFontColor: '#FFCC66',
       headerAuthorFontWeight: 'bold',
       headAuthorFontFamilyIndex: 6,
-      headerAuthorMarginBottom: 20,
+      headerAuthorMarginBottom: 5,
       showHeaderDescription: true,
       headerDescriptionFontSize: 20,
       headerDescriptionFontColor: '#FFCC66',
       headerDescriptionFontWeight: 'medium',
       headerDescriptionFontFamilyIndex: 6,
-      showHeaderDescriptionTime: false,
+      showHeaderDescriptionTime: true,
       headerDescriptionTimeFormat: 'YYYY/MM/DD HH:mm:ss',
-      headerDescriptionPrefix: '五岳归来不看山，黄山归来不看岳',
+      headerDescriptionPrefix: 'Nice to meet you at',
       headerDescriptionPrefixIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f308.png',
       headerDescriptionPrefixIconGap: 6,
       headerDescriptionPrefixIconOffsetY: 4
@@ -60,18 +68,17 @@ const anyPhotoConfig = {
     },
     from: {
       showFrom: true,
-      // name: '/ Let your photos tell a story',
-      name: '/ 用图片说出你的故事',
+      name: '/ Let your photos tell a story',
       fromFontSize: 20,
       fromFontColor: '#FFCC66',
       fromFontWeight: 'bold',
       fromFontFamilyIndex: 6,
-      fromMarginTop: 60
+      fromMarginTop: 30
     },
     underline: {
       shape: 'wave',
       color: '#fff',
-      lineWidth: 1,
+      lineWidth: 2,
       amplitude: 2,
       wavelength: 180,
       offsetY: 10
