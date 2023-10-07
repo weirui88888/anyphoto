@@ -65,7 +65,7 @@ const anyPhotoConfig = {
       fromFontColor: '#FFCC66',
       fromFontWeight: 'bold',
       fromFontFamilyIndex: 6,
-      fromMarginTop: 30
+      fromMarginTop: 60
     },
     underline: {
       shape: 'wave',
