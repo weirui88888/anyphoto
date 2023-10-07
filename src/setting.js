@@ -32,17 +32,18 @@ const defaultCanvasSetting = {
     headAuthorFontFamilyIndex: 6,
     headerAuthorMarginBottom: 5,
 
-    // createTime
-    showHeaderTime: true,
-    headerTimeFontSize: 20,
-    headerTimeFontColor: '#FFCC66',
-    headerTimeFontWeight: 'medium',
-    headerTimeFontFamilyIndex: 6,
-    headerTimeFormat: 'YYYY/MM/DD HH:mm:ss',
-    headerTimePrefix: 'Nice to meet you at',
-    headerTimeIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f308.png',
-    headerTimeIconGap: 6,
-    headerTimeIconOffsetY: 4
+    // description
+    showHeaderDescription: true,
+    headerDescriptionFontSize: 20,
+    headerDescriptionFontColor: '#FFCC66',
+    headerDescriptionFontWeight: 'medium',
+    headerDescriptionFontFamilyIndex: 6,
+    showHeaderDescriptionTime: true,
+    headerDescriptionTimeFormat: 'YYYY/MM/DD HH:mm:ss',
+    headerDescriptionPrefix: 'Nice to meet you at',
+    headerDescriptionPrefixIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f308.png',
+    headerDescriptionPrefixIconGap: 6,
+    headerDescriptionPrefixIconOffsetY: 4
     // divider: {
     //   size: 'contentWidth',
     //   color: '#FFCC66'

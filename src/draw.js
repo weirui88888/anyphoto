@@ -88,7 +88,7 @@ class Drawer {
       footer,
       width,
       calculateAuthorWidth,
-      calculateTimeWithPrefixWidth,
+      getDescriptionWidth,
       calculateSloganWidth
     } = this
     const { showFrom, fromFontSize, fromMarginTop } = from
@@ -105,7 +105,7 @@ class Drawer {
       canvasHeaderSetting: header,
       canvasWidth: width,
       authorWidth: calculateAuthorWidth,
-      timeWidthPrefixWidth: calculateTimeWithPrefixWidth
+      descriptionWidth: getDescriptionWidth
     })
     this.headerHeight = this.headerCpu.getHeaderHeight
     this.height = this.headerHeight + this.contentHeight
@@ -215,41 +215,51 @@ class Drawer {
     return this
   }
 
-  async drawTime() {
-    const { ctx, headerCpu, barWatcher, getTimeWithPrefix } = this
+  async drawDescription() {
+    const { ctx, headerCpu, barWatcher, getDescription } = this
     const {
-      showHeaderTime,
-      headerTimeFontSize,
-      headerTimeFontWeight,
-      headerTimeFontColor,
-      headerTimeFontFamilyIndex,
-      timeStartPointX,
-      timeStartPointY
-    } = headerCpu.calculateApplyTime
+      showHeaderDescription,
+      headerDescriptionFontSize,
+      headerDescriptionFontWeight,
+      headerDescriptionFontColor,
+      headerDescriptionFontFamilyIndex,
+      descriptionStartPointX,
+      descriptionStartPointY
+    } = headerCpu.calculateApplyDescription
     const {
-      showHeaderTimeIcon,
-      timeIconStartPointX,
-      timeIconStartPointY,
-      timeIconWidth,
-      timeIconHeight,
-      headerTimeIcon
-    } = headerCpu.calculateApplyTimeIcon
+      showDescriptionIcon,
+      descriptionIconStartPointX,
+      descriptionIconStartPointY,
+      descriptionIconWidth,
+      descriptionIconHeight,
+      headerDescriptionPrefixIcon
+    } = headerCpu.calculateApplyDescriptionIcon
 
-    if (showHeaderTime) {
+    if (showHeaderDescription) {
       ctx.save()
       // DONE STEP5
       barWatcher.setTotal(6)
       barWatcher.update(5, {
-        step: 'Drawing Create Time'
+        step: 'Drawing Description'
       })
       ctx.beginPath()
-      if (showHeaderTimeIcon) {
-        const clock = await loadImage(headerTimeIcon)
-        ctx.drawImage(clock, timeIconStartPointX, timeIconStartPointY, timeIconWidth, timeIconHeight)
+      if (showDescriptionIcon) {
+        const clock = await loadImage(headerDescriptionPrefixIcon)
+        ctx.drawImage(
+          clock,
+          descriptionIconStartPointX,
+          descriptionIconStartPointY,
+          descriptionIconWidth,
+          descriptionIconHeight
+        )
       }
-      ctx.fillStyle = headerTimeFontColor
-      ctx.font = this.setupFont(headerTimeFontWeight, headerTimeFontSize, headerTimeFontFamilyIndex)
-      ctx.fillText(getTimeWithPrefix, timeStartPointX, timeStartPointY)
+      ctx.fillStyle = headerDescriptionFontColor
+      ctx.font = this.setupFont(
+        headerDescriptionFontWeight,
+        headerDescriptionFontSize,
+        headerDescriptionFontFamilyIndex
+      )
+      ctx.fillText(getDescription, descriptionStartPointX, descriptionStartPointY)
       ctx.restore()
     }
     return this
@@ -486,22 +496,27 @@ class Drawer {
     return authorWidth
   }
 
-  get getTimeWithPrefix() {
-    const { headerTimeFormat, headerTimePrefix } = this.header
-    const formatDateString = formatDateTime(new Date(), headerTimeFormat)
-    return `${headerTimePrefix} ${formatDateString}`
+  get getDescription() {
+    const { showHeaderDescriptionTime, headerDescriptionTimeFormat, headerDescriptionPrefix } = this.header
+    const formatDateString = formatDateTime(new Date(), headerDescriptionTimeFormat)
+    return showHeaderDescriptionTime ? `${headerDescriptionPrefix} ${formatDateString}` : `${headerDescriptionPrefix}`
   }
 
-  get calculateTimeWithPrefixWidth() {
-    const { ctx, getTimeWithPrefix, header } = this
-    const { headerTimeFontColor, headerTimeFontSize, headerTimeFontWeight, headerTimeFontFamilyIndex } = header
-    const prefixTimeString = getTimeWithPrefix
+  get getDescriptionWidth() {
+    const { ctx, getDescription, header } = this
+    const {
+      headerDescriptionFontColor,
+      headerDescriptionFontSize,
+      headerDescriptionFontWeight,
+      headerDescriptionFontFamilyIndex
+    } = header
+    const description = getDescription
     ctx.save()
-    ctx.fillStyle = headerTimeFontColor
-    ctx.font = this.setupFont(headerTimeFontWeight, headerTimeFontSize, headerTimeFontFamilyIndex)
-    const timeWithPrefixWidth = ctx.measureText(prefixTimeString).width
+    ctx.fillStyle = headerDescriptionFontColor
+    ctx.font = this.setupFont(headerDescriptionFontWeight, headerDescriptionFontSize, headerDescriptionFontFamilyIndex)
+    const descriptionWidth = ctx.measureText(description).width
     ctx.restore()
-    return timeWithPrefixWidth
+    return descriptionWidth
   }
 
   get calculateSloganWidth() {
@@ -510,9 +525,9 @@ class Drawer {
     ctx.save()
     ctx.fillStyle = sloganFontColor
     ctx.font = this.setupFont(sloganFontWeight, sloganFontSize, sloganFontFamilyIndex)
-    const timeWithPrefixWidth = ctx.measureText(slogan).width
+    const sloganWidth = ctx.measureText(slogan).width
     ctx.restore()
-    return timeWithPrefixWidth
+    return sloganWidth
   }
 
   get calculateContentTotalLine() {
@@ -672,7 +687,7 @@ const draw = ({ content, anyPhotoConfig }) => {
     // .then(drawer => drawer.drawBackground())
     .then(drawer => drawer.drawAvatar())
     .then(drawer => drawer.drawAuthor())
-    .then(drawer => drawer.drawTime())
+    .then(drawer => drawer.drawDescription())
     .then(drawer => drawer.drawContent())
     .then(drawer => drawer.drawUnderline())
     .then(drawer => drawer.drawFrom())
