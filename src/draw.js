@@ -256,8 +256,20 @@ class Drawer {
   }
 
   async drawContent() {
-    const { ctx, x, headerHeight, y, barWatcher, lineGap, color, fontWeight, fontSize, fontFamilyIndex, maxLineWidth } =
-      this
+    const {
+      language,
+      ctx,
+      x,
+      headerHeight,
+      y,
+      barWatcher,
+      lineGap,
+      color,
+      fontWeight,
+      fontSize,
+      fontFamilyIndex,
+      maxLineWidth
+    } = this
     // DONE STEP6
     barWatcher.setTotal(7)
     barWatcher.update(6, {
@@ -266,7 +278,8 @@ class Drawer {
     ctx.beginPath()
     ctx.fillStyle = color
     ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
-    let words = this.content.split(' ')
+    const separator = language === 'en' ? ' ' : ''
+    let words = this.content.split(separator)
     let currentLine = 0
     let idx = 1
     while (words.length > 0 && idx <= words.length) {
@@ -503,11 +516,12 @@ class Drawer {
   }
 
   get calculateContentTotalLine() {
-    const { ctx, color, fontWeight, fontSize, fontFamilyIndex, maxLineWidth } = this
+    const { language, ctx, color, fontWeight, fontSize, fontFamilyIndex, maxLineWidth } = this
     ctx.beginPath()
     ctx.fillStyle = color
     ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
-    let words = this.content.split(' ')
+    const separator = language === 'en' ? ' ' : ''
+    let words = this.content.split(separator)
     let currentLine = 0
     let idx = 1
     while (words.length > 0 && idx <= words.length) {

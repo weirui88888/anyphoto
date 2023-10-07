@@ -46,7 +46,7 @@ program
       '   On a bright and sunny morning, {a gentle breeze caressed the garden} by the lakeside as a stunning woman strolled gracefully.              Her figure was tall and elegant, commanding attention with every step she took. Her radiant smile illuminated the surroundings, captivating the hearts of those who were fortunate enough to catch a glimpse of her.                                                                              Her lustrous, flowing hair cascaded down {her shoulders like a waterfall of dark chocolate}, effortlessly framing her exquisite face. Her eyes, like pools of shimmering sapphires, held a depth that seemed to reveal an entire universe of emotions. They sparkled with intelligence and curiosity, drawing others into her magnetic gaze.'
 
     const chContent =
-      '黄山的景色秀丽神奇，尤其是那些怪石，有趣极了。就说“仙女弹琴”吧，那美丽的仙女弹着琴，悠扬的琴声在山间久久回荡，好像在让人们评赞她的琴声。瞧，那陡峭的山峰上有一只可爱的小狗，抬头望着月亮，好像是要到月亮上去看看吧，这就是有趣的“天狗望月”。黄山的奇石还有很多，像“狮子抢球” “猴子观海”“ 龟鱼对望”等，千姿百态，惟妙惟肖。'
+      '黄山的景色秀丽神奇，尤其是那些怪石，{有趣极了}。就说“仙女弹琴”吧，那美丽的{仙女弹着琴}，悠扬的琴声在山间久久回荡，好像在让人们评赞她的琴声。瞧，那陡峭的山峰上有一只可爱的小狗，抬头望着月亮，好像是要到月亮上去看看吧，这就是有趣的“{天狗望月}”。黄山的奇石还有很多，像“狮子抢球” “猴子观海”“ 龟鱼对望”等，{千姿百态，惟妙惟肖}。'
     generate({
       content: chContent,
       options
