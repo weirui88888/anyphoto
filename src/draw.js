@@ -41,6 +41,7 @@ class Drawer {
     this.width = width
     this.fontWeight = fontWeight
     this.fontFamilys = fontFamilys
+    this.letterSpaceSeparator = '' // It may be useful in the future to control the spacing of content
     this.color = color
     this.backgroundColor = backgroundColor
     this.maxLineWidth = width - x * 2 // Here we just preset the maximum width, that is, use width - x * 2. You need it first to calculate the layout and the actual width of each line drawn.
@@ -294,7 +295,7 @@ class Drawer {
     let currentLine = 0
     let idx = 1
     while (words.length > 0 && idx <= words.length) {
-      const str = words.slice(0, idx).join(' ').replace(/[{}]/g, '')
+      const str = words.slice(0, idx).join(separator).replace(/[{}]/g, '')
       const w = ctx.measureText(str).width
       if (w > maxLineWidth) {
         if (idx === 1) {
@@ -303,7 +304,7 @@ class Drawer {
         ctx.fillText(
           words
             .slice(0, idx - 1)
-            .join(' ')
+            .join(separator)
             .replace(/[{}]/g, ''),
           x,
           headerHeight + y + (fontSize + lineGap) * currentLine
@@ -316,7 +317,7 @@ class Drawer {
       }
     }
     if (idx > 0) {
-      ctx.fillText(words.join(' ').replace(/[{}]/g, ''), x, headerHeight + y + (fontSize + lineGap) * currentLine)
+      ctx.fillText(words.join(separator).replace(/[{}]/g, ''), x, headerHeight + y + (fontSize + lineGap) * currentLine)
     }
     return this
   }
@@ -541,14 +542,14 @@ class Drawer {
     let currentLine = 0
     let idx = 1
     while (words.length > 0 && idx <= words.length) {
-      const str = words.slice(0, idx).join(' ').replace(/[{}]/g, '')
+      const str = words.slice(0, idx).join(separator).replace(/[{}]/g, '')
       const w = ctx.measureText(str).width
       if (w > maxLineWidth) {
         if (idx === 1) {
           idx = 2
         }
-        this.setLineWidthMap(currentLine, ctx.measureText(words.slice(0, idx - 1).join(' ')).width)
-        this.setLineKeywordIdentifier(currentLine, words.slice(0, idx - 1).join(' '))
+        this.setLineWidthMap(currentLine, ctx.measureText(words.slice(0, idx - 1).join(separator)).width)
+        this.setLineKeywordIdentifier(currentLine, words.slice(0, idx - 1).join(separator))
         currentLine++
         words = words.splice(idx - 1)
         idx = 1
@@ -556,8 +557,8 @@ class Drawer {
         idx++
       }
     }
-    this.setLineWidthMap(currentLine, ctx.measureText(words.join(' ')).width)
-    this.setLineKeywordIdentifier(currentLine, words.join(' '))
+    this.setLineWidthMap(currentLine, ctx.measureText(words.join(separator)).width)
+    this.setLineKeywordIdentifier(currentLine, words.join(separator))
     return currentLine + 1
   }
 
