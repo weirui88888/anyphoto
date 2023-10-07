@@ -76,8 +76,8 @@ const defaultCanvasSetting = {
     shape: 'wave',
     color: '#fff',
     lineWidth: 2,
-    amplitude: 2, // 振幅，这个数字越大，振幅越大
-    wavelength: 180, // 波长，这个数字越大，波长越小
+    amplitude: 2, // amplitude, the larger the number, the greater the amplitude
+    wavelength: 180, // wavelength, the larger the number, the smaller the wavelength
     offsetY: 10
   }
 }

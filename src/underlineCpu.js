@@ -43,7 +43,7 @@ class UnderLineCpu {
     }
     if (identifierNumber % 2 !== 0) {
       colorTip(
-        '请设置正确的划线标识符，确保你提供的文案中，{与}是成对出现的且顺序不可反，否则你就是在为难我',
+        'Please set the correct dash identifier and ensure that in the copy you provide, { and } appear in pairs and the order is irreversible.',
         'yellow',
         'bold'
       )
@@ -60,7 +60,7 @@ class UnderLineCpu {
             const identifier = lineIdentifiers[i]
             const nextIdentifier = lineIdentifiers[i + 1]
             if (identifier.key === 'startIdentifier') {
-              // 当其中的项目的key为splitStartIdentifier时，代表要往这一行中推入一个范围，起点为当前index,终点为下一个项目的index,如果没有，那么就是100
+              // When the key of an item is splitStartIdentifier, it means that a range is pushed into this row. The starting point is the current index and the end point is the index of the next item. If not, then it is 100.
               const position = { content: identifier.content, underlineStart: identifier.index }
               if (nextIdentifier) {
                 position.underlineEnd = nextIdentifier.index
@@ -79,7 +79,7 @@ class UnderLineCpu {
             }
           }
         } else {
-          // 这一行没有标记，但是要看strokeEnd是不是为true,如果不为true,则代表上一行最后一个标识符是{(也就是没有闭合)
+          // This line has no mark, but it depends on whether finishUnderline is true. If it is not true, it means that the last identifier of the previous line is { (that is, it is not closed)
           !finishUnderline &&
             lineUnderlineIndex[line].push({
               underlineStart: 0,
@@ -152,8 +152,8 @@ class UnderLineCpu {
     const {
       color,
       lineWidth,
-      amplitude = 6, // 振幅，这个数字越大，振幅越大
-      wavelength = 90 // 波长，这个数字越大，波长越小
+      amplitude = 6, // amplitude, the larger the number, the greater the amplitude
+      wavelength = 90 // wavelength, the larger the number, the smaller the wavelength
     } = canvasUnderlineSetting
     ctx.beginPath()
     ctx.strokeStyle = color

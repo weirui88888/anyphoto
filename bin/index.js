@@ -41,20 +41,8 @@ program
       'For a moment the {last sunshine fell with} romantic {affection upon her glowing face} her voice compelled me forward breathlessly as I listened—then {the glow faded, each light} deserting her with lingering regret like children leaving a pleasant street at dusk.'
     const testContent1234 =
       'For a moment the {last sunshine fell with} romantic {affection upon her glowing face} her voice compelled me forward breathlessly as I listened—then {the glow faded, each light} deserting her with lingering regret like children leaving a {pleasant street} at dusk.'
-    const testContent4 =
-      'For a {moment} the last sunshine fell with romantic affection {upon} her glowing face her voice {compelled} me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like {children leaving} a pleasant street at dusk.'
-    const testContent5 =
-      '{For} a moment the last sunshine fell with romantic affection upon her {glowing} face her voice compelled me forward breathlessly as I {listened—then} the glow faded, each light deserting her with lingering {regret} like children leaving a pleasant street at dusk.'
-    const testContent6 =
-      'I made {an} {interesting} {open source technology} product {from} 0 to 1. Although I experienced many difficulties along the way, I am very {excited} and {happy} now.'
-    const testContent7 =
-      'For a {moment} the last sunshine {fell with romantic affection upon} her glowing face her voice compelled me forward breathlessly as I listened—then the glow faded, each light deserting her with lingering regret like children leaving a pleasant street at dusk.'
-    const testContentallword =
-      '{For} {a} {moment} {the} {last} {sunshine} {fell} {with} {romantic} {affection} {upon} {her} {glowing} {face} {her} {voice} {compelled} {me} {forward} {breathlessly} {as} {I} {listened—then} {the} {glow} {faded}, {each} {light} {deserting} {her} {with} {lingering} {regret} {like} {children} {leaving} {a} {pleasant} {street} {at} {dusk}.'
-
-    const longString1234 =
-      '   On a bright and sunny morning, {a gentle breeze caressed the garden} by the lakeside as a stunning {woman} strolled gracefully.                                                                                 Her figure was tall and elegant, {commanding} attention with every step she {took}. Her radiant smile {illuminated} the surroundings, captivating the hearts of those who were fortunate enough to catch a glimpse of her.                                                                      Her lustrous, flowing hair cascaded down {her shoulders like a waterfall of dark chocolate}, effortlessly framing her exquisite face. Her eyes, like pools of shimmering sapphires, held a depth that seemed to reveal an entire universe of emotions. They sparkled with intelligence and curiosity, drawing others into her magnetic gaze.'
-
+    const longString =
+      '   On a bright and sunny morning, {a gentle breeze caressed the garden} by the lakeside as a stunning woman strolled gracefully.              Her figure was tall and elegant, commanding attention with every step she took. Her radiant smile illuminated the surroundings, captivating the hearts of those who were fortunate enough to catch a glimpse of her.                                                                              Her lustrous, flowing hair cascaded down {her shoulders like a waterfall of dark chocolate}, effortlessly framing her exquisite face. Her eyes, like pools of shimmering sapphires, held a depth that seemed to reveal an entire universe of emotions. They sparkled with intelligence and curiosity, drawing others into her magnetic gaze.'
     generate({
       content,
       options

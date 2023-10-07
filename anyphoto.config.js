@@ -4,7 +4,7 @@ const anyPhotoConfig = {
   defaultOutputDirPath: 'anyphoto',
   defaultOutputName: 'anyphoto',
   defaultOutputNameHandle(defaultOutputName) {},
-  defaultAvatar: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f308.png',
+  defaultAvatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',
   defaultAuthor: 'AnyPhoto',
   canvasSetting: {
     width: 750,
@@ -69,7 +69,7 @@ const anyPhotoConfig = {
     underline: {
       shape: 'wave',
       color: '#fff',
-      lineWidth: 2,
+      lineWidth: 1,
       amplitude: 2,
       wavelength: 180,
       offsetY: 10

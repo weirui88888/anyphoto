@@ -441,7 +441,6 @@ class Drawer {
           step: '🎉 Congratulations,Drawing End,Enjoy It' // todo open this in a new tab
         })
         barWatcher.stop()
-        // 使用命令行指令打开VSCode窗口
         exec(`code ${filepath}`)
         console.timeEnd('draw')
       }

@@ -2,9 +2,9 @@ const isImageUrl = require('is-image-url')
 class HeaderCpu {
   constructor({ canvasHeaderSetting, x, canvasWidth, authorWidth, timeWidthPrefixWidth }) {
     this.canvasHeaderSetting = canvasHeaderSetting
-    this.x = x // 左边绘制的x坐标（计算过的）
-    this.authorWidth = authorWidth // author width
-    this.canvasWidth = canvasWidth // canvas width
+    this.x = x
+    this.authorWidth = authorWidth
+    this.canvasWidth = canvasWidth
     this.timeWidthPrefixWidth = timeWidthPrefixWidth
   }
 
@@ -137,7 +137,7 @@ class HeaderCpu {
     const { x, authorWidth, canvasWidth } = this
     const { avatarBottomY, avatarCenterPointX } = this.calculateAvatarCenterPointPosition
     const authorStartPointY = avatarBottomY + headerAvatarMarginBottom
-    // 不展示作者也计算authorBottomY
+    // authorBottomY is also calculated even if the author is not displayed.
     const authorBottomY = showHeaderAuthor ? authorStartPointY + headerAuthorFontSize : authorStartPointY
     switch (headerAlign) {
       case 'left':
@@ -183,7 +183,7 @@ class HeaderCpu {
     const { x, timeWidthPrefixWidth, canvasWidth } = this
     const { authorBottomY } = this.calculateAuthorStartPointPosition
     const { avatarCenterPointX } = this.calculateAvatarCenterPointPosition
-    // 根据是否展示作者展示进行判断，没作者
+    // Judgment based on whether author display is shown
     const timeIconStartPointY = showHeaderAuthor
       ? authorBottomY + headerAuthorMarginBottom + headerTimeIconOffsetY
       : authorBottomY + headerTimeIconOffsetY
@@ -235,7 +235,7 @@ class HeaderCpu {
     const { authorBottomY } = this.calculateAuthorStartPointPosition
     const { avatarCenterPointX } = this.calculateAvatarCenterPointPosition
     const { showHeaderTimeIcon, timeIconStartPointX } = this.calculateTimeIconStartPointPosition
-    // 根据是否展示作者展示进行判断，没作者
+    // Judgment based on whether author display is shown
     const timeStartPointY = showHeaderAuthor ? authorBottomY + headerAuthorMarginBottom : authorBottomY
     const timeBottomY = showHeaderTime ? timeStartPointY + headerTimeFontSize : timeStartPointY
     const timeStartWithIconPointX = timeIconStartPointX + headerTimeFontSize + headerTimeIconGap
