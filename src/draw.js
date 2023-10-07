@@ -59,6 +59,8 @@ class Drawer {
     this.compareHeight = 0
     const maxLineWidth = this.getMaxLineWidth
     this.x = this.lineWidthMap.size > 1 ? this.setSuitableXWidth(maxLineWidth, this.width, x) : x
+    // language
+    this.language = this.anyPhotoConfig.language
     // header
     this.header = header
     this.author = this.anyPhotoConfig.author

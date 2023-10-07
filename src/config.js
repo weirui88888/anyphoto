@@ -3,6 +3,7 @@ const { colorTip } = require('./util')
 const themes = require('./themes')
 const isImageUrl = require('is-image-url')
 
+const defaultLanguage = 'en'
 const defaultContent =
   'Generate personalized photos easily! Create your own unique style in just a few steps. Add avatar, date, author and QR code to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and let your photos tell a story!  #frontenddevelopment #personalizedphoto #creativetools'
 const defaultConfigName = 'anyphoto.config.js'
@@ -12,6 +13,11 @@ const defaultOutputDirPath = 'anyphoto'
 const defaultOutputName = 'anyphoto'
 
 const optionsCpu = {
+  language: {
+    validate(language) {
+      return ['en', 'zh'].includes(language) ? language : 'en'
+    }
+  },
   author: {
     validate(author) {
       return author
@@ -37,6 +43,7 @@ const optionsCpu = {
 }
 
 module.exports = {
+  defaultLanguage,
   defaultContent,
   defaultConfigName,
   defaultAvatar,
@@ -47,6 +54,7 @@ module.exports = {
   locale: 'english',
   initConfig: theme => {
     return `const anyPhotoConfig = {
+  defaultLanguage:'${defaultLanguage}',
   defaultContent:'${defaultContent}',
   defaultOutputDirPath: '${defaultOutputDirPath}',
   defaultOutputName: '${defaultOutputName}',
