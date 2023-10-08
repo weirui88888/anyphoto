@@ -1,6 +1,5 @@
 const { createCanvas, registerFont, loadImage } = require('canvas')
-const { exec } = require('child_process')
-const { barWatcher, formatDateTime } = require('./util')
+const { barWatcher, formatDateTime, colorTip, color } = require('./util')
 const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
 const UnderLineCpu = require('./underlineCpu')
@@ -462,14 +461,22 @@ class Drawer {
     const { outputDirPath } = anyPhotoConfig
     base64Img.img(base64img, outputDirPath, generateOutputName, (error, filepath) => {
       if (error) {
-        console.log(error.message)
+        console.error(error.message)
       } else {
         barWatcher.update(8, {
-          step: '🎉 Congratulations,Drawing End,Enjoy It' // todo open this in a new tab
+          step: '🎉 Congratulations! Drawing End,Enjoy It' // todo open this in a new tab
         })
         barWatcher.stop()
-        exec(`code ${filepath}`)
-        console.timeEnd('draw')
+        // exec(`code ${filepath}`)
+        colorTip(
+          `\n${color('Successful!', 'green', 'bold')} now you can find photo at ${color(
+            filepath,
+            'green',
+            'bold',
+            'underline'
+          )}`
+        )
+        // console.timeEnd('draw')
       }
     })
   }
@@ -681,7 +688,7 @@ class Drawer {
 }
 
 const draw = ({ content, anyPhotoConfig }) => {
-  console.time('draw')
+  // console.time('draw')
   const drawer = new Drawer({ content, anyPhotoConfig })
   drawer
     .setupCpu()

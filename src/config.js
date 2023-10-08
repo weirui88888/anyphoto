@@ -28,6 +28,7 @@ const optionsCpu = {
   avatar: {
     validate(avatar) {
       const isValidAvatar = isImageUrl(avatar)
+      // TODO translate and reset defaultAvatar
       !isValidAvatar && colorTip('Tips: 由于你提供的头像地址不是一个正确的图片地址，将会采用默认值', 'yellow')
       return isValidAvatar ? avatar : defaultAvatar
     }
