@@ -7,7 +7,7 @@ const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
 const UnderLineCpu = require('./underlineCpu')
 const base64Img = require('base64-img')
-const { defaultLanguage } = require('./config')
+const { defaultSeparator } = require('./config')
 
 class Drawer {
   constructor({ content, anyPhotoConfig }) {
@@ -37,8 +37,8 @@ class Drawer {
       })
     }
     this.anyPhotoConfig = anyPhotoConfig
-    // language
-    this.language = this.anyPhotoConfig.language
+    // separator
+    this.separator = this.anyPhotoConfig.separator
     this.fallbackFontFamilyIndex = fallbackFontFamilyIndex
     this.width = width
     this.fontWeight = fontWeight
@@ -271,7 +271,7 @@ class Drawer {
 
   async drawContent() {
     const {
-      language,
+      separator: usedSeparator,
       ctx,
       x,
       headerHeight,
@@ -292,7 +292,7 @@ class Drawer {
     ctx.beginPath()
     ctx.fillStyle = color
     ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
-    const separator = language === defaultLanguage ? ' ' : ''
+    const separator = usedSeparator === defaultSeparator ? ' ' : ''
     let words = this.content.split(separator)
     let currentLine = 0
     let idx = 1
@@ -477,7 +477,7 @@ class Drawer {
             'green',
             'bold',
             'underline'
-          )}`
+          )}\n`
         )
         // console.timeEnd('draw')
       }
@@ -543,11 +543,11 @@ class Drawer {
   }
 
   get calculateContentTotalLine() {
-    const { language, ctx, color, fontWeight, fontSize, fontFamilyIndex, maxLineWidth } = this
+    const { separator: usedSeparator, ctx, color, fontWeight, fontSize, fontFamilyIndex, maxLineWidth } = this
     ctx.beginPath()
     ctx.fillStyle = color
     ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
-    const separator = language === defaultLanguage ? ' ' : ''
+    const separator = usedSeparator === defaultSeparator ? ' ' : ''
     let words = this.content.split(separator)
     let currentLine = 0
     let idx = 1

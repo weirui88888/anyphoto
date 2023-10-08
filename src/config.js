@@ -3,8 +3,8 @@ const { colorTip } = require('./util')
 const themes = require('./themes')
 const isImageUrl = require('is-image-url')
 
-const supportLanguage = ['en', 'zh']
-const defaultLanguage = 'en'
+const supportSeparator = ['space', 'empty']
+const defaultSeparator = 'space'
 const defaultTheme = 'theme1'
 const defaultContent =
   'Generate personalized photos {easily}! Create your own unique style in just a few steps. Add {avatar}, {description}, {date}, {author} and {QR code} to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and {let your photos tell a story}!  #frontenddevelopment #personalizedphoto #creativetools'
@@ -15,9 +15,9 @@ const defaultOutputDirPath = 'anyphoto'
 const defaultOutputName = 'anyphoto'
 
 const optionsCpu = {
-  language: {
-    validate(language) {
-      return supportLanguage.includes(language) ? language : defaultLanguage
+  separator: {
+    validate(separator) {
+      return supportSeparator.includes(separator) ? separator : defaultSeparator
     }
   },
   author: {
@@ -45,8 +45,8 @@ const optionsCpu = {
   }
 }
 
-const themeDefaultLanguage = language => {
-  return language || defaultLanguage
+const themeDefaultSeparator = separator => {
+  return separator || defaultSeparator
 }
 const themeDefaultContent = content => {
   return content || defaultContent
@@ -62,8 +62,8 @@ const themeDefaultOutputName = outputName => {
 }
 
 module.exports = {
-  supportLanguage,
-  defaultLanguage,
+  supportSeparator,
+  defaultSeparator,
   defaultTheme,
   defaultContent,
   defaultConfigName,
@@ -74,7 +74,7 @@ module.exports = {
   optionsCpu,
   initConfig: theme => {
     return `const anyPhotoConfig = {
-  defaultLanguage: '${themeDefaultLanguage(themes[theme].language)}',
+  defaultSeparator: '${themeDefaultSeparator(themes[theme].separator)}',
   defaultContent: '${themeDefaultContent(themes[theme].content)}',
   defaultOutputDirPath: '${defaultOutputDirPath}',
   defaultOutputName: '${themeDefaultOutputName(themes[theme].outputName)}',

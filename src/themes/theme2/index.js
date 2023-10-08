@@ -1,6 +1,6 @@
 // anyphoto init --theme theme2
 module.exports = {
-  language: 'zh',
+  separator: 'empty',
   avatar: '/Users/weirui05/Desktop/WechatIMG396.jpg',
   author: '黄山',
   outputName: '黄山',

@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const {
-  defaultLanguage,
+  defaultSeparator,
   defaultContent,
   defaultAuthor,
   defaultAvatar,
@@ -52,8 +52,8 @@ const getAnyPhotoConfigByKey = ({ key, options }) => {
   const userConfigByKey = getUserAnyPhotoConfigByKey({ defaultKey })
   if (userConfigByKey) return userConfigByKey
   switch (defaultKey) {
-    case 'defaultLanguage':
-      return defaultLanguage
+    case 'defaultSeparator':
+      return defaultSeparator
     case 'defaultAuthor':
       return defaultAuthor
     case 'defaultAvatar':
@@ -67,7 +67,7 @@ const getAnyPhotoConfigByKey = ({ key, options }) => {
   }
 }
 const getAnyPhotoConfig = ({ options }) => {
-  const language = getAnyPhotoConfigByKey({ key: 'language', options })
+  const separator = getAnyPhotoConfigByKey({ key: 'separator', options })
   const avatar = getAnyPhotoConfigByKey({ key: 'avatar', options })
   const author = getAnyPhotoConfigByKey({ key: 'author', options })
   const outputDirPath = getAnyPhotoConfigByKey({ key: 'outputDirPath', options })
@@ -75,7 +75,7 @@ const getAnyPhotoConfig = ({ options }) => {
 
   return {
     ...handelValidAnyPhotoConfig({
-      language,
+      separator,
       avatar,
       author,
       outputDirPath,

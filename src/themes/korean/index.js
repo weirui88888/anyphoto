@@ -1,6 +1,6 @@
 // anyphoto init --theme korean
 module.exports = {
-  language: 'zh',
+  separator: 'empty',
   avatar: '/Users/weirui05/Desktop/hacker.png',
   author: '아무사진',
   outputName: '아무사진',

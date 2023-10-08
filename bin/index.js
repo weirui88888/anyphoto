@@ -24,11 +24,14 @@ program
   .command('generate')
   .description('Generate photo by inspiration')
   .argument('[content]', 'Any content you like')
-  .option('--language <language>', 'The Content language , support with en or zh')
-  .option('--avatar <url>', 'The avatar address of the photo')
-  .option('--author <name>', 'The author name of the photo')
-  .option('--outputDirPath <output dirPath>', 'The place where the photo be generated')
-  .option('--outputName <output name>', 'The name of the output photo')
+  .option(
+    '-s, --separator <separator>',
+    'The Content separator,support with empty or space,If not specified, the default is to use space to split the content.'
+  )
+  .option('-av, --avatar <url>', 'The avatar address of the photo')
+  .option('-au, --author <name>', 'The author name of the photo')
+  .option('-o, --outputDirPath <output dirPath>', 'The place where the photo will be generated')
+  .option('-n, --outputName <output name>', 'The name of the output photo')
   .action((content, options) => {
     generate({
       content,

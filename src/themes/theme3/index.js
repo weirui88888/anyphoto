@@ -1,7 +1,7 @@
 // TODO 不应该在包中存放example文件，因为这会导致包文件很大
 // anyphoto init --theme theme3
 module.exports = {
-  language: 'zh',
+  separator: 'empty',
   avatar: '/Users/weirui05/Desktop/rainbow.png',
   author: '送东阳马生序',
   outputName: '送东阳马生序',

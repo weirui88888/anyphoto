@@ -1,6 +1,6 @@
 // anyphoto init --theme japanese
 module.exports = {
-  language: 'zh',
+  separator: 'empty',
   avatar: '/Users/weirui05/Desktop/rainbow.png',
   author: '任意の写真',
   outputName: '任意の写真',
