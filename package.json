@@ -1,11 +1,12 @@
 {
   "name": "anyphoto",
-  "version": "1.0.2",
+  "version": "1.0.8",
   "description": "Photo by any inspiration",
   "main": "index.js",
   "files": [
     "bin",
-    "src"
+    "src",
+    "!src/themes/**/*.png"
   ],
   "scripts": {
     "prepare": "husky install",
