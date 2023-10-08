@@ -10,7 +10,7 @@ const {
   defaultConfigName,
   optionsCpu
 } = require('../config')
-const { defaultCanvasSetting } = require('../setting')
+const { defaultCanvasSetting } = require('../defaultCanvasSetting')
 const draw = require('../draw')
 
 const getUserAnyPhotoConfigPath = directory => {

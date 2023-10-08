@@ -9,7 +9,7 @@ const defaultTheme = 'theme1'
 const defaultContent =
   'Generate personalized photos {easily}! Create your own unique style in just a few steps. Add {avatar}, {description}, {date}, {author} and {QR code} to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and {let your photos tell a story}!  #frontenddevelopment #personalizedphoto #creativetools'
 const defaultConfigName = 'anyphoto.config.js'
-const defaultAvatar = '/Users/weirui05/Desktop/WechatIMG38388.jpg'
+const defaultAvatar = 'https://show.newarray.vip/hacker.png'
 const defaultAuthor = 'AnyPhoto'
 const defaultOutputDirPath = 'anyphoto'
 const defaultOutputName = 'anyphoto'

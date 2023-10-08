@@ -1,3 +1,6 @@
+const path = require('path')
+const fs = require('fs')
+const axios = require('axios')
 const { createCanvas, registerFont, loadImage } = require('canvas')
 const { barWatcher, formatDateTime, colorTip, color } = require('./util')
 const HeaderCpu = require('./headerCpu')
@@ -13,7 +16,7 @@ class Drawer {
       x,
       y,
       fontFamilys,
-      customFontFamilyPath,
+      customFontPath,
       fallbackFontFamilyIndex,
       color,
       backgroundColor,
@@ -28,8 +31,8 @@ class Drawer {
       from,
       underline
     } = anyPhotoConfig.canvasSetting
-    if (customFontFamilyPath) {
-      registerFont(customFontFamilyPath, {
+    if (customFontPath) {
+      registerFont(customFontPath, {
         family: 'Custom'
       })
     }
@@ -687,9 +690,45 @@ class Drawer {
   }
 }
 
-const draw = ({ content, anyPhotoConfig }) => {
+const downloadWebFont = async (customFontPath, downloadOutputDir) => {
+  const shouldDownloadWebFont = !path.isAbsolute(customFontPath) && /^(http:|https:)/.test(customFontPath)
+  if (shouldDownloadWebFont) {
+    try {
+      const fontFileName = path.basename(customFontPath)
+      const downloadWebFontFolder = path.join(process.cwd(), downloadOutputDir)
+      if (!fs.existsSync(downloadWebFontFolder)) {
+        fs.mkdirSync(downloadWebFontFolder, { recursive: true })
+      }
+      const downloadWebFontPath = path.join(downloadWebFontFolder, fontFileName)
+      if (fs.existsSync(downloadWebFontPath)) {
+        return downloadWebFontPath
+      }
+      const response = await axios.get(customFontPath, { responseType: 'arraybuffer' })
+      fs.writeFileSync(downloadWebFontPath, response.data, 'binary')
+      return downloadWebFontPath
+    } catch (error) {
+      colorTip(`An error occurred while downloading the font file: [${error.message}]`, 'red')
+      return customFontPath
+    }
+  } else {
+    return customFontPath
+  }
+}
+
+const draw = async ({ content, anyPhotoConfig }) => {
+  const {
+    canvasSetting: { customFontPath = '', downloadCustomFontOutputDir = 'anyphoto-web-font' }
+  } = anyPhotoConfig
+  const userCustomFontPath = await downloadWebFont(customFontPath, downloadCustomFontOutputDir)
+  const handledAnyPhotoConfig = {
+    ...anyPhotoConfig,
+    canvasSetting: {
+      ...anyPhotoConfig.canvasSetting,
+      customFontPath: userCustomFontPath
+    }
+  }
   // console.time('draw')
-  const drawer = new Drawer({ content, anyPhotoConfig })
+  const drawer = new Drawer({ content, anyPhotoConfig: handledAnyPhotoConfig })
   drawer
     .setupCpu()
     .then(drawer => drawer.setupCanvas())
