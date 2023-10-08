@@ -1,9 +1,11 @@
 #! /usr/bin/env node
 /* eslint-disable no-unused-vars */
 const { Command } = require('commander')
+const open = require('open')
+const path = require('path')
 const pkg = require('../package.json')
 const { init, generate, github } = require('../src/cmd')
-const { showAnyPhotoFiglet } = require('../src/util')
+const { showAnyPhotoFiglet, colorTip, color } = require('../src/util')
 const { defaultTheme } = require('../src/config')
 
 const program = new Command()
@@ -37,6 +39,44 @@ program
       content,
       options
     })
+  })
+
+program
+  .command('show')
+  .description('Quickly help you open the demo image of the theme on the web page')
+  .argument(
+    '[theme]',
+    'The theme you want to preview. If you do not provide this parameter, you will be shown the name of the theme currently provided.'
+  )
+  .action(theme => {
+    const themesFilePath = path.join(__dirname, '../src/themes/index.js')
+    const themes = require(themesFilePath)
+    const supportThemes = Object.keys(themes)
+    if (theme) {
+      if (supportThemes.includes(theme)) {
+        open(`https://github.com/weirui88888/anyphoto/blob/main/src/themes/${theme}/example.png`)
+      } else {
+        colorTip(
+          `The theme parameters you provided [${color(
+            theme,
+            'red'
+          )}] are not in the existing theme list. Currently supported themes are [${color(
+            supportThemes.toString(),
+            'green'
+          )}],please retry`
+        )
+      }
+    } else {
+      for (const theme of supportThemes) {
+        colorTip(
+          `${color(theme, 'green', 'bold')} ${color('->', 'yellow')} ${color(
+            `https://github.com/weirui88888/anyphoto/blob/main/src/themes/${theme}/example.png`,
+            'underline',
+            'green'
+          )}`
+        )
+      }
+    }
   })
 
 program.parse()

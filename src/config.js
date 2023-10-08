@@ -11,7 +11,7 @@ const defaultContent =
 const defaultConfigName = 'anyphoto.config.js'
 const defaultAvatar = 'https://show.newarray.vip/hacker.png'
 const defaultAuthor = 'AnyPhoto'
-const defaultOutputDirPath = 'anyphoto'
+const defaultOutputDir = 'anyphoto'
 const defaultOutputName = 'anyphoto'
 
 const optionsCpu = {
@@ -69,7 +69,7 @@ module.exports = {
   defaultConfigName,
   defaultAvatar,
   defaultAuthor,
-  defaultOutputDirPath,
+  defaultOutputDir,
   defaultOutputName,
   optionsCpu,
   initConfig: theme => {
@@ -104,7 +104,7 @@ const colorSetting = {
 const anyPhotoConfig = {
   defaultSeparator: '${themeDefaultSeparator(themes[theme].separator)}',
   defaultContent: '${themeDefaultContent(themes[theme].content)}',
-  defaultOutputDirPath: '${defaultOutputDirPath}',
+  defaultOutputDir: '${defaultOutputDir}',
   defaultOutputName: '${themeDefaultOutputName(themes[theme].outputName)}',
   defaultOutputNameHandle(defaultOutputName) {},
   defaultAvatar: '${themeDefaultAvatar(themes[theme].avatar)}',

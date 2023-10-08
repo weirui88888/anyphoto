@@ -5,7 +5,7 @@ const {
   defaultContent,
   defaultAuthor,
   defaultAvatar,
-  defaultOutputDirPath,
+  defaultOutputDir,
   defaultOutputName,
   defaultConfigName,
   optionsCpu
@@ -58,8 +58,8 @@ const getAnyPhotoConfigByKey = ({ key, options }) => {
       return defaultAuthor
     case 'defaultAvatar':
       return defaultAvatar
-    case 'defaultOutputDirPath':
-      return defaultOutputDirPath
+    case 'defaultOutputDir':
+      return defaultOutputDir
     case 'defaultOutputName':
       return defaultOutputName
     default:

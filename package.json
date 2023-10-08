@@ -1,6 +1,6 @@
 {
   "name": "anyphoto",
-  "version": "1.0.8",
+  "version": "1.0.12",
   "description": "Photo by any inspiration",
   "main": "index.js",
   "files": [
@@ -44,6 +44,7 @@
     "commander": "^11.0.0",
     "figlet": "^1.6.0",
     "is-image-url": "^1.1.8",
+    "open": "8.4.0",
     "ora": "5.4.1"
   },
   "devDependencies": {

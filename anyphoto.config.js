@@ -30,7 +30,7 @@ const anyPhotoConfig = {
   defaultSeparator: 'space',
   defaultContent:
     'Generate personalized photos {easily}! Create your own unique style in just a few steps. Add {avatar}, {description}, {date}, {author} and {QR code} to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and {let your photos tell a story}!  #frontenddevelopment #personalizedphoto #creativetools',
-  defaultOutputDirPath: 'anyphoto',
+  defaultOutputDir: 'anyphoto',
   defaultOutputName: 'default',
   defaultOutputNameHandle(defaultOutputName) {},
   defaultAvatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',
