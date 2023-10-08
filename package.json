@@ -12,6 +12,7 @@
     "prepare": "husky install",
     "lint": "eslint . --fix",
     "commit": "cz",
+    "theme": "node ./bin/index.js init",
     "gen": "node ./bin/index.js generate"
   },
   "keywords": [],

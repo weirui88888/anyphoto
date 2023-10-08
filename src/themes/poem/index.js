@@ -1,4 +1,3 @@
-// TODO 不应该在包中存放example文件，因为这会导致包文件很大
 // anyphoto init --theme poem
 module.exports = {
   separator: 'empty',

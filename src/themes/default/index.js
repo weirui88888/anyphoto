@@ -1,15 +1,15 @@
-// anyphoto init --theme default
+// anyphoto init --theme default || anyphoto init
 module.exports = {
   separator: 'space',
   avatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',
   author: 'AnyPhoto',
-  outputName: 'anyphoto',
+  outputName: 'default',
   content:
     'Generate personalized photos {easily}! Create your own unique style in just a few steps. Add {avatar}, {description}, {date}, {author} and {QR code} to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and {let your photos tell a story}!  #frontenddevelopment #personalizedphoto #creativetools',
   canvasSetting: {
     width: 750,
     fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
-    customFontPath: 'https://show.newarray.vip/font/LXGWWenKai-Bold.ttf',
+    customFontPath: 'https://show.newarray.vip/font/Caveat-VariableFont_wght.ttf',
     downloadCustomFontOutputDir: 'anyphoto-web-font',
     fallbackFontFamilyIndex: 4,
     backgroundColor: '#006666',

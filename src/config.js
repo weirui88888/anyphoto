@@ -73,7 +73,35 @@ module.exports = {
   defaultOutputName,
   optionsCpu,
   initConfig: theme => {
-    return `const anyPhotoConfig = {
+    return `/*
+Tips:
+If you find it troublesome to set the colors of different modules
+in anyPhotoConfig below, you can set it centrally in colorSetting.
+Of course, you can define this variable name at will. The only
+thing you need to make sure is that in anyPhotoConfig below, you
+must set it correctly to use it. for example:
+
+backgroundColor:'#006666' ====> backgroundColor:colorSetting.backgroundColor
+
+This is what I consider the design from the perspective of a developer.
+If you feel that I am very considerate from the bottom of your heart, don’t forget to give me a github star🌟 ,haha~
+
+🌟 Github Address: https://github.com/weirui88888/anyphoto
+
+const colorSetting = {
+  backgroundColor: '#006666',
+  color: '',
+  headerAvatarBorderColor: '',
+  headerAuthorFontColor: '',
+  headerDescriptionFontColor: '',
+  headerDividerColor: '',
+  footerDividerColor: '',
+  sloganFontColor: '',
+  fromFontColor: ''
+}
+*/
+
+const anyPhotoConfig = {
   defaultSeparator: '${themeDefaultSeparator(themes[theme].separator)}',
   defaultContent: '${themeDefaultContent(themes[theme].content)}',
   defaultOutputDirPath: '${defaultOutputDirPath}',
