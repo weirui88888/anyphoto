@@ -374,6 +374,11 @@ class Drawer {
       lineTo: footerDividerLineTo
     } = footerDivider
     if (showHeaderDivider) {
+      // DONE STEP8
+      barWatcher.setTotal(9)
+      barWatcher.update(8, {
+        step: 'Drawing Header Divider'
+      })
       ctx.save()
       ctx.strokeStyle = headerDividerStrokeStyle
       ctx.lineWidth = 1
@@ -383,6 +388,11 @@ class Drawer {
       ctx.restore()
     }
     if (showFooterDivider) {
+      // DONE STEP9
+      barWatcher.setTotal(10)
+      barWatcher.update(9, {
+        step: 'Drawing Footer Divider'
+      })
       ctx.save()
       ctx.strokeStyle = footerDividerStrokeStyle
       ctx.moveTo(footerDividerMoveTo.x, footerDividerMoveTo.y)
@@ -440,6 +450,11 @@ class Drawer {
       allLineKeywordIdentifier = [...allLineKeywordIdentifier, ...keywordIdentifier]
     }
     if (allLineKeywordIdentifier.length === 0) return this
+    // DONE STEP10
+    barWatcher.setTotal(11)
+    barWatcher.update(10, {
+      step: 'Drawing Footer Divider'
+    })
     const underlineCpu = new UnderLineCpu({
       lineKeywordIdentifier,
       lineContent,
@@ -461,13 +476,13 @@ class Drawer {
   async generatePng() {
     const { canvas, anyPhotoConfig, generateOutputName, barWatcher } = this
     const base64img = canvas.toDataURL()
-    const { outputDirPath } = anyPhotoConfig
-    base64Img.img(base64img, outputDirPath, generateOutputName, (error, filepath) => {
+    const { outputDir } = anyPhotoConfig
+    base64Img.img(base64img, outputDir, generateOutputName, (error, filepath) => {
       if (error) {
         console.error(error.message)
       } else {
-        barWatcher.update(8, {
-          step: '🎉 Congratulations! Drawing End,Enjoy It' // todo open this in a new tab
+        barWatcher.update(12, {
+          step: '🎉 Congratulations! Drawing End,Enjoy It'
         })
         barWatcher.stop()
         // exec(`code ${filepath}`)

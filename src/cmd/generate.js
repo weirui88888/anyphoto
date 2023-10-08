@@ -70,7 +70,7 @@ const getAnyPhotoConfig = ({ options }) => {
   const separator = getAnyPhotoConfigByKey({ key: 'separator', options })
   const avatar = getAnyPhotoConfigByKey({ key: 'avatar', options })
   const author = getAnyPhotoConfigByKey({ key: 'author', options })
-  const outputDirPath = getAnyPhotoConfigByKey({ key: 'outputDirPath', options })
+  const outputDir = getAnyPhotoConfigByKey({ key: 'outputDir', options })
   const outputName = getAnyPhotoConfigByKey({ key: 'outputName', options })
 
   return {
@@ -78,7 +78,7 @@ const getAnyPhotoConfig = ({ options }) => {
       separator,
       avatar,
       author,
-      outputDirPath,
+      outputDir,
       outputName
     }),
     defaultOutputNameHandle: getUserAnyPhotoConfigByKey({ defaultKey: 'defaultOutputNameHandle' }),

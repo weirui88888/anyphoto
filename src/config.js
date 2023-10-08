@@ -33,9 +33,9 @@ const optionsCpu = {
       return isValidAvatar ? avatar : defaultAvatar
     }
   },
-  outputDirPath: {
-    validate(outputDirPath) {
-      return path.isAbsolute(outputDirPath) ? outputDirPath : path.join(process.cwd(), outputDirPath)
+  outputDir: {
+    validate(outputDir) {
+      return path.isAbsolute(outputDir) ? outputDir : path.join(process.cwd(), outputDir)
     }
   },
   outputName: {

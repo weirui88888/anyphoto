@@ -32,7 +32,7 @@ program
   )
   .option('-av, --avatar <url>', 'The avatar address of the photo')
   .option('-au, --author <name>', 'The author name of the photo')
-  .option('-o, --outputDirPath <output dirPath>', 'The place where the photo will be generated')
+  .option('-o, --outputDir <output dir>', 'The place where the photo will be generated')
   .option('-n, --outputName <output name>', 'The name of the output photo')
   .action((content, options) => {
     generate({
