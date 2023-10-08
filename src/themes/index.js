@@ -1,7 +1,7 @@
 module.exports = {
-  theme1: require('./theme1'),
-  theme2: require('./theme2'),
-  theme3: require('./theme3'),
+  default: require('./default'),
+  huangshan: require('./huangshan'),
+  poem: require('./poem'),
   japanese: require('./japanese'),
   korean: require('./korean')
 }

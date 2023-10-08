@@ -1,4 +1,4 @@
-// anyphoto init --theme theme1
+// anyphoto init --theme default
 module.exports = {
   separator: 'space',
   avatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',

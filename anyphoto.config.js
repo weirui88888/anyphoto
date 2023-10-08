@@ -1,18 +1,19 @@
-// anyphoto init --theme theme2
-module.exports = {
-  separator: 'empty',
-  avatar: '/Users/weirui05/Desktop/WechatIMG396.jpg',
-  author: '黄山',
-  outputName: '黄山',
-  content:
-    '黄山的景色秀丽神奇，尤其是那些怪石，{有趣极了}。就说“仙女弹琴”吧，那美丽的{仙女弹着琴}，悠扬的琴声在山间久久回荡，好像在让人们评赞她的琴声。瞧，那陡峭的山峰上有一只可爱的小狗，抬头望着月亮，好像是要到月亮上去看看吧，这就是有趣的“{天狗望月}”。黄山的奇石还有很多，像“狮子抢球”、“猴子观海”、“龟鱼对望”等，{千姿百态，惟妙惟肖}。',
+const anyPhotoConfig = {
+  defaultSeparator: 'empty',
+  defaultContent:
+    '  余幼时即嗜学。家贫，无从致书以观，每假借于藏书之家，手自笔录，计日以还。天大寒，砚冰坚，手指不可屈伸，弗之怠。录毕，走送之，不敢稍逾约。以是人多以书假余，余因得遍观群书。既加冠，益慕圣贤之道，又患无硕师名人与游，尝趋百里外，从乡之先达执经叩问。先达德隆望尊，门人弟子填其室，未尝稍降辞色。余立侍左右，援疑质理，俯身倾耳以请；或遇其叱咄，色愈恭，礼愈至，不敢出一言以复；俟其欣悦，则又请焉。故余虽愚，卒获有所闻。                                                                                  当余之从师也，负箧曳屣，行深山巨谷中，穷冬烈风，大雪深数尺，足肤皲裂而不知。至舍，四支僵劲不能动，媵人持汤沃灌，以衾拥覆，久而乃和。寓逆旅，主人日再食，无鲜肥滋味之享。同舍生皆被绮绣，戴朱缨宝饰之帽，腰白玉之环，左佩刀，右备容臭，烨然若神人；余则缊袍敝衣处其间，略无慕艳意，以中有足乐者，不知口体之奉不若人也。盖余之勤且艰若此。今虽耄老，未有所成，犹幸预君子之列，而承天子之宠光，缀公卿之后，日侍坐备顾问，四海亦谬称其氏名，况才之过于余者乎？',
+  defaultOutputDirPath: 'anyphoto',
+  defaultOutputName: '送东阳马生序',
+  defaultOutputNameHandle(defaultOutputName) {},
+  defaultAvatar: '/Users/weirui05/Desktop/rainbow.png',
+  defaultAuthor: '送东阳马生序',
   canvasSetting: {
     width: 1250,
     fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
     customFontPath: 'https://show.newarray.vip/font/LXGWWenKai-Bold.ttf',
     downloadCustomFontOutputDir: 'anyphoto-web-font',
     fallbackFontFamilyIndex: 4,
-    backgroundColor: '#996633',
+    backgroundColor: '#669966',
     color: '#fff',
     fontWeight: 'bold',
     textBaseline: 'top',
@@ -22,26 +23,20 @@ module.exports = {
     fontFamilyIndex: 6,
     x: 40,
     y: 60,
-
     header: {
       headerAlign: 'center',
       headerPaddingTop: 30,
       headerPaddingBottom: 30,
-      // avatar
       headerAvatarSize: 80,
       headerAvatarBorderWidth: 4,
       headerAvatarBorderColor: '#fff',
       headerAvatarMarginBottom: 20,
-
-      // author
       showHeaderAuthor: true,
       headerAuthorFontSize: 30,
       headerAuthorFontColor: '#fff',
       headerAuthorFontWeight: 'bold',
       headAuthorFontFamilyIndex: 6,
       headerAuthorMarginBottom: 30,
-
-      // description
       showHeaderDescription: true,
       headerDescriptionFontSize: 20,
       headerDescriptionFontColor: '#fff',
@@ -49,8 +44,8 @@ module.exports = {
       headerDescriptionFontFamilyIndex: 6,
       showHeaderDescriptionTime: false,
       headerDescriptionTimeFormat: 'YYYY/MM/DD HH:mm:ss',
-      headerDescriptionPrefix: '五岳归来不看山，黄山归来不看岳',
-      headerDescriptionPrefixIcon: 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u26f0.png',
+      headerDescriptionPrefix: '作者：宋濂',
+      headerDescriptionPrefixIcon: '',
       headerDescriptionPrefixIconGap: 6,
       headerDescriptionPrefixIconOffsetY: 4,
       divider: {
@@ -59,10 +54,6 @@ module.exports = {
       }
     },
     footer: {
-      // divider: {
-      //   size: 'contentWidth',
-      //   color: '#fff'
-      // },
       paddingY: 60,
       slogan: 'By AnyPhoto',
       sloganPosition: 'right',
@@ -75,7 +66,7 @@ module.exports = {
     },
     from: {
       showFrom: true,
-      name: '/ 用照片记录你的灵感',
+      name: '/ 花有重开日，人无再少年',
       fromFontSize: 20,
       fromFontColor: '#fff',
       fromFontWeight: 'bold',
@@ -86,9 +77,10 @@ module.exports = {
       shape: 'wave',
       color: '#fff',
       lineWidth: 2,
-      amplitude: 2, // amplitude, the larger the number, the greater the amplitude
-      wavelength: 180, // wavelength, the larger the number, the smaller the wavelength
+      amplitude: 2,
+      wavelength: 180,
       offsetY: 10
     }
   }
 }
+module.exports = anyPhotoConfig

@@ -5,7 +5,7 @@ const isImageUrl = require('is-image-url')
 
 const supportSeparator = ['space', 'empty']
 const defaultSeparator = 'space'
-const defaultTheme = 'theme1'
+const defaultTheme = 'default'
 const defaultContent =
   'Generate personalized photos {easily}! Create your own unique style in just a few steps. Add {avatar}, {description}, {date}, {author} and {QR code} to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and {let your photos tell a story}!  #frontenddevelopment #personalizedphoto #creativetools'
 const defaultConfigName = 'anyphoto.config.js'
