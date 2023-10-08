@@ -8,7 +8,7 @@
     "src"
   ],
   "scripts": {
-    "postinstall": "husky install",
+    "prepare": "husky install",
     "lint": "eslint . --fix",
     "commit": "cz",
     "gen": "node ./bin/index.js generate"
