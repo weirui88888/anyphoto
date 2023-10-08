@@ -9,7 +9,7 @@ const defaultTheme = 'default'
 const defaultContent =
   'Generate personalized photos {easily}! Create your own unique style in just a few steps. Add {avatar}, {description}, {date}, {author} and {QR code} to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and {let your photos tell a story}!  #frontenddevelopment #personalizedphoto #creativetools'
 const defaultConfigName = 'anyphoto.config.js'
-const defaultAvatar = 'https://show.newarray.vip/hacker.png'
+const defaultAvatar = 'https://anyphoto.newarray.vip/logos/logo_transparent.png'
 const defaultAuthor = 'AnyPhoto'
 const defaultOutputDir = 'anyphoto'
 const defaultOutputName = 'anyphoto'
@@ -28,8 +28,11 @@ const optionsCpu = {
   avatar: {
     validate(avatar) {
       const isValidAvatar = isImageUrl(avatar)
-      // TODO translate and reset defaultAvatar
-      !isValidAvatar && colorTip('Tips: 由于你提供的头像地址不是一个正确的图片地址，将会采用默认值', 'yellow')
+      !isValidAvatar &&
+        colorTip(
+          'Tips: Since the avatar address you provided is not a correct image address, the default value will be used.',
+          'yellow'
+        )
       return isValidAvatar ? avatar : defaultAvatar
     }
   },
