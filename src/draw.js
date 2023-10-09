@@ -731,7 +731,7 @@ const downloadWebFont = async (customFontPath, downloadOutputDir) => {
   }
 }
 
-const draw = async ({ content, anyPhotoConfig }) => {
+const handledAnyPhotoConfigRemoteResource = async anyPhotoConfig => {
   const {
     avatar,
     canvasSetting: { customFontPath = '', downloadCustomFontOutputDir = 'anyphoto-web-font' }
@@ -747,7 +747,7 @@ const draw = async ({ content, anyPhotoConfig }) => {
       'yellow'
     )
   }
-  const handledAnyPhotoConfig = {
+  return {
     ...anyPhotoConfig,
     avatar: isValidAvatar ? avatar : defaultAvatar,
     canvasSetting: {
@@ -755,7 +755,11 @@ const draw = async ({ content, anyPhotoConfig }) => {
       customFontPath: userCustomFontPath
     }
   }
+}
+
+const draw = async ({ content, anyPhotoConfig }) => {
   // console.time('draw')
+  const handledAnyPhotoConfig = await handledAnyPhotoConfigRemoteResource(anyPhotoConfig)
   const drawer = new Drawer({ content, anyPhotoConfig: handledAnyPhotoConfig })
   drawer
     .setupCpu()
