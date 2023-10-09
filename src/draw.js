@@ -2,12 +2,12 @@ const path = require('path')
 const fs = require('fs')
 const axios = require('axios')
 const { createCanvas, registerFont, loadImage } = require('canvas')
-const { barWatcher, formatDateTime, colorTip, color } = require('./util')
+const { barWatcher, formatDateTime, colorTip, color, checkImageExists } = require('./util')
 const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
 const UnderLineCpu = require('./underlineCpu')
 const base64Img = require('base64-img')
-const { defaultSeparator } = require('./config')
+const { defaultSeparator, defaultAvatar } = require('./config')
 
 class Drawer {
   constructor({ content, anyPhotoConfig }) {
@@ -404,10 +404,11 @@ class Drawer {
     return this
   }
 
+  // Drawing background may be implemented in the next version
   async drawBackground() {
     const { ctx, width, headerHeight, contentHeight } = this
     ctx.save()
-    const canvasBackgroundImage = await loadImage('/Users/weirui05/Desktop/pexels-bob-clark-21492.jpg')
+    const canvasBackgroundImage = await loadImage('')
     const canvasWidth = width
     const canvasHeight = headerHeight + contentHeight
     const { width: canvasBackgroundImageWidth, height: canvasBackgroundImageHeight } = canvasBackgroundImage
@@ -732,11 +733,23 @@ const downloadWebFont = async (customFontPath, downloadOutputDir) => {
 
 const draw = async ({ content, anyPhotoConfig }) => {
   const {
+    avatar,
     canvasSetting: { customFontPath = '', downloadCustomFontOutputDir = 'anyphoto-web-font' }
   } = anyPhotoConfig
+  const isValidAvatar = path.isAbsolute(avatar) ? true : await checkImageExists(avatar)
   const userCustomFontPath = await downloadWebFont(customFontPath, downloadCustomFontOutputDir)
+  if (!isValidAvatar) {
+    colorTip(
+      `Tips: It looks like the remote avatar address you provided [${color(
+        avatar,
+        'red'
+      )}] does not exist, so the default avatar will be used\n`,
+      'yellow'
+    )
+  }
   const handledAnyPhotoConfig = {
     ...anyPhotoConfig,
+    avatar: isValidAvatar ? avatar : defaultAvatar,
     canvasSetting: {
       ...anyPhotoConfig.canvasSetting,
       customFontPath: userCustomFontPath

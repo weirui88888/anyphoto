@@ -1,5 +1,6 @@
 const path = require('path')
-const { colorTip } = require('./util')
+const fs = require('fs')
+const { colorTip, color } = require('./util')
 const themes = require('./themes')
 const isImageUrl = require('is-image-url')
 
@@ -28,13 +29,57 @@ const optionsValidator = {
   },
   avatar: {
     validate(avatar) {
-      const isValidAvatar = isImageUrl(avatar)
-      !isValidAvatar &&
-        colorTip(
-          'Tips: Since the avatar address you provided is not a correct image address, the default value will be used.',
-          'yellow'
-        )
-      return isValidAvatar ? avatar : defaultAvatar
+      if (!path.isAbsolute(avatar)) {
+        if (/^(http:|https:)/.test(avatar)) {
+          if (isImageUrl(avatar)) {
+            return avatar
+          } else {
+            colorTip(
+              `Tips: It looks like you provided a wrong remote avatar address [${color(
+                avatar,
+                'red'
+              )}], so the default avatar will be used\n`,
+              'yellow'
+            )
+            return defaultAvatar
+          }
+        } else {
+          colorTip(
+            `Tips: It looks like you provided a wrong remote avatar address [${color(
+              avatar,
+              'red'
+            )}], so the default avatar will be used\n`,
+            'yellow'
+          )
+          return defaultAvatar
+        }
+      }
+      if (path.isAbsolute(avatar)) {
+        if (fs.existsSync(avatar)) {
+          if (isImageUrl(avatar)) {
+            return avatar
+          } else {
+            colorTip(
+              `Tips: It looks like you provided a wrong local avatar address [${color(
+                avatar,
+                'red'
+              )}], so the default avatar will be used\n`,
+              'yellow'
+            )
+            return defaultAvatar
+          }
+        } else {
+          colorTip(
+            `Tips: It looks like you provided a wrong local avatar address [${color(
+              avatar,
+              'red'
+            )}], so the default avatar will be used\n`,
+            'yellow'
+          )
+          return defaultAvatar
+        }
+      }
+      return avatar
     }
   },
   outputDir: {
