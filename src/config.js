@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const { colorTip, color } = require('./util')
+const { tip } = require('./util')
 const themes = require('./themes')
 const isImageUrl = require('is-image-url')
 
@@ -12,6 +12,7 @@ const defaultContent =
 const defaultConfigName = 'anyphoto.config.js'
 // TODO 这里的默认头像应该需要设置为正确的logo，因为在用户设置错误时，会使用其
 const defaultAvatar = 'https://anyphoto.newarray.vip/logos/logo3/logo.png'
+const defaultCustomFont = 'https://show.newarray.vip/font/LXGWWenKai-Bold.ttf'
 const defaultAuthor = 'AnyPhoto'
 const defaultOutputDir = 'anyphoto'
 const defaultOutputName = 'anyphoto'
@@ -34,23 +35,11 @@ const optionsValidator = {
           if (isImageUrl(avatar)) {
             return avatar
           } else {
-            colorTip(
-              `Tips: It looks like you provided a wrong remote avatar address [${color(
-                avatar,
-                'red'
-              )}], so the default avatar will be used\n`,
-              'yellow'
-            )
+            tip({ key: 'avatar', value: avatar, position: 'remote' })
             return defaultAvatar
           }
         } else {
-          colorTip(
-            `Tips: It looks like you provided a wrong remote avatar address [${color(
-              avatar,
-              'red'
-            )}], so the default avatar will be used\n`,
-            'yellow'
-          )
+          tip({ key: 'avatar', value: avatar, position: 'remote' })
           return defaultAvatar
         }
       }
@@ -59,23 +48,11 @@ const optionsValidator = {
           if (isImageUrl(avatar)) {
             return avatar
           } else {
-            colorTip(
-              `Tips: It looks like you provided a wrong local avatar address [${color(
-                avatar,
-                'red'
-              )}], so the default avatar will be used\n`,
-              'yellow'
-            )
+            tip({ key: 'avatar', value: avatar, position: 'local' })
             return defaultAvatar
           }
         } else {
-          colorTip(
-            `Tips: It looks like you provided a wrong local avatar address [${color(
-              avatar,
-              'red'
-            )}], so the default avatar will be used\n`,
-            'yellow'
-          )
+          tip({ key: 'avatar', value: avatar, position: 'local' })
           return defaultAvatar
         }
       }
@@ -117,6 +94,7 @@ module.exports = {
   defaultContent,
   defaultConfigName,
   defaultAvatar,
+  defaultCustomFont,
   defaultAuthor,
   defaultOutputDir,
   defaultOutputName,

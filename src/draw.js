@@ -1,13 +1,11 @@
-const path = require('path')
-const fs = require('fs')
-const axios = require('axios')
 const { createCanvas, registerFont, loadImage } = require('canvas')
-const { barWatcher, formatDateTime, colorTip, color, checkImageExists } = require('./util')
+const { barWatcher, formatDateTime, colorTip, color } = require('./util')
 const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
 const UnderLineCpu = require('./underlineCpu')
+const ResourceChecker = require('./resourceChecker')
 const base64Img = require('base64-img')
-const { defaultSeparator, defaultAvatar } = require('./config')
+const { defaultSeparator } = require('./config')
 
 class Drawer {
   constructor({ content, anyPhotoConfig }) {
@@ -706,60 +704,10 @@ class Drawer {
   }
 }
 
-const downloadWebFont = async (customFontPath, downloadOutputDir) => {
-  const shouldDownloadWebFont = !path.isAbsolute(customFontPath) && /^(http:|https:)/.test(customFontPath)
-  if (shouldDownloadWebFont) {
-    try {
-      const fontFileName = path.basename(customFontPath)
-      const downloadWebFontFolder = path.join(process.cwd(), downloadOutputDir)
-      if (!fs.existsSync(downloadWebFontFolder)) {
-        fs.mkdirSync(downloadWebFontFolder, { recursive: true })
-      }
-      const downloadWebFontPath = path.join(downloadWebFontFolder, fontFileName)
-      if (fs.existsSync(downloadWebFontPath)) {
-        return downloadWebFontPath
-      }
-      const response = await axios.get(customFontPath, { responseType: 'arraybuffer' })
-      fs.writeFileSync(downloadWebFontPath, response.data, 'binary')
-      return downloadWebFontPath
-    } catch (error) {
-      colorTip(`An error occurred while downloading the font file: [${error.message}]`, 'red')
-      return customFontPath
-    }
-  } else {
-    return customFontPath
-  }
-}
-
-const handledAnyPhotoConfigRemoteResource = async anyPhotoConfig => {
-  const {
-    avatar,
-    canvasSetting: { customFontPath = '', downloadCustomFontOutputDir = 'anyphoto-web-font' }
-  } = anyPhotoConfig
-  const isValidAvatar = path.isAbsolute(avatar) ? true : await checkImageExists(avatar)
-  const userCustomFontPath = await downloadWebFont(customFontPath, downloadCustomFontOutputDir)
-  if (!isValidAvatar) {
-    colorTip(
-      `Tips: It looks like the remote avatar address you provided [${color(
-        avatar,
-        'red'
-      )}] does not exist, so the default avatar will be used\n`,
-      'yellow'
-    )
-  }
-  return {
-    ...anyPhotoConfig,
-    avatar: isValidAvatar ? avatar : defaultAvatar,
-    canvasSetting: {
-      ...anyPhotoConfig.canvasSetting,
-      customFontPath: userCustomFontPath
-    }
-  }
-}
-
 const draw = async ({ content, anyPhotoConfig }) => {
   // console.time('draw')
-  const handledAnyPhotoConfig = await handledAnyPhotoConfigRemoteResource(anyPhotoConfig)
+  const resourceChecker = new ResourceChecker(anyPhotoConfig)
+  const handledAnyPhotoConfig = await resourceChecker.check(anyPhotoConfig)
   const drawer = new Drawer({ content, anyPhotoConfig: handledAnyPhotoConfig })
   drawer
     .setupCpu()

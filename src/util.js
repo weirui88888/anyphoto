@@ -14,10 +14,10 @@ const sleep = time => {
   })
 }
 
-const checkImageExists = async imageUrl => {
+const checkRemoteFileExists = async (remoteUrl, targetType = 'image') => {
   try {
-    const response = await axios.head(imageUrl)
-    return response.status === 200 && response.headers['content-type'].startsWith('image/')
+    const response = await axios.head(remoteUrl)
+    return response.status === 200 && response.headers['content-type'].startsWith(`${targetType}/`)
   } catch (error) {
     return false
   }
@@ -37,6 +37,16 @@ const color = (msg, ...args) => {
   }
   const nextStyle = args[0]
   return color(c[nextStyle](msg), ...args.slice(1))
+}
+
+const tip = ({ key, value, position }) => {
+  colorTip(
+    `Tips: It looks like you provided a wrong ${position} ${key} address [${color(
+      value,
+      'red'
+    )}], so the default ${key} will be used\n`,
+    'yellow'
+  )
 }
 
 const formatDateTime = (date, format) => {
@@ -73,8 +83,9 @@ module.exports = {
   generateOra,
   sleep,
   color,
+  tip,
   colorTip,
-  checkImageExists,
+  checkRemoteFileExists,
   showAnyPhotoFiglet,
   barWatcher,
   formatDateTime
