@@ -1,4 +1,5 @@
 const cliProgress = require('cli-progress')
+const axios = require('axios')
 const figlet = require('figlet')
 const c = require('ansi-colors')
 const ora = require('ora')
@@ -11,6 +12,15 @@ const sleep = time => {
       resolve()
     }, time * 1000)
   })
+}
+
+const checkImageExists = async imageUrl => {
+  try {
+    const response = await axios.head(imageUrl)
+    return response.status === 200 && response.headers['content-type'].startsWith('image/')
+  } catch (error) {
+    return false
+  }
 }
 
 const colorTip = (msg, ...args) => {
@@ -64,6 +74,7 @@ module.exports = {
   sleep,
   color,
   colorTip,
+  checkImageExists,
   showAnyPhotoFiglet,
   barWatcher,
   formatDateTime

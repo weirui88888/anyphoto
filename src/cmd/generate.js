@@ -8,7 +8,7 @@ const {
   defaultOutputDir,
   defaultOutputName,
   defaultConfigName,
-  optionsCpu
+  optionsValidator
 } = require('../config')
 const { defaultCanvasSetting } = require('../defaultCanvasSetting')
 const draw = require('../draw')
@@ -40,7 +40,7 @@ const handelValidAnyPhotoConfig = options => {
   return Object.keys(options).reduce((config, option) => {
     return {
       ...config,
-      [option]: optionsCpu[option].validate(options[option])
+      [option]: optionsValidator[option].validate(options[option])
     }
   }, {})
 }
