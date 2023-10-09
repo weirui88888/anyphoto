@@ -3,7 +3,7 @@ const fs = require('fs')
 const axios = require('axios')
 const isImageUrl = require('is-image-url')
 const { checkRemoteFileExists, colorTip, color, tip } = require('./util')
-const { defaultAvatar, defaultCustomFont } = require('./config')
+const { defaultAvatar, defaultCustomFont, defaultHeaderDescriptionPrefixIcon, defaultQrCodeSrc } = require('./config')
 
 class ResourceChecker {
   constructor(anyPhotoConfig) {
@@ -15,11 +15,60 @@ class ResourceChecker {
     const {
       anyPhotoConfig: { avatar }
     } = this
-    const isValidAvatar = path.isAbsolute(avatar) ? true : await checkRemoteFileExists(avatar)
+    const handleAvatar = this.checkOption({
+      key: 'avatar',
+      value: avatar,
+      defaultValue: defaultAvatar
+    })
+    const isValidAvatar = path.isAbsolute(handleAvatar) ? true : await checkRemoteFileExists(handleAvatar)
     if (!isValidAvatar) {
-      this.colorTip({ key: 'avatar', value: avatar, position: 'remote' })
+      this.tip({ key: 'avatar', value: avatar, position: 'remote' })
     }
-    return isValidAvatar ? avatar : defaultAvatar
+    return isValidAvatar ? handleAvatar : defaultAvatar
+  }
+
+  async checkHeaderDescriptionPrefixIcon() {
+    const {
+      anyPhotoConfig: {
+        canvasSetting: {
+          header: { showHeaderDescription, headerDescriptionPrefixIcon = '' }
+        }
+      }
+    } = this
+    if (!showHeaderDescription || !headerDescriptionPrefixIcon) return
+    const descriptionPrefixIcon = this.checkOption({
+      key: 'headerDescriptionPrefixIcon',
+      value: headerDescriptionPrefixIcon,
+      defaultValue: defaultHeaderDescriptionPrefixIcon
+    })
+    const isValidAvatarHeaderDescriptionPrefixIcon = path.isAbsolute(descriptionPrefixIcon)
+      ? true
+      : await checkRemoteFileExists(descriptionPrefixIcon)
+    if (!isValidAvatarHeaderDescriptionPrefixIcon) {
+      this.tip({ key: 'headerDescriptionPrefixIcon', value: headerDescriptionPrefixIcon, position: 'remote' })
+    }
+    return isValidAvatarHeaderDescriptionPrefixIcon ? descriptionPrefixIcon : defaultHeaderDescriptionPrefixIcon
+  }
+
+  async checkQrCodeSrc() {
+    const {
+      anyPhotoConfig: {
+        canvasSetting: {
+          footer: { qrCodeSrc }
+        }
+      }
+    } = this
+    if (!qrCodeSrc) return
+    const handleQrCodeSrc = this.checkOption({
+      key: 'qrCodeSrc',
+      value: qrCodeSrc,
+      defaultValue: defaultQrCodeSrc
+    })
+    const isValidQrCodeSrc = path.isAbsolute(handleQrCodeSrc) ? true : await checkRemoteFileExists(handleQrCodeSrc)
+    if (!isValidQrCodeSrc) {
+      this.tip({ key: 'qrCodeSrc', value: qrCodeSrc, position: 'remote' })
+    }
+    return isValidQrCodeSrc ? handleQrCodeSrc : defaultQrCodeSrc
   }
 
   async checkCustomFont() {
@@ -27,7 +76,7 @@ class ResourceChecker {
     const {
       canvasSetting: { customFontPath = '', downloadCustomFontOutputDir = 'anyphoto-web-font' }
     } = anyPhotoConfig
-    const customFont = this.checkOption({
+    const handleCustomFont = this.checkOption({
       key: 'customFontPath',
       value: customFontPath,
       defaultValue: defaultCustomFont,
@@ -41,16 +90,16 @@ class ResourceChecker {
         return false
       }
     })
-    const shouldDownloadWebFont = !path.isAbsolute(customFont) && customFont
+    const shouldDownloadWebFont = !path.isAbsolute(handleCustomFont) && handleCustomFont
     if (!shouldDownloadWebFont) {
-      return customFont
+      return handleCustomFont
     } else {
-      const isRemoteCustomFontExist = await checkRemoteFileExists(customFont, 'font')
+      const isRemoteCustomFontExist = await checkRemoteFileExists(handleCustomFont, 'font')
       if (!isRemoteCustomFontExist) {
         this.tip({ key: 'customFontPath', value: customFontPath, position: 'remote' })
       }
       return await this.downloadWebFont(
-        isRemoteCustomFontExist ? customFont : defaultCustomFont,
+        isRemoteCustomFontExist ? handleCustomFont : defaultCustomFont,
         downloadCustomFontOutputDir
       )
     }
@@ -63,7 +112,15 @@ class ResourceChecker {
       avatar: await this.checkAvatar(),
       canvasSetting: {
         ...anyPhotoConfig.canvasSetting,
-        customFontPath: await this.checkCustomFont()
+        customFontPath: await this.checkCustomFont(),
+        header: {
+          ...anyPhotoConfig.canvasSetting.header,
+          headerDescriptionPrefixIcon: await this.checkHeaderDescriptionPrefixIcon()
+        },
+        footer: {
+          ...anyPhotoConfig.canvasSetting.footer,
+          qrCodeSrc: await this.checkQrCodeSrc()
+        }
       }
     }
   }
@@ -78,8 +135,7 @@ class ResourceChecker {
           return defaultValue
         }
       } else {
-        // TODO 对于一些不希望有默认值的配置项，这里需要特殊处理下
-        if (key === 'customFontPath' && !value) {
+        if (!value) {
           return value
         }
         this.tip({ key, value, position: 'remote' })

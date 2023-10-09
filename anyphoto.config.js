@@ -33,13 +33,12 @@ const anyPhotoConfig = {
   defaultOutputDir: 'anyphoto',
   defaultOutputName: '送东阳马生序',
   defaultOutputNameHandle(defaultOutputName) {},
-  defaultAvatar: '/Users/weirui05/Desktop/rainbow.png',
+  defaultAvatar: 'https://anyphoto.newarray.vip/logos/logo1/logo.png',
   defaultAuthor: '送东阳马生序',
   canvasSetting: {
     width: 1250,
     fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
     customFontPath: 'https://show.newarray.vip/font/LXGWWenKai-Bold.ttf',
-    // customFontPath: 'https://show.newarray.vip/font/Muyao-Softbrush.ttf',
     downloadCustomFontOutputDir: 'anyphoto-web-font',
     fallbackFontFamilyIndex: 4,
     backgroundColor: '#669966',
@@ -74,7 +73,7 @@ const anyPhotoConfig = {
       showHeaderDescriptionTime: false,
       headerDescriptionTimeFormat: 'YYYY/MM/DD HH:mm:ss',
       headerDescriptionPrefix: '作者：宋濂',
-      headerDescriptionPrefixIcon: '',
+      // headerDescriptionPrefixIcon: 'https://anyphoto.newarray.vip/logos/logo1/logo.png',
       headerDescriptionPrefixIconGap: 6,
       headerDescriptionPrefixIconOffsetY: 4,
       divider: {
@@ -90,8 +89,8 @@ const anyPhotoConfig = {
       sloganFontColor: '#fff',
       sloganFontWeight: 'bold',
       sloganFontFamilyIndex: 6,
-      qrCodeSrc: '',
-      qrCodePaddingY: 10
+      qrCodeSrc: 'https://anyphoto.newarray.vip/logos/logo1/logo_transparent.png',
+      qrCodePaddingY: 20
     },
     from: {
       showFrom: true,

@@ -1,8 +1,5 @@
 const path = require('path')
-const fs = require('fs')
-const { tip } = require('./util')
 const themes = require('./themes')
-const isImageUrl = require('is-image-url')
 
 const supportSeparator = ['space', 'empty']
 const defaultSeparator = 'space'
@@ -11,8 +8,10 @@ const defaultContent =
   'Generate personalized photos {easily}! Create your own unique style in just a few steps. Add {avatar}, {description}, {date}, {author} and {QR code} to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and {let your photos tell a story}!  #frontenddevelopment #personalizedphoto #creativetools'
 const defaultConfigName = 'anyphoto.config.js'
 // TODO 这里的默认头像应该需要设置为正确的logo，因为在用户设置错误时，会使用其
-const defaultAvatar = 'https://anyphoto.newarray.vip/logos/logo3/logo.png'
+const defaultAvatar = 'https://anyphoto.newarray.vip/logos/logo1/logo.png'
 const defaultCustomFont = 'https://show.newarray.vip/font/LXGWWenKai-Bold.ttf'
+const defaultHeaderDescriptionPrefixIcon = 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f99e.png'
+const defaultQrCodeSrc = 'https://anyphoto.newarray.vip/logos/logo1/logo_transparent.png'
 const defaultAuthor = 'AnyPhoto'
 const defaultOutputDir = 'anyphoto'
 const defaultOutputName = 'anyphoto'
@@ -30,32 +29,6 @@ const optionsValidator = {
   },
   avatar: {
     validate(avatar) {
-      if (!path.isAbsolute(avatar)) {
-        if (/^(http:|https:)/.test(avatar)) {
-          if (isImageUrl(avatar)) {
-            return avatar
-          } else {
-            tip({ key: 'avatar', value: avatar, position: 'remote' })
-            return defaultAvatar
-          }
-        } else {
-          tip({ key: 'avatar', value: avatar, position: 'remote' })
-          return defaultAvatar
-        }
-      }
-      if (path.isAbsolute(avatar)) {
-        if (fs.existsSync(avatar)) {
-          if (isImageUrl(avatar)) {
-            return avatar
-          } else {
-            tip({ key: 'avatar', value: avatar, position: 'local' })
-            return defaultAvatar
-          }
-        } else {
-          tip({ key: 'avatar', value: avatar, position: 'local' })
-          return defaultAvatar
-        }
-      }
       return avatar
     }
   },
@@ -95,6 +68,8 @@ module.exports = {
   defaultConfigName,
   defaultAvatar,
   defaultCustomFont,
+  defaultHeaderDescriptionPrefixIcon,
+  defaultQrCodeSrc,
   defaultAuthor,
   defaultOutputDir,
   defaultOutputName,
