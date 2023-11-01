@@ -45,7 +45,7 @@ const handelValidAnyPhotoConfig = options => {
   }, {})
 }
 
-// 获取所有的用户配置，优先级命令行选项>用户配置选项>默认选项
+// Get all user configurations, priority command line options > User configuration options > Default options
 const getAnyPhotoConfigByKey = ({ key, options }) => {
   if (options[key]) return options[key]
   const defaultKey = `default${key.charAt(0).toUpperCase() + key.slice(1)}`
@@ -72,7 +72,6 @@ const getAnyPhotoConfig = ({ options }) => {
   const author = getAnyPhotoConfigByKey({ key: 'author', options })
   const outputDir = getAnyPhotoConfigByKey({ key: 'outputDir', options })
   const outputName = getAnyPhotoConfigByKey({ key: 'outputName', options })
-
   return {
     ...handelValidAnyPhotoConfig({
       separator,
@@ -91,7 +90,7 @@ const generate = ({ content, options }) => {
     options
   })
   const handleContent = content || getUserAnyPhotoConfigByKey({ defaultKey: 'defaultContent' }) || defaultContent
-  draw({ content: handleContent, anyPhotoConfig })
+  return draw({ content: handleContent, anyPhotoConfig })
 }
 
 module.exports = generate

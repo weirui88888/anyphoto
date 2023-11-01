@@ -476,25 +476,28 @@ class Drawer {
     const { canvas, anyPhotoConfig, generateOutputName, barWatcher } = this
     const base64img = canvas.toDataURL()
     const { outputDir } = anyPhotoConfig
-    base64Img.img(base64img, outputDir, generateOutputName, (error, filepath) => {
-      if (error) {
-        console.error(error.message)
-      } else {
-        barWatcher.update(12, {
-          step: '🎉 Congratulations! Drawing End,Enjoy It'
-        })
-        barWatcher.stop()
-        // exec(`code ${filepath}`)
-        colorTip(
-          `\n${color('Successful!', 'green', 'bold')} now you can find photo at ${color(
-            filepath,
-            'green',
-            'bold',
-            'underline'
-          )}\n`
-        )
-        // console.timeEnd('draw')
-      }
+    return new Promise(resolve => {
+      base64Img.img(base64img, outputDir, generateOutputName, (error, filepath) => {
+        if (error) {
+          console.error(error.message)
+        } else {
+          barWatcher.update(12, {
+            step: '🎉 Congratulations! Drawing End,Enjoy It'
+          })
+          barWatcher.stop()
+          // exec(`code ${filepath}`)
+          colorTip(
+            `\n${color('Successful!', 'green', 'bold')} now you can find photo at ${color(
+              filepath,
+              'green',
+              'bold',
+              'underline'
+            )}\n`
+          )
+          resolve(filepath)
+          // console.timeEnd('draw')
+        }
+      })
     })
   }
 
@@ -709,19 +712,21 @@ const draw = async ({ content, anyPhotoConfig }) => {
   const resourceChecker = new ResourceChecker(anyPhotoConfig)
   const handledAnyPhotoConfig = await resourceChecker.check(anyPhotoConfig)
   const drawer = new Drawer({ content, anyPhotoConfig: handledAnyPhotoConfig })
-  drawer
-    .setupCpu()
-    .then(drawer => drawer.setupCanvas())
-    // .then(drawer => drawer.drawBackground())
-    .then(drawer => drawer.drawAvatar())
-    .then(drawer => drawer.drawAuthor())
-    .then(drawer => drawer.drawDescription())
-    .then(drawer => drawer.drawContent())
-    .then(drawer => drawer.drawUnderline())
-    .then(drawer => drawer.drawFrom())
-    .then(drawer => drawer.drawDivider())
-    .then(drawer => drawer.drawFooter())
-    .then(drawer => drawer.generatePng())
+  return (
+    drawer
+      .setupCpu()
+      .then(drawer => drawer.setupCanvas())
+      // .then(drawer => drawer.drawBackground())
+      .then(drawer => drawer.drawAvatar())
+      .then(drawer => drawer.drawAuthor())
+      .then(drawer => drawer.drawDescription())
+      .then(drawer => drawer.drawContent())
+      .then(drawer => drawer.drawUnderline())
+      .then(drawer => drawer.drawFrom())
+      .then(drawer => drawer.drawDivider())
+      .then(drawer => drawer.drawFooter())
+      .then(drawer => drawer.generatePng())
+  )
 }
 
 module.exports = draw

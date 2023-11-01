@@ -12,6 +12,7 @@ const init = async ({ configDirname, theme }) => {
   })
   initOra.start()
   await sleep(1)
+  // TODO This may need to be changed. The user may want to replace the existing configuration file by default instead of deleting it first and then configuring it. This can be specified through a parameter.
   if (fs.existsSync(configPath)) {
     return initOra.succeed(
       `${color(

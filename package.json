@@ -1,6 +1,6 @@
 {
   "name": "anyphoto",
-  "version": "1.0.12",
+  "version": "1.0.0",
   "description": "Photo by any inspiration",
   "main": "index.js",
   "files": [
@@ -8,6 +8,11 @@
     "src",
     "!src/themes/**/*.png"
   ],
+  "author": {
+    "name": "Xdz",
+    "email": "ruiwei88888@163.com",
+    "url": "https://github.com/weirui88888/"
+  },
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint . --fix",
@@ -16,7 +21,6 @@
     "gen": "node ./bin/index.js generate"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "volta": {
     "node": "18.0.0"
