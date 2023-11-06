@@ -1,7 +1,7 @@
 const defaultCanvasSetting = {
   width: 750,
   fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
-  customFontPath: 'https://show.newarray.vip/font/Caveat-VariableFont_wght.ttf',
+  customFontPath: 'https://static.anyphoto.space/fonts/Caveat-VariableFont_wght.ttf',
   downloadCustomFontOutputDir: 'anyphoto-web-font',
   fallbackFontFamilyIndex: 4,
   backgroundColor: '#006666',

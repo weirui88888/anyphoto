@@ -8,10 +8,10 @@ const defaultContent =
   'Generate personalized photos {easily}! Create your own unique style in just a few steps. Add {avatar}, {description}, {date}, {author} and {QR code} to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and {let your photos tell a story}!  #frontenddevelopment #personalizedphoto #creativetools'
 const defaultConfigName = 'anyphoto.config.js'
 // TODO 这里的默认头像应该需要设置为正确的logo，因为在用户设置错误时，会使用其
-const defaultAvatar = 'https://anyphoto.newarray.vip/logos/logo1/logo.png'
-const defaultCustomFont = 'https://show.newarray.vip/font/LXGWWenKai-Bold.ttf'
+const defaultAvatar = 'https://static.anyphoto.space/logos/logo1/logo.png'
+const defaultCustomFont = 'https://static.anyphoto.space/fonts/LXGWWenKai-Bold.ttf'
 const defaultHeaderDescriptionPrefixIcon = 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f99e.png'
-const defaultQrCodeSrc = 'https://anyphoto.newarray.vip/logos/logo1/logo_transparent.png'
+const defaultQrCodeSrc = 'https://static.anyphoto.space/logos/logo1/logo_transparent.png'
 const defaultAuthor = 'AnyPhoto'
 const defaultOutputDir = 'anyphoto'
 const defaultOutputName = 'anyphoto'

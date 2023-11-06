@@ -9,7 +9,7 @@ module.exports = {
   canvasSetting: {
     width: 1250,
     fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
-    customFontPath: 'https://show.newarray.vip/font/LXGWWenKai-Bold.ttf',
+    customFontPath: 'https://static.anyphoto.space/fonts/LXGWWenKai-Bold.ttf',
     downloadCustomFontOutputDir: 'anyphoto-web-font',
     fallbackFontFamilyIndex: 4,
     backgroundColor: '#669966',
