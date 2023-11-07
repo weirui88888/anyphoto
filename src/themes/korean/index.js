@@ -1,7 +1,7 @@
 // anyphoto init --theme korean
 module.exports = {
   separator: 'empty',
-  avatar: '/Users/weirui05/Desktop/hacker.png',
+  avatar: 'https://static.anyphoto.space/core/themes/default/avatar.jpg',
   author: '아무사진',
   outputName: '아무사진',
   content:

@@ -1,7 +1,7 @@
 // anyphoto init --theme huangshan
 module.exports = {
   separator: 'empty',
-  avatar: '/Users/weirui05/Desktop/WechatIMG396.jpg',
+  avatar: 'https://static.anyphoto.space/core/themes/default/avatar.jpg',
   author: '黄山',
   outputName: '黄山',
   content:

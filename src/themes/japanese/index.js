@@ -1,7 +1,7 @@
 // anyphoto init --theme japanese
 module.exports = {
   separator: 'empty',
-  avatar: '/Users/weirui05/Desktop/rainbow.png',
+  avatar: 'https://static.anyphoto.space/core/themes/default/avatar.jpg',
   author: '任意の写真',
   outputName: '任意の写真',
   content:

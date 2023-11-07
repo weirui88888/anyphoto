@@ -1,7 +1,7 @@
 // anyphoto init --theme poem
 module.exports = {
   separator: 'empty',
-  avatar: '/Users/weirui05/Desktop/rainbow.png',
+  avatar: 'https://static.anyphoto.space/core/themes/default/avatar.jpg',
   author: '送东阳马生序',
   outputName: '送东阳马生序',
   content:

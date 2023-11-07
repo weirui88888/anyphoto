@@ -1,7 +1,7 @@
 // anyphoto init --theme default || anyphoto init
 module.exports = {
   separator: 'space',
-  avatar: '/Users/weirui05/Desktop/WechatIMG38388.jpg',
+  avatar: 'https://static.anyphoto.space/core/themes/default/avatar.jpg',
   author: 'AnyPhoto',
   outputName: 'default',
   content:
