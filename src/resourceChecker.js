@@ -74,7 +74,11 @@ class ResourceChecker {
   async checkCustomFont() {
     const { anyPhotoConfig } = this
     const {
-      canvasSetting: { customFontPath = '', downloadCustomFontOutputDir = 'anyphoto-web-font' }
+      canvasSetting: {
+        customFontPath = '',
+        downloadCustomFontOutputDir = 'anyphoto-web-font',
+        downloadCustomFontRelativeOutputPath = ''
+      }
     } = anyPhotoConfig
     const handleCustomFont = this.checkOption({
       key: 'customFontPath',
@@ -100,6 +104,7 @@ class ResourceChecker {
       }
       return await this.downloadWebFont(
         isRemoteCustomFontExist ? handleCustomFont : defaultCustomFont,
+        downloadCustomFontRelativeOutputPath,
         downloadCustomFontOutputDir
       )
     }
@@ -156,10 +161,11 @@ class ResourceChecker {
     }
   }
 
-  async downloadWebFont(customFontPath, downloadOutputDir) {
+  async downloadWebFont(customFontPath, downloadRelativeOutputPath, downloadOutputDir) {
     try {
       const fontFileName = path.basename(customFontPath)
-      const downloadWebFontFolder = path.join(process.cwd(), downloadOutputDir)
+      const downloadWebFontFolder = path.join(process.cwd(), downloadRelativeOutputPath, downloadOutputDir)
+      console.log(downloadWebFontFolder)
       if (!fs.existsSync(downloadWebFontFolder)) {
         fs.mkdirSync(downloadWebFontFolder, { recursive: true })
       }
