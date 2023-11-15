@@ -85,10 +85,15 @@ const getAnyPhotoConfig = ({ options }) => {
   }
 }
 
-const generate = ({ content, options }) => {
+const generate = ({ content, options, canvasSetting }) => {
   const anyPhotoConfig = getAnyPhotoConfig({
-    options
+    options,
+    canvasSetting
   })
+  anyPhotoConfig.canvasSetting = {
+    ...anyPhotoConfig.canvasSetting,
+    ...canvasSetting
+  }
   const handleContent = content || getUserAnyPhotoConfigByKey({ defaultKey: 'defaultContent' }) || defaultContent
   return draw({ content: handleContent, anyPhotoConfig })
 }

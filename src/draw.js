@@ -1,4 +1,4 @@
-const { createCanvas, registerFont, loadImage } = require('canvas')
+const { createCanvas, registerFont, loadImage, deregisterAllFonts } = require('canvas')
 const { barWatcher, formatDateTime, colorTip, color } = require('./util')
 const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
@@ -29,6 +29,7 @@ class Drawer {
       from,
       underline
     } = anyPhotoConfig.canvasSetting
+    deregisterAllFonts()
     if (customFontPath) {
       registerFont(customFontPath, {
         family: 'Custom'

@@ -1,6 +1,6 @@
 {
   "name": "anyphoto",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Photo by any inspiration",
   "main": "index.js",
   "files": [
@@ -9,7 +9,7 @@
     "!src/themes/**/*.png"
   ],
   "author": {
-    "name": "Xdz",
+    "name": "xdzi8b",
     "email": "ruiwei88888@163.com",
     "url": "https://github.com/weirui88888/"
   },

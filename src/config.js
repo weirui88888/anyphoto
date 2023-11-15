@@ -5,7 +5,7 @@ const supportSeparator = ['space', 'empty']
 const defaultSeparator = 'space'
 const defaultTheme = 'default'
 const defaultContent =
-  'Generate personalized photos {easily}! Create your own unique style in just a few steps. Add {avatar}, {description}, {date}, {author} and {QR code} to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and {let your photos tell a story}!  #frontenddevelopment #personalizedphoto #creativetools'
+  'Generate personalized photos easily! Create your own unique style in just a few steps. Add avatar, description, date, author and QR code to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and let your photos tell a story!                                                                       #frontenddevelopment #personalizedphoto #creativetools'
 const defaultConfigName = 'anyphoto.config.js'
 // TODO 这里的默认头像应该需要设置为正确的logo，因为在用户设置错误时，会使用其
 const defaultAvatar = 'https://static.anyphoto.space/logos/logo1/logo.png'
