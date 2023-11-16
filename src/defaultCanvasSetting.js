@@ -1,9 +1,8 @@
 const defaultCanvasSetting = {
   width: 1250,
-  fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
+  fontFamilys: ['Custom'],
   customFontPath: 'https://static.anyphoto.space/fonts/Caveat-VariableFont_wght.ttf',
   downloadCustomFontOutputDir: 'anyphoto-web-font',
-  fallbackFontFamilyIndex: 4,
   backgroundColor: '#82b484',
   color: '#ffffff',
   fontWeight: 'bold',
@@ -11,7 +10,7 @@ const defaultCanvasSetting = {
   textAlign: 'start',
   fontSize: 30,
   lineGap: 30,
-  fontFamilyIndex: 6,
+  fontFamilyIndex: 0,
   x: 40,
   y: 30,
 

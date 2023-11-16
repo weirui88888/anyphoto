@@ -87,8 +87,7 @@ const getAnyPhotoConfig = ({ options }) => {
 
 const generate = ({ content, options, canvasSetting }) => {
   const anyPhotoConfig = getAnyPhotoConfig({
-    options,
-    canvasSetting
+    options
   })
   anyPhotoConfig.canvasSetting = {
     ...anyPhotoConfig.canvasSetting,

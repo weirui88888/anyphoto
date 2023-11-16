@@ -15,7 +15,6 @@ class Drawer {
       y,
       fontFamilys,
       customFontPath,
-      fallbackFontFamilyIndex,
       color,
       backgroundColor,
       fontSize,
@@ -38,7 +37,6 @@ class Drawer {
     this.anyPhotoConfig = anyPhotoConfig
     // separator
     this.separator = this.anyPhotoConfig.separator
-    this.fallbackFontFamilyIndex = fallbackFontFamilyIndex
     this.width = width
     this.fontWeight = fontWeight
     this.fontFamilys = fontFamilys
@@ -601,8 +599,8 @@ class Drawer {
   }
 
   setupFont(fontWeight, fontSize, familyIndex) {
-    const { fontFamilys, fallbackFontFamilyIndex } = this
-    return `${fontWeight} ${fontSize}px ${fontFamilys[familyIndex]},${fontFamilys[fallbackFontFamilyIndex]},sans-serif`
+    const { fontFamilys } = this
+    return `${fontWeight} ${fontSize}px ${fontFamilys[familyIndex]},sans-serif`
   }
 
   setLineWidthMap(line, width) {

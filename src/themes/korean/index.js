@@ -8,10 +8,9 @@ module.exports = {
     '나만의 사진을 쉽게 생성해보세요! 단 몇 단계만으로 자신만의 독특한 스타일을 만들어 보세요. 아바타, 설명, 날짜, 작성자 및 QR 코드를 추가하여 사진을 즉시 생생하고 흥미롭게 만드세요. 소셜 미디어 공유, 블로그 표지, 이력서 프레젠테이션 등 무엇이든 눈에 띌 수 있습니다! npm 툴킷을 사용해 보고 사진에 이야기를 담아보세요! #프론트엔드개발 #개인화된사진 #크리에이티브 도구',
   canvasSetting: {
     width: 750,
-    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
+    fontFamilys: ['Custom'],
     customFontPath: 'https://static.anyphoto.space/fonts/LXGWWenKai-Bold.ttf',
     downloadCustomFontOutputDir: 'anyphoto-web-font',
-    fallbackFontFamilyIndex: 4,
     backgroundColor: '#006666',
     color: '#FFCC66',
     fontWeight: 'bold',
@@ -19,7 +18,7 @@ module.exports = {
     textAlign: 'start',
     fontSize: 30,
     lineGap: 15,
-    fontFamilyIndex: 6,
+    fontFamilyIndex: 0,
     x: 20,
     y: 20,
 

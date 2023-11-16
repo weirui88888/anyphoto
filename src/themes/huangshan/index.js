@@ -8,10 +8,9 @@ module.exports = {
     '黄山的景色秀丽神奇，尤其是那些怪石，{有趣极了}。就说“仙女弹琴”吧，那美丽的{仙女弹着琴}，悠扬的琴声在山间久久回荡，好像在让人们评赞她的琴声。瞧，那陡峭的山峰上有一只可爱的小狗，抬头望着月亮，好像是要到月亮上去看看吧，这就是有趣的“{天狗望月}”。黄山的奇石还有很多，像“狮子抢球”、“猴子观海”、“龟鱼对望”等，{千姿百态，惟妙惟肖}。',
   canvasSetting: {
     width: 1250,
-    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
+    fontFamilys: ['Custom'],
     customFontPath: 'https://static.anyphoto.space/fonts/LXGWWenKai-Bold.ttf',
     downloadCustomFontOutputDir: 'anyphoto-web-font',
-    fallbackFontFamilyIndex: 4,
     backgroundColor: '#996633',
     color: '#fff',
     fontWeight: 'bold',
@@ -19,7 +18,7 @@ module.exports = {
     textAlign: 'start',
     fontSize: 30,
     lineGap: 30,
-    fontFamilyIndex: 6,
+    fontFamilyIndex: 0,
     x: 40,
     y: 60,
 

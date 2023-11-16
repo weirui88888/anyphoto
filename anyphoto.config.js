@@ -39,11 +39,10 @@ const anyPhotoConfig = {
   defaultAuthor: 'Anyphoto',
   canvasSetting: {
     width: 1250,
-    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
+    fontFamilys: ['Custom'],
     customFontPath: 'https://static.anyphoto.space/fonts/LXGWWenKai-Bold.ttf',
     downloadCustomFontOutputDir: 'anyphoto-web-font',
     downloadCustomFontRelativeOutputPath: '../',
-    fallbackFontFamilyIndex: 4,
     backgroundColor: '#82b484',
     color: '#ffffff',
     fontWeight: 'bold',
@@ -51,7 +50,7 @@ const anyPhotoConfig = {
     textAlign: 'start',
     fontSize: 30,
     lineGap: 30,
-    fontFamilyIndex: 6,
+    fontFamilyIndex: 0,
     x: 40,
     y: 30,
     header: {
@@ -81,7 +80,7 @@ const anyPhotoConfig = {
       headerDescriptionPrefixIconOffsetY: 4
       // divider: {
       //   size: 'contentWidth',
-      //   color: '#ffffff'
+      //   color: '#FFFFFF'
       // }
     },
     footer: {

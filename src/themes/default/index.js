@@ -8,10 +8,9 @@ module.exports = {
     'Generate personalized photos {easily}! Create your own unique style in just a few steps. Add {avatar}, {description}, {date}, {author} and {QR code} to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and {let your photos tell a story}!  #frontenddevelopment #personalizedphoto #creativetools',
   canvasSetting: {
     width: 750,
-    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
+    fontFamilys: ['Custom'],
     customFontPath: 'https://static.anyphoto.space/fonts/Caveat-VariableFont_wght.ttf',
     downloadCustomFontOutputDir: 'anyphoto-web-font',
-    fallbackFontFamilyIndex: 4,
     backgroundColor: '#006666',
     color: '#FFCC66',
     fontWeight: 'bold',
@@ -19,7 +18,7 @@ module.exports = {
     textAlign: 'start',
     fontSize: 30,
     lineGap: 15,
-    fontFamilyIndex: 6,
+    fontFamilyIndex: 0,
     x: 20,
     y: 20,
 

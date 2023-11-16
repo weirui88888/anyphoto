@@ -8,10 +8,9 @@ module.exports = {
     '簡単にパーソナライズされた写真を生成しましょう！わずか数ステップで独自のスタイルを作り出せます。{アバター}、{説明}、{日付}、{作者}、{QRコード}を追加して、写真を活気づけて興味深くしましょう。SNSのシェア、ブログのカバー、または履歴書のプレゼンテーションなど、目立つことができます！当社のnpmツールキットを試して、写真が物語を語るようにしましょう！#フロントエンド開発 #パーソナライズ写真 #クリエイティブツール',
   canvasSetting: {
     width: 750,
-    fontFamilys: ['Arial', 'Times New Roman', 'Verdana', 'Tahoma', 'Courier New', 'Helvetica', 'Custom'],
+    fontFamilys: ['Custom'],
     customFontPath: 'https://static.anyphoto.space/fonts/LXGWWenKai-Bold.ttf',
     downloadCustomFontOutputDir: 'anyphoto-web-font',
-    fallbackFontFamilyIndex: 4,
     backgroundColor: '#006666',
     color: '#FFCC66',
     fontWeight: 'bold',
@@ -19,7 +18,7 @@ module.exports = {
     textAlign: 'start',
     fontSize: 30,
     lineGap: 15,
-    fontFamilyIndex: 6,
+    fontFamilyIndex: 0,
     x: 20,
     y: 20,
 
