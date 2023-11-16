@@ -1,20 +1,38 @@
 const path = require('path')
 const themes = require('./themes')
-
 const supportSeparator = ['space', 'empty']
 const defaultSeparator = 'space'
 const defaultTheme = 'default'
 const defaultContent =
-  'Generate personalized photos easily! Create your own unique style in just a few steps. Add avatar, description, date, author and QR code to make your photos lively and interesting instantly. Whether it‘s social media sharing, blog cover, or resume presentation, you can stand out! Try our npm toolkit and let your photos tell a story!                                                                       #frontenddevelopment #personalizedphoto #creativetools'
+  'Anyphoto is a product that can be used to generate personalized images. You can easily create a stylish, personalized image in just a few simple steps. Supports adding avatar, title, image, description, date, title, annotation content, etc. to make your photos lively and interesting instantly. {What’s more interesting is that every element in the photo can be configured}, so you can design the layout exactly according to your own creativity and ideas. You can choose your preferred font, layout, color palette, and everything else. You can use the resulting images anywhere, such as on social media, on your resume, or simply to capture what‘s on your mind at the moment! It is worth mentioning that this tool is {inspired by WeChat reading}. It has a variety of ways to use it, from the core toolkit with npm to the API, and of course the intuitive visual interface. Everything is being continuously updated. {Finally, hope you like it.}'
 const defaultConfigName = 'anyphoto.config.js'
-// TODO 这里的默认头像应该需要设置为正确的logo，因为在用户设置错误时，会使用其
-const defaultAvatar = 'https://static.anyphoto.space/logos/logo1/logo.png'
+const defaultAvatar = 'https://static.anyphoto.space/core/themes/default/avatar.jpg'
 const defaultCustomFont = 'https://static.anyphoto.space/fonts/LXGWWenKai-Bold.ttf'
-const defaultHeaderDescriptionPrefixIcon = 'https://pic.sopili.net/pub/emoji/noto-emoji/png/128/emoji_u1f99e.png'
-const defaultQrCodeSrc = 'https://static.anyphoto.space/logos/logo1/logo_transparent.png'
+const defaultHeaderDescriptionPrefixIcon = 'https://static.anyphoto.space/core/themes/default/rainbow.png'
+const defaultQrCodeSrc = 'https://static.anyphoto.space/logos/logo2/logo_transparent.png'
 const defaultAuthor = 'AnyPhoto'
 const defaultOutputDir = 'anyphoto'
 const defaultOutputName = 'anyphoto'
+const defaultOutputNameHandle = () => {
+  function generateDate() {
+    const date = new Date()
+    const year = date.getFullYear()
+    let month = date.getMonth() + 1
+    let day = date.getDate()
+    let hours = date.getHours()
+    let minutes = date.getMinutes()
+    let seconds = date.getSeconds()
+
+    month = month < 10 ? '0' + month : month
+    day = day < 10 ? '0' + day : day
+    hours = hours < 10 ? '0' + hours : hours
+    minutes = minutes < 10 ? '0' + minutes : minutes
+    seconds = seconds < 10 ? '0' + seconds : seconds
+
+    return year + '.' + month + '.' + day + '.' + hours + '.' + minutes + '.' + seconds
+  }
+  return `photo-generate-at-${generateDate()}`
+}
 
 const optionsValidator = {
   separator: {
@@ -73,6 +91,7 @@ module.exports = {
   defaultAuthor,
   defaultOutputDir,
   defaultOutputName,
+  defaultOutputNameHandle,
   optionsValidator,
   initConfig: theme => {
     return `/*
@@ -83,7 +102,7 @@ Of course, you can define this variable name at will. The only
 thing you need to make sure is that in anyPhotoConfig below, you
 must set it correctly to use it. for example:
 
-backgroundColor:'#006666' ====> backgroundColor:colorSetting.backgroundColor
+backgroundColor:'#82b484' ====> backgroundColor:colorSetting.backgroundColor
 
 This is what I consider the design from the perspective of a developer.
 If you feel that I am very considerate from the bottom of your heart, don’t forget to give me a github star🌟 ,haha~
@@ -91,7 +110,7 @@ If you feel that I am very considerate from the bottom of your heart, don’t fo
 🌟 Github Address: https://github.com/weirui88888/anyphoto
 
 const colorSetting = {
-  backgroundColor: '#006666',
+  backgroundColor: '#82b484',
   color: '',
   headerAvatarBorderColor: '',
   headerAuthorFontColor: '',
@@ -108,7 +127,26 @@ const anyPhotoConfig = {
   defaultContent: '${themeDefaultContent(themes[theme].content)}',
   defaultOutputDir: '${defaultOutputDir}',
   defaultOutputName: '${themeDefaultOutputName(themes[theme].outputName)}',
-  defaultOutputNameHandle(defaultOutputName) {},
+  defaultOutputNameHandle(defaultOutputName) {
+    function generateDate() {
+      const date = new Date()
+      const year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+      let hours = date.getHours()
+      let minutes = date.getMinutes()
+      let seconds = date.getSeconds()
+
+      month = month < 10 ? '0' + month : month
+      day = day < 10 ? '0' + day : day
+      hours = hours < 10 ? '0' + hours : hours
+      minutes = minutes < 10 ? '0' + minutes : minutes
+      seconds = seconds < 10 ? '0' + seconds : seconds
+
+      return year + '.' + month + '.' + day + '.' + hours + '.' + minutes + '.' + seconds
+    }
+    return \`photo-generate-at-\${generateDate()}\`
+  },
   defaultAvatar: '${themeDefaultAvatar(themes[theme].avatar)}',
   defaultAuthor: '${themeDefaultAuthor(themes[theme].author)}',
   canvasSetting: ${JSON.stringify(themes[theme].canvasSetting, null, 4)}

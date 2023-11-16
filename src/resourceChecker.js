@@ -165,7 +165,6 @@ class ResourceChecker {
     try {
       const fontFileName = path.basename(customFontPath)
       const downloadWebFontFolder = path.join(process.cwd(), downloadRelativeOutputPath, downloadOutputDir)
-      console.log(downloadWebFontFolder)
       if (!fs.existsSync(downloadWebFontFolder)) {
         fs.mkdirSync(downloadWebFontFolder, { recursive: true })
       }

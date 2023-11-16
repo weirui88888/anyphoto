@@ -27,7 +27,7 @@ class UnderLineCpu {
     this.lineGap = lineGap
     this.canvasUnderlineSetting = {
       shape: 'line',
-      color: '#fff',
+      color: '#ffffff',
       lineWidth: 3,
       offsetY: 10,
       ...canvasUnderlineSetting

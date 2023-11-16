@@ -7,6 +7,7 @@ const {
   defaultAvatar,
   defaultOutputDir,
   defaultOutputName,
+  defaultOutputNameHandle,
   defaultConfigName,
   optionsValidator
 } = require('../config')
@@ -80,12 +81,13 @@ const getAnyPhotoConfig = ({ options }) => {
       outputDir,
       outputName
     }),
-    defaultOutputNameHandle: getUserAnyPhotoConfigByKey({ defaultKey: 'defaultOutputNameHandle' }),
+    defaultOutputNameHandle:
+      getUserAnyPhotoConfigByKey({ defaultKey: 'defaultOutputNameHandle' }) || defaultOutputNameHandle,
     canvasSetting: getUserAnyPhotoConfigByKey({ defaultKey: 'canvasSetting' }) || defaultCanvasSetting
   }
 }
 
-const generate = ({ content, options, canvasSetting }) => {
+const generate = ({ content, options, canvasSetting = {} }) => {
   const anyPhotoConfig = getAnyPhotoConfig({
     options
   })
