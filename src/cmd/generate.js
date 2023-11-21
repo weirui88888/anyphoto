@@ -88,7 +88,7 @@ const getAnyPhotoConfig = ({ options }) => {
 }
 
 const generate = ({ content, options, canvasSetting = {} }) => {
-  const { header, ...core } = canvasSetting
+  const { header, footer, from, underline, ...core } = canvasSetting
   const anyPhotoConfig = getAnyPhotoConfig({
     options
   })
@@ -98,6 +98,18 @@ const generate = ({ content, options, canvasSetting = {} }) => {
     header: {
       ...anyPhotoConfig.canvasSetting.header,
       ...header
+    },
+    footer: {
+      ...anyPhotoConfig.canvasSetting.footer,
+      ...footer
+    },
+    from: {
+      ...anyPhotoConfig.canvasSetting.from,
+      ...from
+    },
+    underline: {
+      ...anyPhotoConfig.canvasSetting.underline,
+      ...underline
     }
   }
   const handleContent = content || getUserAnyPhotoConfigByKey({ defaultKey: 'defaultContent' }) || defaultContent
