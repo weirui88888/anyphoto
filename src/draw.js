@@ -64,7 +64,7 @@ class Drawer {
     this.x = this.lineWidthMap.size > 1 ? this.setSuitableXWidth(maxLineWidth, this.width, x) : x
     // header
     this.header = header
-    this.author = this.anyPhotoConfig.author
+    this.title = this.anyPhotoConfig.title
     this.avatar = this.anyPhotoConfig.avatar
     this.headerHeight = 0
     // from
@@ -88,7 +88,7 @@ class Drawer {
       header,
       footer,
       width,
-      calculateAuthorWidth,
+      calculateTitleWidth,
       getDescriptionWidth,
       calculateSloganWidth
     } = this
@@ -105,7 +105,7 @@ class Drawer {
       x,
       canvasHeaderSetting: header,
       canvasWidth: width,
-      authorWidth: calculateAuthorWidth,
+      titleWidth: calculateTitleWidth,
       descriptionWidth: getDescriptionWidth
     })
     this.headerHeight = this.headerCpu.getHeaderHeight
@@ -191,27 +191,27 @@ class Drawer {
     return this
   }
 
-  async drawAuthor() {
-    const { ctx, author, headerCpu, barWatcher } = this
+  async drawTitle() {
+    const { ctx, title, headerCpu, barWatcher } = this
     const {
-      showHeaderAuthor,
-      headerAuthorFontSize,
-      headerAuthorFontWeight,
-      authorStartPointX,
-      authorStartPointY,
-      headerAuthorFontColor,
-      headAuthorFontFamilyIndex
-    } = headerCpu.calculateApplyAuthor
-    if (showHeaderAuthor) {
+      showHeaderTitle,
+      headerTitleFontSize,
+      headerTitleFontWeight,
+      titleStartPointX,
+      titleStartPointY,
+      headerTitleFontColor,
+      headerTitleFontFamilyIndex
+    } = headerCpu.calculateApplyTitle
+    if (showHeaderTitle) {
       // DONE STEP4
       barWatcher.setTotal(5)
       barWatcher.update(4, {
-        step: 'Drawing Author'
+        step: 'Drawing Title'
       })
       ctx.beginPath()
-      ctx.fillStyle = headerAuthorFontColor
-      ctx.font = this.setupFont(headerAuthorFontWeight, headerAuthorFontSize, headAuthorFontFamilyIndex)
-      ctx.fillText(author, authorStartPointX, authorStartPointY)
+      ctx.fillStyle = headerTitleFontColor
+      ctx.font = this.setupFont(headerTitleFontWeight, headerTitleFontSize, headerTitleFontFamilyIndex)
+      ctx.fillText(title, titleStartPointX, titleStartPointY)
     }
     return this
   }
@@ -344,11 +344,11 @@ class Drawer {
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     ctx.fillText(slogan, sloganStartPointX, sloganStartPointY)
-    const { showQrCode, qrCodeSrc, qrCodeStartPointX, qrCodeStartPointY, qrCodeWidth } =
-      this.footerCpu.calculateApplyQrCode
-    if (showQrCode) {
-      const qrCodeImage = await loadImage(qrCodeSrc)
-      ctx.drawImage(qrCodeImage, qrCodeStartPointX, qrCodeStartPointY, qrCodeWidth, qrCodeWidth)
+    const { showSloganIcon, sloganIcon, sloganIconStartPointX, sloganIconStartPointY, sloganIconWidth } =
+      this.footerCpu.calculateApplySloganIcon
+    if (showSloganIcon) {
+      const sloganIconImage = await loadImage(sloganIcon)
+      ctx.drawImage(sloganIconImage, sloganIconStartPointX, sloganIconStartPointY, sloganIconWidth, sloganIconWidth)
     }
     ctx.restore()
     return this
@@ -513,15 +513,15 @@ class Drawer {
     return Math.ceil(maxLineWidth)
   }
 
-  get calculateAuthorWidth() {
-    const { author, ctx, header } = this
-    const { headerAuthorFontColor, headerAuthorFontSize, headerAuthorFontWeight, headAuthorFontFamilyIndex } = header
+  get calculateTitleWidth() {
+    const { title, ctx, header } = this
+    const { headerTitleFontColor, headerTitleFontSize, headerTitleFontWeight, headerTitleFontFamilyIndex } = header
     ctx.save()
-    ctx.fillStyle = headerAuthorFontColor
-    ctx.font = this.setupFont(headerAuthorFontWeight, headerAuthorFontSize, headAuthorFontFamilyIndex)
-    const authorWidth = ctx.measureText(author).width
+    ctx.fillStyle = headerTitleFontColor
+    ctx.font = this.setupFont(headerTitleFontWeight, headerTitleFontSize, headerTitleFontFamilyIndex)
+    const titleWidth = ctx.measureText(title).width
     ctx.restore()
-    return authorWidth
+    return titleWidth
   }
 
   get getDescription() {
@@ -717,7 +717,7 @@ const draw = async ({ content, anyPhotoConfig }) => {
       .then(drawer => drawer.setupCanvas())
       // .then(drawer => drawer.drawBackground())
       .then(drawer => drawer.drawAvatar())
-      .then(drawer => drawer.drawAuthor())
+      .then(drawer => drawer.drawTitle())
       .then(drawer => drawer.drawDescription())
       .then(drawer => drawer.drawContent())
       .then(drawer => drawer.drawUnderline())

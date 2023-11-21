@@ -3,7 +3,7 @@ const fs = require('fs')
 const axios = require('axios')
 const isImageUrl = require('is-image-url')
 const { checkRemoteFileExists, colorTip, color, tip } = require('./util')
-const { defaultAvatar, defaultCustomFont, defaultHeaderDescriptionPrefixIcon, defaultQrCodeSrc } = require('./config')
+const { defaultAvatar, defaultCustomFont, defaultHeaderDescriptionPrefixIcon, defaultSloganIcon } = require('./config')
 
 class ResourceChecker {
   constructor(anyPhotoConfig) {
@@ -50,25 +50,25 @@ class ResourceChecker {
     return isValidAvatarHeaderDescriptionPrefixIcon ? descriptionPrefixIcon : defaultHeaderDescriptionPrefixIcon
   }
 
-  async checkQrCodeSrc() {
+  async checkSloganIcon() {
     const {
       anyPhotoConfig: {
         canvasSetting: {
-          footer: { qrCodeSrc }
+          footer: { sloganIcon }
         }
       }
     } = this
-    if (!qrCodeSrc) return
-    const handleQrCodeSrc = this.checkOption({
-      key: 'qrCodeSrc',
-      value: qrCodeSrc,
-      defaultValue: defaultQrCodeSrc
+    if (!sloganIcon) return
+    const handleSloganIcon = this.checkOption({
+      key: 'sloganIcon',
+      value: sloganIcon,
+      defaultValue: defaultSloganIcon
     })
-    const isValidQrCodeSrc = path.isAbsolute(handleQrCodeSrc) ? true : await checkRemoteFileExists(handleQrCodeSrc)
-    if (!isValidQrCodeSrc) {
-      this.tip({ key: 'qrCodeSrc', value: qrCodeSrc, position: 'remote' })
+    const isValidSloganIcon = path.isAbsolute(handleSloganIcon) ? true : await checkRemoteFileExists(handleSloganIcon)
+    if (!isValidSloganIcon) {
+      this.tip({ key: 'sloganIcon', value: sloganIcon, position: 'remote' })
     }
-    return isValidQrCodeSrc ? handleQrCodeSrc : defaultQrCodeSrc
+    return isValidSloganIcon ? handleSloganIcon : defaultSloganIcon
   }
 
   async checkCustomFont() {
@@ -124,7 +124,7 @@ class ResourceChecker {
         },
         footer: {
           ...anyPhotoConfig.canvasSetting.footer,
-          qrCodeSrc: await this.checkQrCodeSrc()
+          sloganIcon: await this.checkSloganIcon()
         }
       }
     }

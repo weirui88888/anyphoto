@@ -31,7 +31,7 @@ program
     'The Content separator,support with empty or space,If not specified, the default is to use space to split the content.'
   )
   .option('-av, --avatar <url>', 'The avatar address of the photo')
-  .option('-au, --author <name>', 'The author name of the photo')
+  .option('-t, --title <name>', 'The title of the photo')
   .option('-o, --outputDir <output dir>', 'The place where the photo will be generated')
   .option('-n, --outputName <output name>', 'The name of the output photo')
   .action((content, options) => {

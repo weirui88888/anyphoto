@@ -1,9 +1,9 @@
 const isImageUrl = require('is-image-url')
 class HeaderCpu {
-  constructor({ canvasHeaderSetting, x, canvasWidth, authorWidth, descriptionWidth }) {
+  constructor({ canvasHeaderSetting, x, canvasWidth, titleWidth, descriptionWidth }) {
     this.canvasHeaderSetting = canvasHeaderSetting
     this.x = x
-    this.authorWidth = authorWidth
+    this.titleWidth = titleWidth
     this.canvasWidth = canvasWidth
     this.descriptionWidth = descriptionWidth
   }
@@ -11,7 +11,7 @@ class HeaderCpu {
   calculateApplyHeader() {
     return {
       avatar: this.calculateApplyAvatar,
-      author: this.calculateApplyAuthor,
+      title: this.calculateApplyTitle,
       description: this.calculateApplyDescription
     }
   }
@@ -32,21 +32,21 @@ class HeaderCpu {
     }
   }
 
-  get calculateApplyAuthor() {
+  get calculateApplyTitle() {
     const {
-      showHeaderAuthor,
-      headerAuthorFontSize,
-      headerAuthorFontWeight,
-      headerAuthorFontColor,
-      headAuthorFontFamilyIndex
+      showHeaderTitle,
+      headerTitleFontSize,
+      headerTitleFontWeight,
+      headerTitleFontColor,
+      headerTitleFontFamilyIndex
     } = this.canvasHeaderSetting
     return {
-      showHeaderAuthor,
-      headerAuthorFontSize,
-      headerAuthorFontWeight,
-      headerAuthorFontColor,
-      headAuthorFontFamilyIndex,
-      ...this.calculateDomProperty('author')
+      showHeaderTitle,
+      headerTitleFontSize,
+      headerTitleFontWeight,
+      headerTitleFontColor,
+      headerTitleFontFamilyIndex,
+      ...this.calculateDomProperty('title')
     }
   }
 
@@ -88,8 +88,8 @@ class HeaderCpu {
     switch (dom) {
       case 'avatar':
         return this.calculateAvatarCenterPointPosition
-      case 'author':
-        return this.calculateAuthorStartPointPosition
+      case 'title':
+        return this.calculateTitleStartPointPosition
       case 'descriptionIcon':
         return this.calculateDescriptionIconStartPointPosition
       case 'description':
@@ -131,39 +131,39 @@ class HeaderCpu {
     }
   }
 
-  get calculateAuthorStartPointPosition() {
-    const { headerAlign, headerAvatarMarginBottom, headerAvatarBorderWidth, showHeaderAuthor, headerAuthorFontSize } =
+  get calculateTitleStartPointPosition() {
+    const { headerAlign, headerAvatarMarginBottom, headerAvatarBorderWidth, showHeaderTitle, headerTitleFontSize } =
       this.canvasHeaderSetting
-    const { x, authorWidth, canvasWidth } = this
+    const { x, titleWidth, canvasWidth } = this
     const { avatarBottomY, avatarCenterPointX } = this.calculateAvatarCenterPointPosition
-    const authorStartPointY = avatarBottomY + headerAvatarMarginBottom
-    // authorBottomY is also calculated even if the author is not displayed.
-    const authorBottomY = showHeaderAuthor ? authorStartPointY + headerAuthorFontSize : authorStartPointY
+    const titleStartPointY = avatarBottomY + headerAvatarMarginBottom
+    // titleBottomY is also calculated even if the title is not displayed.
+    const titleBottomY = showHeaderTitle ? titleStartPointY + headerTitleFontSize : titleStartPointY
     switch (headerAlign) {
       case 'left':
         return {
-          authorStartPointX: x,
-          authorStartPointY,
-          authorBottomY
+          titleStartPointX: x,
+          titleStartPointY,
+          titleBottomY
         }
       case 'center':
         return {
-          authorStartPointX: avatarCenterPointX - authorWidth / 2,
-          authorStartPointY,
-          authorBottomY
+          titleStartPointX: avatarCenterPointX - titleWidth / 2,
+          titleStartPointY,
+          titleBottomY
         }
       case 'right':
         return {
-          authorStartPointX: canvasWidth - x - authorWidth - headerAvatarBorderWidth,
-          authorStartPointY,
-          authorBottomY
+          titleStartPointX: canvasWidth - x - titleWidth - headerAvatarBorderWidth,
+          titleStartPointY,
+          titleBottomY
         }
 
       default:
         return {
-          authorStartPointX: avatarCenterPointX - authorWidth / 2,
-          authorStartPointY,
-          authorBottomY
+          titleStartPointX: avatarCenterPointX - titleWidth / 2,
+          titleStartPointY,
+          titleBottomY
         }
     }
   }
@@ -172,20 +172,20 @@ class HeaderCpu {
     const {
       headerAlign,
       headerAvatarBorderWidth,
-      showHeaderAuthor,
-      headerAuthorMarginBottom,
+      showHeaderTitle,
+      headerTitleMarginBottom,
       headerDescriptionPrefixIcon,
       headerDescriptionPrefixIconGap,
       headerDescriptionPrefixIconOffsetY,
       headerDescriptionFontSize
     } = this.canvasHeaderSetting
     const { x, descriptionWidth, canvasWidth } = this
-    const { authorBottomY } = this.calculateAuthorStartPointPosition
+    const { titleBottomY } = this.calculateTitleStartPointPosition
     const { avatarCenterPointX } = this.calculateAvatarCenterPointPosition
-    // Judgment based on whether author display is shown
-    const descriptionIconStartPointY = showHeaderAuthor
-      ? authorBottomY + headerAuthorMarginBottom + headerDescriptionPrefixIconOffsetY
-      : authorBottomY + headerDescriptionPrefixIconOffsetY
+    // Judgment based on whether title display is shown
+    const descriptionIconStartPointY = showHeaderTitle
+      ? titleBottomY + headerTitleMarginBottom + headerDescriptionPrefixIconOffsetY
+      : titleBottomY + headerDescriptionPrefixIconOffsetY
     if (isImageUrl(headerDescriptionPrefixIcon)) {
       switch (headerAlign) {
         case 'left':
@@ -229,18 +229,18 @@ class HeaderCpu {
     const {
       headerAlign,
       headerAvatarBorderWidth,
-      showHeaderAuthor,
-      headerAuthorMarginBottom,
+      showHeaderTitle,
+      headerTitleMarginBottom,
       headerDescriptionPrefixIconGap,
       headerDescriptionFontSize,
       showHeaderDescription
     } = this.canvasHeaderSetting
     const { x, descriptionWidth, canvasWidth } = this
-    const { authorBottomY } = this.calculateAuthorStartPointPosition
+    const { titleBottomY } = this.calculateTitleStartPointPosition
     const { avatarCenterPointX } = this.calculateAvatarCenterPointPosition
     const { showDescriptionIcon, descriptionIconStartPointX } = this.calculateDescriptionIconStartPointPosition
-    // Judgment based on whether author display is shown
-    const descriptionStartPointY = showHeaderAuthor ? authorBottomY + headerAuthorMarginBottom : authorBottomY
+    // Judgment based on whether title display is shown
+    const descriptionStartPointY = showHeaderTitle ? titleBottomY + headerTitleMarginBottom : titleBottomY
     const descriptionBottomY = showHeaderDescription
       ? descriptionStartPointY + headerDescriptionFontSize
       : descriptionStartPointY

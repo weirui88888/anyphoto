@@ -2,7 +2,7 @@
 module.exports = {
   separator: 'space',
   avatar: 'https://static.anyphoto.space/core/themes/default/avatar.jpg',
-  author: 'AnyPhoto',
+  title: 'AnyPhoto',
   outputName: 'default',
   content:
     'Anyphoto is a product that can be used to generate personalized images. You can easily create a stylish, personalized image in just a few simple steps. Supports adding avatar, title, image, description, date, title, annotation content, etc. to make your photos lively and interesting instantly. {What’s more interesting is that every element in the photo can be configured}, so you can design the layout exactly according to your own creativity and ideas. You can choose your preferred font, layout, color palette, and everything else. You can use the resulting images anywhere, such as on social media, on your resume, or simply to capture what‘s on your mind at the moment! It is worth mentioning that this tool is {inspired by WeChat reading}. It has a variety of ways to use it, from the core toolkit with npm to the API, and of course the intuitive visual interface. Everything is being continuously updated. {Finally, hope you like it.}',
@@ -33,13 +33,13 @@ module.exports = {
       headerAvatarBorderColor: '#ffcc00',
       headerAvatarMarginBottom: 20,
 
-      // author
-      showHeaderAuthor: true,
-      headerAuthorFontSize: 30,
-      headerAuthorFontColor: '#ffffff',
-      headerAuthorFontWeight: 'bold',
-      headAuthorFontFamilyIndex: 0,
-      headerAuthorMarginBottom: 30,
+      // title
+      showHeaderTitle: true,
+      headerTitleFontSize: 30,
+      headerTitleFontColor: '#ffffff',
+      headerTitleFontWeight: 'bold',
+      headerTitleFontFamilyIndex: 0,
+      headerTitleMarginBottom: 30,
 
       // description
       showHeaderDescription: true,
@@ -70,8 +70,8 @@ module.exports = {
       sloganFontColor: '#ffffff',
       sloganFontWeight: 'bold',
       sloganFontFamilyIndex: 0,
-      qrCodeSrc: '',
-      qrCodePaddingY: 10
+      sloganIcon: '',
+      sloganIconPaddingY: 10
     },
     from: {
       showFrom: true,

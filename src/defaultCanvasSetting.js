@@ -25,13 +25,13 @@ const defaultCanvasSetting = {
     headerAvatarBorderColor: '#ffcc00',
     headerAvatarMarginBottom: 20,
 
-    // author
-    showHeaderAuthor: true,
-    headerAuthorFontSize: 30,
-    headerAuthorFontColor: '#ffffff',
-    headerAuthorFontWeight: 'bold',
-    headAuthorFontFamilyIndex: 0,
-    headerAuthorMarginBottom: 30,
+    // title
+    showHeaderTitle: true,
+    headerTitleFontSize: 30,
+    headerTitleFontColor: '#ffffff',
+    headerTitleFontWeight: 'bold',
+    headerTitleFontFamilyIndex: 0,
+    headerTitleMarginBottom: 30,
 
     // description
     showHeaderDescription: true,
@@ -62,8 +62,8 @@ const defaultCanvasSetting = {
     sloganFontColor: '#ffffff',
     sloganFontWeight: 'bold',
     sloganFontFamilyIndex: 0,
-    qrCodeSrc: '',
-    qrCodePaddingY: 10
+    sloganIcon: '',
+    sloganIconPaddingY: 10
   },
   from: {
     showFrom: true,

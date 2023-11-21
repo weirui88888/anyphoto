@@ -27,17 +27,17 @@ class FooterCpu {
     }
   }
 
-  get calculateApplyQrCode() {
-    const { qrCodeSrc } = this.canvasFooterSetting
-    if (isImageUrl(qrCodeSrc)) {
+  get calculateApplySloganIcon() {
+    const { sloganIcon } = this.canvasFooterSetting
+    if (isImageUrl(sloganIcon)) {
       return {
-        showQrCode: true,
-        qrCodeSrc,
-        ...this.calculateQrCodePosition
+        showSloganIcon: true,
+        sloganIcon,
+        ...this.calculateSloganIconPosition
       }
     } else {
       return {
-        showQrCode: false
+        showSloganIcon: false
       }
     }
   }
@@ -64,28 +64,28 @@ class FooterCpu {
     }
   }
 
-  get calculateQrCodePosition() {
-    const { qrCodePaddingY, sloganPosition } = this.canvasFooterSetting
-    const qrCodeWidth = this.getFooterHeight - qrCodePaddingY * 2
+  get calculateSloganIconPosition() {
+    const { sloganIconPaddingY, sloganPosition } = this.canvasFooterSetting
+    const sloganIconWidth = this.getFooterHeight - sloganIconPaddingY * 2
     const { x, canvasWidth, grandTotalHeight } = this
     switch (sloganPosition) {
       case 'left':
         return {
-          qrCodeStartPointX: canvasWidth - x - qrCodeWidth,
-          qrCodeStartPointY: qrCodePaddingY + grandTotalHeight,
-          qrCodeWidth
+          sloganIconStartPointX: canvasWidth - x - sloganIconWidth,
+          sloganIconStartPointY: sloganIconPaddingY + grandTotalHeight,
+          sloganIconWidth
         }
       case 'right':
         return {
-          qrCodeStartPointX: x,
-          qrCodeStartPointY: qrCodePaddingY + grandTotalHeight,
-          qrCodeWidth
+          sloganIconStartPointX: x,
+          sloganIconStartPointY: sloganIconPaddingY + grandTotalHeight,
+          sloganIconWidth
         }
       default:
         return {
-          qrCodeStartPointX: canvasWidth - x - qrCodeWidth,
-          qrCodeStartPointY: qrCodePaddingY + grandTotalHeight,
-          qrCodeWidth
+          sloganIconStartPointX: canvasWidth - x - sloganIconWidth,
+          sloganIconStartPointY: sloganIconPaddingY + grandTotalHeight,
+          sloganIconWidth
         }
     }
   }

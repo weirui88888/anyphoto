@@ -9,8 +9,8 @@ const defaultConfigName = 'anyphoto.config.js'
 const defaultAvatar = 'https://static.anyphoto.space/core/themes/default/avatar.jpg'
 const defaultCustomFont = 'https://static.anyphoto.space/fonts/LXGWWenKai-Bold.ttf'
 const defaultHeaderDescriptionPrefixIcon = 'https://static.anyphoto.space/core/themes/default/rainbow.png'
-const defaultQrCodeSrc = 'https://static.anyphoto.space/logos/logo2/logo_transparent.png'
-const defaultAuthor = 'AnyPhoto'
+const defaultSloganIcon = 'https://static.anyphoto.space/web/logo/logo_transparent.png'
+const defaultTitle = 'AnyPhoto'
 const defaultOutputDir = 'anyphoto'
 const defaultOutputName = 'anyphoto'
 const defaultOutputNameHandle = () => {
@@ -40,9 +40,9 @@ const optionsValidator = {
       return supportSeparator.includes(separator) ? separator : defaultSeparator
     }
   },
-  author: {
-    validate(author) {
-      return author
+  title: {
+    validate(title) {
+      return title
     }
   },
   avatar: {
@@ -71,8 +71,8 @@ const themeDefaultContent = content => {
 const themeDefaultAvatar = avatar => {
   return avatar || defaultAvatar
 }
-const themeDefaultAuthor = author => {
-  return author || defaultAuthor
+const themeDefaultTitle = title => {
+  return title || defaultTitle
 }
 const themeDefaultOutputName = outputName => {
   return outputName || defaultOutputName
@@ -87,8 +87,8 @@ module.exports = {
   defaultAvatar,
   defaultCustomFont,
   defaultHeaderDescriptionPrefixIcon,
-  defaultQrCodeSrc,
-  defaultAuthor,
+  defaultSloganIcon,
+  defaultTitle,
   defaultOutputDir,
   defaultOutputName,
   defaultOutputNameHandle,
@@ -113,7 +113,7 @@ const colorSetting = {
   backgroundColor: '#82b484',
   color: '',
   headerAvatarBorderColor: '',
-  headerAuthorFontColor: '',
+  headerTitleFontColor: '',
   headerDescriptionFontColor: '',
   headerDividerColor: '',
   footerDividerColor: '',
@@ -148,7 +148,7 @@ const anyPhotoConfig = {
     return \`photo-generate-at-\${generateDate()}\`
   },
   defaultAvatar: '${themeDefaultAvatar(themes[theme].avatar)}',
-  defaultAuthor: '${themeDefaultAuthor(themes[theme].author)}',
+  defaultTitle: '${themeDefaultTitle(themes[theme].title)}',
   canvasSetting: ${JSON.stringify(themes[theme].canvasSetting, null, 4)}
 }
 module.exports = anyPhotoConfig
