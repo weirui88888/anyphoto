@@ -5,6 +5,7 @@ const defaultCanvasSetting = {
   downloadCustomFontOutputDir: 'anyphoto-web-font',
   downloadCustomFontRelativeOutputPath: './',
   backgroundColor: '#82b484',
+  linearGradientDirection: 'toTopLeft', // toLeft/toRight/toTop/toBottom/toTopLeft/toTopRight/toBottomRight/toBottomLeft
   color: '#ffffff',
   fontWeight: 'bold',
   textBaseline: 'top',

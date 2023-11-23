@@ -17,6 +17,7 @@ class Drawer {
       customFontPath,
       color,
       backgroundColor,
+      linearGradientDirection,
       fontSize,
       fontWeight,
       lineGap,
@@ -43,6 +44,7 @@ class Drawer {
     this.letterSpaceSeparator = '' // It may be useful in the future to control the spacing of content
     this.color = color
     this.backgroundColor = backgroundColor
+    this.linearGradientDirection = linearGradientDirection
     this.maxLineWidth = width - x * 2 // Here we just preset the maximum width, that is, use width - x * 2. You need it first to calculate the layout and the actual width of each line drawn.
     this.fontSize = fontSize
     this.fontFamilyIndex = fontFamilyIndex
@@ -143,6 +145,15 @@ class Drawer {
 
   async setupCanvas() {
     const { ctx, barWatcher, width, height, backgroundColor, textBaseline, textAlign } = this
+    let gradientController
+    if (Array.isArray(backgroundColor)) {
+      const directionPoint = this.getLinearGradientDirection
+      gradientController = ctx.createLinearGradient(...directionPoint)
+      backgroundColor.forEach((color, index) => {
+        gradientController.addColorStop(index, color)
+      })
+    }
+
     ctx.textBaseline = textBaseline
     ctx.textAlign = textAlign
     // DONE STEP2
@@ -151,7 +162,7 @@ class Drawer {
       step: 'Set up canvas'
     })
     ctx.beginPath()
-    ctx.fillStyle = backgroundColor
+    ctx.fillStyle = gradientController ?? backgroundColor
     ctx.fillRect(0, 0, width, height)
     return this
   }
@@ -586,6 +597,30 @@ class Drawer {
     this.setLineWidthMap(currentLine, ctx.measureText(words.join(separator)).width)
     this.setLineKeywordIdentifier(currentLine, words.join(separator))
     return currentLine + 1
+  }
+
+  get getLinearGradientDirection() {
+    const { linearGradientDirection = 'toBottomRight', width, height } = this
+    switch (linearGradientDirection) {
+      case 'toLeft':
+        return [width, 0, 0, 0]
+      case 'toRight':
+        return [0, 0, width, 0]
+      case 'toTop':
+        return [0, height, 0, 0]
+      case 'toBottom':
+        return [0, 0, 0, height]
+      case 'toTopLeft':
+        return [width, height, 0, 0]
+      case 'toTopRight':
+        return [0, height, width, 0]
+      case 'toBottomRight':
+        return [0, 0, width, height]
+      case 'toBottomLeft':
+        return [width, 0, 0, height]
+      default:
+        return [0, 0, width, height]
+    }
   }
 
   get generateOutputName() {
