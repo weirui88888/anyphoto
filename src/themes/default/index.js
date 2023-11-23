@@ -13,6 +13,7 @@ module.exports = {
     downloadCustomFontOutputDir: 'anyphoto-web-font',
     downloadCustomFontRelativeOutputPath: './',
     backgroundColor: '#82b484',
+    linearGradientDirection: 'to right bottom',
     color: '#ffffff',
     fontWeight: 'bold',
     textBaseline: 'top',

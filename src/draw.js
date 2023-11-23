@@ -600,23 +600,23 @@ class Drawer {
   }
 
   get getLinearGradientDirection() {
-    const { linearGradientDirection = 'toBottomRight', width, height } = this
+    const { linearGradientDirection = 'to right bottom', width, height } = this
     switch (linearGradientDirection) {
-      case 'toLeft':
+      case 'to left':
         return [width, 0, 0, 0]
-      case 'toRight':
+      case 'to right':
         return [0, 0, width, 0]
-      case 'toTop':
+      case 'to top':
         return [0, height, 0, 0]
-      case 'toBottom':
+      case 'to bottom':
         return [0, 0, 0, height]
-      case 'toTopLeft':
+      case 'to left top':
         return [width, height, 0, 0]
-      case 'toTopRight':
+      case 'to right top':
         return [0, height, width, 0]
-      case 'toBottomRight':
+      case 'to right bottom':
         return [0, 0, width, height]
-      case 'toBottomLeft':
+      case 'to left bottom':
         return [width, 0, 0, height]
       default:
         return [0, 0, width, height]
