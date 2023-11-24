@@ -65,7 +65,7 @@ class FooterCpu {
   }
 
   get calculateSloganIconPosition() {
-    const { sloganIconPaddingY, sloganPosition } = this.canvasFooterSetting
+    const { sloganIconPaddingY, sloganPosition, sloganIconOffsetY } = this.canvasFooterSetting
     const sloganIconWidth = this.getFooterHeight - sloganIconPaddingY * 2
     const { x, canvasWidth, grandTotalHeight } = this
     switch (sloganPosition) {
@@ -73,19 +73,22 @@ class FooterCpu {
         return {
           sloganIconStartPointX: canvasWidth - x - sloganIconWidth,
           sloganIconStartPointY: sloganIconPaddingY + grandTotalHeight,
-          sloganIconWidth
+          sloganIconWidth,
+          sloganIconHeight: sloganIconWidth + sloganIconOffsetY
         }
       case 'right':
         return {
           sloganIconStartPointX: x,
           sloganIconStartPointY: sloganIconPaddingY + grandTotalHeight,
-          sloganIconWidth
+          sloganIconWidth,
+          sloganIconHeight: sloganIconWidth + sloganIconOffsetY
         }
       default:
         return {
           sloganIconStartPointX: canvasWidth - x - sloganIconWidth,
           sloganIconStartPointY: sloganIconPaddingY + grandTotalHeight,
-          sloganIconWidth
+          sloganIconWidth,
+          sloganIconHeight: sloganIconWidth + sloganIconOffsetY
         }
     }
   }

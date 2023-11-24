@@ -72,6 +72,7 @@ module.exports = {
       sloganFontWeight: 'bold',
       sloganFontFamilyIndex: 0,
       sloganIcon: '',
+      sloganIconOffsetY: 0,
       sloganIconPaddingY: 10
     },
     from: {

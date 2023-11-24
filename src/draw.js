@@ -355,11 +355,17 @@ class Drawer {
     ctx.textBaseline = this.textBaseline
     ctx.textAlign = this.textAlign
     ctx.fillText(slogan, sloganStartPointX, sloganStartPointY)
-    const { showSloganIcon, sloganIcon, sloganIconStartPointX, sloganIconStartPointY, sloganIconWidth } =
-      this.footerCpu.calculateApplySloganIcon
+    const {
+      showSloganIcon,
+      sloganIcon,
+      sloganIconStartPointX,
+      sloganIconStartPointY,
+      sloganIconWidth,
+      sloganIconHeight
+    } = this.footerCpu.calculateApplySloganIcon
     if (showSloganIcon) {
       const sloganIconImage = await loadImage(sloganIcon)
-      ctx.drawImage(sloganIconImage, sloganIconStartPointX, sloganIconStartPointY, sloganIconWidth, sloganIconWidth)
+      ctx.drawImage(sloganIconImage, sloganIconStartPointX, sloganIconStartPointY, sloganIconWidth, sloganIconHeight)
     }
     ctx.restore()
     return this
