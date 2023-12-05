@@ -1,4 +1,7 @@
+
 # AnyPhoto
+
+[中文文档👉](https://github.com/weirui88888/anyphoto/blob/main/ZH-README.md)
 
 anyphoto is a drawing tool that allows you to generate beautiful pictures anywhere,based on [node-canvas](https://github.com/Automattic/node-canvas).
 
@@ -62,7 +65,8 @@ Preset templates will be supported in the future. After executing this command, 
 ## TODO
 
 - [ ] Support more preset templates
-- [ ] Try to better implement the content wrapping layout part
+- [ ] Supports more "smart" line wrapping of content
+- [ ] Support background images
 - [ ] Improve documentation
 
 ## Contact
