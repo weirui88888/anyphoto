@@ -1,8 +1,8 @@
 {
   "name": "anyphoto",
-  "version": "1.0.11",
+  "version": "1.0.0",
   "description": "Photo by any inspiration",
-  "main": "index.js",
+  "main": "src/cmd/generate.js",
   "files": [
     "bin",
     "src",
@@ -13,6 +13,11 @@
     "email": "ruiwei88888@163.com",
     "url": "https://github.com/weirui88888/"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/weirui88888/anyphoto.git"
+  },
+  "homepage": "https://www.anyphoto.space",
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint . --fix",
@@ -20,8 +25,13 @@
     "int": "node ./bin/index.js init",
     "gen": "node ./bin/index.js generate"
   },
-  "keywords": [],
-  "license": "ISC",
+  "keywords": [
+    "image",
+    "canvas",
+    "executable",
+    "node"
+  ],
+  "license": "MIT",
   "volta": {
     "node": "18.0.0"
   },
@@ -48,8 +58,8 @@
     "commander": "^11.0.0",
     "figlet": "^1.6.0",
     "is-image-url": "^1.1.8",
-    "open": "8.4.0",
-    "ora": "5.4.1"
+    "open": "^8.4.0",
+    "ora": "^5.4.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",

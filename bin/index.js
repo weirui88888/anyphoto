@@ -1,10 +1,9 @@
 #! /usr/bin/env node
-/* eslint-disable no-unused-vars */
 const { Command } = require('commander')
 const open = require('open')
 const path = require('path')
 const pkg = require('../package.json')
-const { init, generate, github } = require('../src/cmd')
+const { init, generate } = require('../src/cmd')
 const { showAnyPhotoFiglet, colorTip, color } = require('../src/util')
 const { defaultTheme } = require('../src/config')
 
