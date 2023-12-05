@@ -8,11 +8,16 @@ You can quickly experience it in [playground](https://www.anyphoto.space/playgro
 
 ## Examples
 
-<img src="./examples/demo1.png"/>
-
 More cases can be viewed in [examples](https://github.com/weirui88888/anyphoto/tree/main/examples).
 
+![demo1](https://static.anyphoto.space/blog/demo1-new.png)
+![demo2](https://static.anyphoto.space/blog/demo5.png)
+
 ## Install
+
+By default, binaries for macOS, Linux and Windows will be downloaded.Caused by core package [node-canvas](https://github.com/Automattic/node-canvas)
+
+The first installation requires compilation, so it may take a long time. If you encounter problems during the installation process, please check [install wiki](https://github.com/Automattic/node-canvas/wiki) and find the corresponding solution before installing it.
 
 ```shell
 npm install anyphoto -g
@@ -59,3 +64,7 @@ Preset templates will be supported in the future. After executing this command, 
 - [ ] Support more preset templates
 - [ ] Try to better implement the content wrapping layout part
 - [ ] Improve documentation
+
+## Contact
+
+If you are interested in this project or encounter any problems during use, you can communicate with me through WeChat ID XdzD8b
