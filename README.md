@@ -32,6 +32,8 @@ Generate a configuration file, and then you can make modifications in the config
 anyphoto init
 ```
 
+More configuration items can be viewed at [configuration](https://www.anyphoto.space/configuration). (due to time and energy issues, the document is being continuously improved)
+
 ### Generate
 
 After executing this command, a picture will be generated based on the configuration file generated and modified in the previous step.
