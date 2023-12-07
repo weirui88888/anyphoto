@@ -33,6 +33,7 @@ program
   .option('-t, --title <name>', 'The title of the photo')
   .option('-o, --outputDir <output dir>', 'The place where the photo will be generated')
   .option('-n, --outputName <output name>', 'The name of the output photo')
+  .option('-c, --clear', 'Once enabled, the console will not display information related to the progress bar', false)
   .action((content, options) => {
     generate({
       content,

@@ -68,12 +68,14 @@ const getAnyPhotoConfigByKey = ({ key, options }) => {
   }
 }
 const getAnyPhotoConfig = ({ options }) => {
+  const { clear } = options
   const separator = getAnyPhotoConfigByKey({ key: 'separator', options })
   const avatar = getAnyPhotoConfigByKey({ key: 'avatar', options })
   const title = getAnyPhotoConfigByKey({ key: 'title', options })
   const outputDir = getAnyPhotoConfigByKey({ key: 'outputDir', options })
   const outputName = getAnyPhotoConfigByKey({ key: 'outputName', options })
   return {
+    clear,
     ...handelValidAnyPhotoConfig({
       separator,
       avatar,

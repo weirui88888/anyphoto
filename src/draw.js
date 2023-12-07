@@ -48,7 +48,7 @@ class Drawer {
     this.maxLineWidth = width - x * 2 // Here we just preset the maximum width, that is, use width - x * 2. You need it first to calculate the layout and the actual width of each line drawn.
     this.fontSize = fontSize
     this.fontFamilyIndex = fontFamilyIndex
-    this.barWatcher = barWatcher
+    this.barWatcher = this.setBarWatcher
     // content
     this.lineGap = lineGap
     this.textBaseline = textBaseline
@@ -515,6 +515,19 @@ class Drawer {
         }
       })
     })
+  }
+
+  get setBarWatcher() {
+    const { clear } = this.anyPhotoConfig
+    if (clear) {
+      return {
+        start() {},
+        setTotal() {},
+        update() {},
+        stop() {}
+      }
+    }
+    return barWatcher
   }
 
   get getMaxLineWidth() {
