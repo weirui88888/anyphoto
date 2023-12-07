@@ -5,7 +5,6 @@ const FooterCpu = require('./footerCpu')
 const UnderLineCpu = require('./underlineCpu')
 const ResourceChecker = require('./resourceChecker')
 const base64Img = require('base64-img')
-const { defaultSeparator } = require('./config')
 
 class Drawer {
   constructor({ content, anyPhotoConfig }) {
@@ -36,12 +35,9 @@ class Drawer {
       })
     }
     this.anyPhotoConfig = anyPhotoConfig
-    // separator
-    this.separator = this.anyPhotoConfig.separator
     this.width = width
     this.fontWeight = fontWeight
     this.fontFamilys = fontFamilys
-    this.letterSpaceSeparator = '' // It may be useful in the future to control the spacing of content
     this.color = color
     this.backgroundColor = backgroundColor
     this.linearGradientDirection = linearGradientDirection
@@ -278,20 +274,8 @@ class Drawer {
   }
 
   async drawContent() {
-    const {
-      separator: usedSeparator,
-      ctx,
-      x,
-      headerHeight,
-      y,
-      barWatcher,
-      lineGap,
-      color,
-      fontWeight,
-      fontSize,
-      fontFamilyIndex,
-      maxLineWidth
-    } = this
+    const { ctx, x, headerHeight, y, barWatcher, lineGap, color, fontWeight, fontSize, fontFamilyIndex, maxLineWidth } =
+      this
     // DONE STEP6
     barWatcher.setTotal(7)
     barWatcher.update(6, {
@@ -300,12 +284,11 @@ class Drawer {
     ctx.beginPath()
     ctx.fillStyle = color
     ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
-    const separator = usedSeparator === defaultSeparator ? ' ' : ''
-    let words = this.content.split(separator)
+    let words = this.content.split('')
     let currentLine = 0
     let idx = 1
     while (words.length > 0 && idx <= words.length) {
-      const str = words.slice(0, idx).join(separator).replace(/[{}]/g, '')
+      const str = words.slice(0, idx).join('').replace(/[{}]/g, '')
       const w = ctx.measureText(str).width
       if (w > maxLineWidth) {
         if (idx === 1) {
@@ -314,7 +297,7 @@ class Drawer {
         ctx.fillText(
           words
             .slice(0, idx - 1)
-            .join(separator)
+            .join('')
             .replace(/[{}]/g, ''),
           x,
           headerHeight + y + (fontSize + lineGap) * currentLine
@@ -327,7 +310,7 @@ class Drawer {
       }
     }
     if (idx > 0) {
-      ctx.fillText(words.join(separator).replace(/[{}]/g, ''), x, headerHeight + y + (fontSize + lineGap) * currentLine)
+      ctx.fillText(words.join('').replace(/[{}]/g, ''), x, headerHeight + y + (fontSize + lineGap) * currentLine)
     }
     return this
   }
@@ -589,23 +572,22 @@ class Drawer {
   }
 
   get calculateContentTotalLine() {
-    const { separator: usedSeparator, ctx, color, fontWeight, fontSize, fontFamilyIndex, maxLineWidth } = this
+    const { ctx, color, fontWeight, fontSize, fontFamilyIndex, maxLineWidth } = this
     ctx.beginPath()
     ctx.fillStyle = color
     ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
-    const separator = usedSeparator === defaultSeparator ? ' ' : ''
-    let words = this.content.split(separator)
+    let words = this.content.split('')
     let currentLine = 0
     let idx = 1
     while (words.length > 0 && idx <= words.length) {
-      const str = words.slice(0, idx).join(separator).replace(/[{}]/g, '')
+      const str = words.slice(0, idx).join('').replace(/[{}]/g, '')
       const w = ctx.measureText(str).width
       if (w > maxLineWidth) {
         if (idx === 1) {
           idx = 2
         }
-        this.setLineWidthMap(currentLine, ctx.measureText(words.slice(0, idx - 1).join(separator)).width)
-        this.setLineKeywordIdentifier(currentLine, words.slice(0, idx - 1).join(separator))
+        this.setLineWidthMap(currentLine, ctx.measureText(words.slice(0, idx - 1).join('')).width)
+        this.setLineKeywordIdentifier(currentLine, words.slice(0, idx - 1).join(''))
         currentLine++
         words = words.splice(idx - 1)
         idx = 1
@@ -613,8 +595,8 @@ class Drawer {
         idx++
       }
     }
-    this.setLineWidthMap(currentLine, ctx.measureText(words.join(separator)).width)
-    this.setLineKeywordIdentifier(currentLine, words.join(separator))
+    this.setLineWidthMap(currentLine, ctx.measureText(words.join('')).width)
+    this.setLineKeywordIdentifier(currentLine, words.join(''))
     return currentLine + 1
   }
 

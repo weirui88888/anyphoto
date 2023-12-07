@@ -25,10 +25,6 @@ program
   .command('generate')
   .description('Generate photo by inspiration')
   .argument('[content]', 'Any content you like')
-  .option(
-    '-s, --separator <separator>',
-    'The Content separator,support with empty or space,If not specified, the default is to use space to split the content.'
-  )
   .option('-av, --avatar <url>', 'The avatar address of the photo')
   .option('-t, --title <name>', 'The title of the photo')
   .option('-o, --outputDir <output dir>', 'The place where the photo will be generated')
