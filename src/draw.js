@@ -35,6 +35,7 @@ class Drawer {
         family: 'Custom'
       })
     }
+    this.content = content
     this.anyPhotoConfig = anyPhotoConfig
     // separator
     this.separator = this.anyPhotoConfig.separator
@@ -54,7 +55,6 @@ class Drawer {
     this.textBaseline = textBaseline
     this.textAlign = textAlign
     this.y = y
-    this.content = content
     this.canvas = createCanvas(this.width, 1)
     this.ctx = this.canvas.getContext('2d')
     this.lineWidthMap = new Map()
@@ -278,20 +278,8 @@ class Drawer {
   }
 
   async drawContent() {
-    const {
-      separator: usedSeparator,
-      ctx,
-      x,
-      headerHeight,
-      y,
-      barWatcher,
-      lineGap,
-      color,
-      fontWeight,
-      fontSize,
-      fontFamilyIndex,
-      maxLineWidth
-    } = this
+    const { ctx, x, headerHeight, y, barWatcher, lineGap, color, fontWeight, fontSize, fontFamilyIndex, lineContent } =
+      this
     // DONE STEP6
     barWatcher.setTotal(7)
     barWatcher.update(6, {
@@ -300,34 +288,8 @@ class Drawer {
     ctx.beginPath()
     ctx.fillStyle = color
     ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
-    const separator = usedSeparator === defaultSeparator ? ' ' : ''
-    let words = this.content.split(separator)
-    let currentLine = 0
-    let idx = 1
-    while (words.length > 0 && idx <= words.length) {
-      const str = words.slice(0, idx).join(separator).replace(/[{}]/g, '')
-      const w = ctx.measureText(str).width
-      if (w > maxLineWidth) {
-        if (idx === 1) {
-          idx = 2
-        }
-        ctx.fillText(
-          words
-            .slice(0, idx - 1)
-            .join(separator)
-            .replace(/[{}]/g, ''),
-          x,
-          headerHeight + y + (fontSize + lineGap) * currentLine
-        )
-        currentLine++
-        words = words.splice(idx - 1)
-        idx = 1
-      } else {
-        idx++
-      }
-    }
-    if (idx > 0) {
-      ctx.fillText(words.join(separator).replace(/[{}]/g, ''), x, headerHeight + y + (fontSize + lineGap) * currentLine)
+    for (const [line, content] of Object.entries(lineContent)) {
+      ctx.fillText(content.replace(/[{}]/g, ''), x, headerHeight + y + (fontSize + lineGap) * Number(line))
     }
     return this
   }
@@ -604,7 +566,6 @@ class Drawer {
         if (idx === 1) {
           idx = 2
         }
-        this.setLineWidthMap(currentLine, ctx.measureText(words.slice(0, idx - 1).join(separator)).width)
         this.setLineKeywordIdentifier(currentLine, words.slice(0, idx - 1).join(separator))
         currentLine++
         words = words.splice(idx - 1)
@@ -613,9 +574,42 @@ class Drawer {
         idx++
       }
     }
-    this.setLineWidthMap(currentLine, ctx.measureText(words.join(separator)).width)
     this.setLineKeywordIdentifier(currentLine, words.join(separator))
-    return currentLine + 1
+    let nb = []
+    for (const values of Object.values(this.lineContent)) {
+      nb = [...nb, ...values.split(/\n/g)]
+    }
+    const nbLineContent = {}
+    for (let i = 0; i < nb.length; i++) {
+      nbLineContent[i] = nb[i]
+    }
+
+    const result = {}
+    const calculateContent = originContent => {
+      let content = originContent
+
+      while (ctx.measureText(content).width < maxLineWidth) {
+        content += ' '
+      }
+      return {
+        content: content.replace(/(.*?)\s$/, '$1'),
+        contentWidth: ctx.measureText(content.replace(/(.*?)\s$/, '$1')).width
+      }
+    }
+    let totalLine = 0
+    for (const [line, originContent] of Object.entries(nbLineContent)) {
+      // if (originContent.trim() !== '') {
+      //   totalLine += 1
+      // }
+      totalLine = +line
+      const { content, contentWidth } = calculateContent(originContent)
+      result[line] = { content, contentWidth }
+      this.setLineWidthMap(+line, contentWidth)
+      this.setLineKeywordIdentifier(+line, content)
+    }
+    console.log(result)
+    console.log(totalLine)
+    return totalLine + 1
   }
 
   get getLinearGradientDirection() {

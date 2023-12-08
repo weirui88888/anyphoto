@@ -23,7 +23,8 @@
     "lint": "eslint . --fix",
     "commit": "cz",
     "int": "node ./bin/index.js init",
-    "gen": "node ./bin/index.js generate"
+    "gen": "node ./bin/index.js generate",
+    "gen:clear": "node ./bin/index.js generate -c"
   },
   "keywords": [
     "image",
