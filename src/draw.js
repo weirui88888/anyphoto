@@ -575,19 +575,17 @@ class Drawer {
       }
     }
     this.setLineKeywordIdentifier(currentLine, words.join(separator))
-    let nb = []
+    let splitLineContent = []
     for (const values of Object.values(this.lineContent)) {
-      nb = [...nb, ...values.split(/\n/g)]
+      splitLineContent = [...splitLineContent, ...values.split(/\n/g)]
     }
-    const nbLineContent = {}
-    for (let i = 0; i < nb.length; i++) {
-      nbLineContent[i] = nb[i]
+    const newLineContent = {}
+    for (let i = 0; i < splitLineContent.length; i++) {
+      newLineContent[i] = splitLineContent[i]
     }
-
-    const result = {}
-    const calculateContent = originContent => {
+    const contentViewer = {}
+    const padContent = originContent => {
       let content = originContent
-
       while (ctx.measureText(content).width < maxLineWidth) {
         content += ' '
       }
@@ -597,18 +595,14 @@ class Drawer {
       }
     }
     let totalLine = 0
-    for (const [line, originContent] of Object.entries(nbLineContent)) {
-      // if (originContent.trim() !== '') {
-      //   totalLine += 1
-      // }
+    for (const [line, originContent] of Object.entries(newLineContent)) {
       totalLine = +line
-      const { content, contentWidth } = calculateContent(originContent)
-      result[line] = { content, contentWidth }
+      const { content, contentWidth } = padContent(originContent)
+      contentViewer[line] = { content, contentWidth }
       this.setLineWidthMap(+line, contentWidth)
       this.setLineKeywordIdentifier(+line, content)
     }
-    console.log(result)
-    console.log(totalLine)
+    console.log(contentViewer)
     return totalLine + 1
   }
 

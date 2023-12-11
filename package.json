@@ -22,7 +22,7 @@
     "prepare": "husky install",
     "lint": "eslint . --fix",
     "commit": "cz",
-    "int": "node ./bin/index.js init",
+    "init": "node ./bin/index.js init",
     "gen": "node ./bin/index.js generate",
     "gen:clear": "node ./bin/index.js generate -c"
   },
