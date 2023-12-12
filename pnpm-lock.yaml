@@ -32,6 +32,9 @@ dependencies:
   is-image-url:
     specifier: ^1.1.8
     version: 1.1.8
+  langdetect:
+    specifier: ^0.2.1
+    version: 0.2.1
   open:
     specifier: ^8.4.0
     version: 8.4.2
@@ -2413,6 +2416,12 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /langdetect@0.2.1:
+    resolution: {integrity: sha512-vWK2xz8Urp6J0RFwnrR8+d0DQ2yIGjCOqAxBoXNMVFv4ZDmFsbCcNEtwuVnaQ5+ltwZ4Z5rTtuTwHSaEWFdw+A==}
+    dependencies:
+      unicode-9.0.0: 0.7.0
+    dev: false
+
   /levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
@@ -3651,6 +3660,11 @@ packages:
 
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+
+  /unicode-9.0.0@0.7.0:
+    resolution: {integrity: sha512-aqL0GQ3LB2nC3ZEKBZ93hfn7QY80sVGk+OT9Sc6lTxl4wRiwzUBRlAjJB9Fe4+5XydXOV+tb8udp5oRBoED5Tw==}
+    deprecated: Use @unicode/unicode-9.0.0 instead.
+    dev: false
 
   /universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}

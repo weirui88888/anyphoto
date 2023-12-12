@@ -1,6 +1,8 @@
 const path = require('path')
 const fs = require('fs')
+const langdetect = require('langdetect')
 const {
+  supportSeparator,
   defaultSeparator,
   defaultContent,
   defaultTitle,
@@ -53,8 +55,6 @@ const getAnyPhotoConfigByKey = ({ key, options }) => {
   const userConfigByKey = getUserAnyPhotoConfigByKey({ defaultKey })
   if (userConfigByKey) return userConfigByKey
   switch (defaultKey) {
-    case 'defaultSeparator':
-      return defaultSeparator
     case 'defaultTitle':
       return defaultTitle
     case 'defaultAvatar':
@@ -67,7 +67,22 @@ const getAnyPhotoConfigByKey = ({ key, options }) => {
       return ''
   }
 }
-const getAnyPhotoConfig = ({ options }) => {
+
+const calculateSeparator = (separator, usedContent) => {
+  const separatorMap = {
+    en: 'space',
+    'zh-cn': 'empty'
+  }
+  try {
+    if (supportSeparator.includes(separator)) return separator
+    const languages = langdetect.detect(usedContent)
+    const languageSeparator = separatorMap[languages[0].lang]
+    return languageSeparator in separatorMap ? languageSeparator : defaultSeparator
+  } catch (error) {
+    return defaultSeparator
+  }
+}
+const getAnyPhotoConfig = ({ options, usedContent }) => {
   const { clear } = options
   const separator = getAnyPhotoConfigByKey({ key: 'separator', options })
   const avatar = getAnyPhotoConfigByKey({ key: 'avatar', options })
@@ -77,12 +92,12 @@ const getAnyPhotoConfig = ({ options }) => {
   return {
     clear,
     ...handelValidAnyPhotoConfig({
-      separator,
       avatar,
       title,
       outputDir,
       outputName
     }),
+    separator: calculateSeparator(separator, usedContent),
     defaultOutputNameHandle:
       getUserAnyPhotoConfigByKey({ defaultKey: 'defaultOutputNameHandle' }) || defaultOutputNameHandle,
     canvasSetting: getUserAnyPhotoConfigByKey({ defaultKey: 'canvasSetting' }) || defaultCanvasSetting
@@ -91,8 +106,10 @@ const getAnyPhotoConfig = ({ options }) => {
 
 const generate = ({ content, options, canvasSetting = {} }) => {
   const { header, footer, from, underline, ...core } = canvasSetting
+  const usedContent = content || getUserAnyPhotoConfigByKey({ defaultKey: 'defaultContent' }) || defaultContent
   const anyPhotoConfig = getAnyPhotoConfig({
-    options
+    options,
+    usedContent
   })
   anyPhotoConfig.canvasSetting = {
     ...anyPhotoConfig.canvasSetting,
@@ -114,8 +131,7 @@ const generate = ({ content, options, canvasSetting = {} }) => {
       ...underline
     }
   }
-  const handleContent = content || getUserAnyPhotoConfigByKey({ defaultKey: 'defaultContent' }) || defaultContent
-  return draw({ content: handleContent, anyPhotoConfig })
+  return draw({ content: usedContent, anyPhotoConfig })
 }
 
 module.exports = generate

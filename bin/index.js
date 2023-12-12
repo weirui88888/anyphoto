@@ -27,7 +27,7 @@ program
   .argument('[content]', 'Any content you like')
   .option(
     '-s, --separator <separator>',
-    'The Content separator,support with empty or space,If not specified, the default is to use space to split the content.'
+    'The Content separator,support with empty or space,If not specified, the program will roughly calculate the value that should be used. It is recommended to pass in the specified option.'
   )
   .option('-av, --avatar <url>', 'The avatar address of the photo')
   .option('-t, --title <name>', 'The title of the photo')

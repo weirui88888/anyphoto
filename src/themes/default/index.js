@@ -1,6 +1,5 @@
 // anyphoto init --theme default || anyphoto init
 module.exports = {
-  separator: 'space',
   avatar: 'https://static.anyphoto.space/core/themes/default/avatar.jpg',
   title: 'AnyPhoto',
   outputName: 'default',

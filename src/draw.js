@@ -29,6 +29,7 @@ class Drawer {
       from,
       underline
     } = anyPhotoConfig.canvasSetting
+    console.log(anyPhotoConfig)
     deregisterAllFonts()
     if (customFontPath) {
       registerFont(customFontPath, {
@@ -555,7 +556,7 @@ class Drawer {
     ctx.beginPath()
     ctx.fillStyle = color
     ctx.font = this.setupFont(fontWeight, fontSize, fontFamilyIndex)
-    const separator = usedSeparator === defaultSeparator ? ' ' : ''
+    const separator = usedSeparator === defaultSeparator ? '' : ' '
     let words = this.content.split(separator)
     let currentLine = 0
     let idx = 1
@@ -602,7 +603,7 @@ class Drawer {
       this.setLineWidthMap(+line, contentWidth)
       this.setLineKeywordIdentifier(+line, content)
     }
-    console.log(contentViewer)
+    // console.log(contentViewer)
     return totalLine + 1
   }
 
