@@ -1,5 +1,6 @@
 const { createCanvas, registerFont, loadImage, deregisterAllFonts } = require('canvas')
-const { barWatcher, formatDateTime, colorTip, color } = require('./util')
+const Table = require('cli-table')
+const { barWatcher, formatDateTime, colorTip, color, truncateString } = require('./util')
 const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
 const UnderLineCpu = require('./underlineCpu')
@@ -29,7 +30,6 @@ class Drawer {
       from,
       underline
     } = anyPhotoConfig.canvasSetting
-    console.log(anyPhotoConfig)
     deregisterAllFonts()
     if (customFontPath) {
       registerFont(customFontPath, {
@@ -38,7 +38,6 @@ class Drawer {
     }
     this.content = content
     this.anyPhotoConfig = anyPhotoConfig
-    // separator
     this.separator = this.anyPhotoConfig.separator
     this.width = width
     this.fontWeight = fontWeight
@@ -76,6 +75,47 @@ class Drawer {
     this.footer = footer
     // underline
     this.underline = underline
+  }
+
+  async setupTable() {
+    const { separator, content, title, anyPhotoConfig, color, backgroundColor, width } = this
+    const {
+      canvasSetting: {
+        header: { headerAlign },
+        from: { name },
+        footer: { slogan }
+      }
+    } = anyPhotoConfig
+    const table = new Table({
+      style: { head: ['green'] },
+      head: [
+        'separator',
+        'header-align',
+        'image-width',
+        'title',
+        'content',
+        'background-color',
+        'content-color',
+        'from',
+        'slogan'
+      ],
+      colWidths: [15, 15, 15, 20, 20, 20, 20, 20, 20]
+    })
+    table.push([
+      separator,
+      headerAlign,
+      width,
+      truncateString(title),
+      truncateString(content),
+      backgroundColor,
+      color,
+      truncateString(name),
+      truncateString(slogan)
+    ])
+
+    console.log(table.toString())
+
+    return this
   }
 
   async setupCpu() {
@@ -150,9 +190,11 @@ class Drawer {
     if (Array.isArray(backgroundColor)) {
       const directionPoint = this.getLinearGradientDirection
       gradientController = ctx.createLinearGradient(...directionPoint)
-      backgroundColor.forEach((color, index) => {
-        gradientController.addColorStop(index, color)
-      })
+      const backgroundColorLength = backgroundColor.length
+      const intervalSize = 1 / (backgroundColorLength - 1)
+      for (let i = 0; i < backgroundColorLength; i++) {
+        gradientController.addColorStop(i * intervalSize, backgroundColor[i])
+      }
     }
 
     ctx.textBaseline = textBaseline
@@ -756,7 +798,8 @@ const draw = async ({ content, anyPhotoConfig }) => {
   const drawer = new Drawer({ content, anyPhotoConfig: handledAnyPhotoConfig })
   return (
     drawer
-      .setupCpu()
+      .setupTable()
+      .then(drawer => drawer.setupCpu())
       .then(drawer => drawer.setupCanvas())
       // .then(drawer => drawer.drawBackground())
       .then(drawer => drawer.drawAvatar())

@@ -73,11 +73,12 @@ const calculateSeparator = (separator, usedContent) => {
     en: 'space',
     'zh-cn': 'empty'
   }
+
   try {
     if (supportSeparator.includes(separator)) return separator
     const languages = langdetect.detect(usedContent)
     const languageSeparator = separatorMap[languages[0].lang]
-    return languageSeparator in separatorMap ? languageSeparator : defaultSeparator
+    return languageSeparator ?? defaultSeparator
   } catch (error) {
     return defaultSeparator
   }

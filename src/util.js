@@ -8,9 +8,7 @@ const generateOra = options => ora(options)
 
 const sleep = time => {
   return new Promise(resolve => {
-    setTimeout(() => {
-      resolve()
-    }, time * 1000)
+    setTimeout(resolve, time * 1000)
   })
 }
 
@@ -72,6 +70,14 @@ const showAnyPhotoFiglet = () => {
   console.log(color(figlet.textSync('AnyPhoto'), 'green', 'bold'))
 }
 
+const truncateString = (str, length = 7) => {
+  if (str.length > length) {
+    return str.substring(0, length) + '...'
+  } else {
+    return str
+  }
+}
+
 const barWatcher = new cliProgress.SingleBar({
   format: 'Generate Progress ' + color('{bar}', 'green') + ' now status is => ' + color('{step}', 'green'),
   barCompleteChar: '\u2588',
@@ -87,6 +93,7 @@ module.exports = {
   colorTip,
   checkRemoteFileExists,
   showAnyPhotoFiglet,
+  truncateString,
   barWatcher,
   formatDateTime
 }
