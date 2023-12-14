@@ -10,6 +10,7 @@ const defaultContent = `Anyphoto is a product that can be used to generate perso
 You can use the generated images anywhere, such as on social media, resumes, journals, or just to capture your thoughts at the moment!`
 const defaultConfigName = 'anyphoto.config.js'
 const defaultAvatar = 'https://static.anyphoto.space/core/themes/default/avatar.jpg'
+const defaultBackgroundImage = 'https://static.anyphoto.space/examples/WechatIMG540.jpg'
 const defaultCustomFont = 'https://static.anyphoto.space/fonts/LXGWWenKai-Bold.ttf'
 const defaultHeaderDescriptionPrefixIcon = 'https://static.anyphoto.space/core/themes/default/rainbow.png'
 const defaultSloganIcon = 'https://static.anyphoto.space/web/logo/logo_transparent.png'
@@ -80,6 +81,7 @@ module.exports = {
   defaultContent,
   defaultConfigName,
   defaultAvatar,
+  defaultBackgroundImage,
   defaultCustomFont,
   defaultHeaderDescriptionPrefixIcon,
   defaultSloganIcon,

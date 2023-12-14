@@ -3,7 +3,13 @@ const fs = require('fs')
 const axios = require('axios')
 const isImageUrl = require('is-image-url')
 const { checkRemoteFileExists, colorTip, color, tip } = require('./util')
-const { defaultAvatar, defaultCustomFont, defaultHeaderDescriptionPrefixIcon, defaultSloganIcon } = require('./config')
+const {
+  defaultAvatar,
+  defaultBackgroundImage,
+  defaultCustomFont,
+  defaultHeaderDescriptionPrefixIcon,
+  defaultSloganIcon
+} = require('./config')
 
 class ResourceChecker {
   constructor(anyPhotoConfig) {
@@ -25,6 +31,28 @@ class ResourceChecker {
       this.tip({ key: 'avatar', value: avatar, position: 'remote' })
     }
     return isValidAvatar ? handleAvatar : defaultAvatar
+  }
+
+  async checkBackgroundImage() {
+    const {
+      anyPhotoConfig: {
+        canvasSetting: { backgroundImage }
+      }
+    } = this
+    if (!backgroundImage || typeof backgroundImage !== 'string') return ''
+    const handleBackgroundImage = this.checkOption({
+      key: 'backgroundImage',
+      value: backgroundImage,
+      defaultValue: defaultBackgroundImage
+    })
+    const isValidBackgroundImage = path.isAbsolute(handleBackgroundImage)
+      ? true
+      : await checkRemoteFileExists(handleBackgroundImage)
+    if (!isValidBackgroundImage) {
+      console.log(123)
+      this.tip({ key: 'backgroundImage', value: backgroundImage, position: 'remote' })
+    }
+    return isValidBackgroundImage ? handleBackgroundImage : defaultBackgroundImage
   }
 
   async checkHeaderDescriptionPrefixIcon() {
@@ -117,6 +145,7 @@ class ResourceChecker {
       avatar: await this.checkAvatar(),
       canvasSetting: {
         ...anyPhotoConfig.canvasSetting,
+        backgroundImage: await this.checkBackgroundImage(),
         customFontPath: await this.checkCustomFont(),
         header: {
           ...anyPhotoConfig.canvasSetting.header,

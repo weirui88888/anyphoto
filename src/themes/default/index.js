@@ -14,6 +14,7 @@ You can use the generated images anywhere, such as on social media, resumes, jou
     customFontPath: 'https://static.anyphoto.space/fonts/LXGWWenKai-Bold.ttf',
     downloadCustomFontOutputDir: 'anyphoto-web-font',
     downloadCustomFontRelativeOutputPath: './',
+    backgroundImage: '',
     backgroundColor: ['#565656', '#181818'],
     linearGradientStop: [0, 1],
     linearGradientDirection: 'to right bottom', // to left/to right/to top/to bottom/to left top/to right top/to right bottom/to left bottom

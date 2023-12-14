@@ -17,6 +17,9 @@ class Drawer {
       fontFamilys,
       customFontPath,
       color,
+      backgroundImageOffsetX,
+      backgroundImageOffsetY,
+      backgroundImage,
       backgroundColor,
       linearGradientStop,
       linearGradientDirection,
@@ -41,12 +44,16 @@ class Drawer {
     }
     this.content = content
     this.anyPhotoConfig = anyPhotoConfig
+    this.clear = this.anyPhotoConfig.clear
     this.separator = this.anyPhotoConfig.separator
     this.width = width
     this.fontWeight = fontWeight
     this.fontFamilys = fontFamilys
     this.letterSpaceSeparator = '' // It may be useful in the future to control the spacing of content
     this.color = color
+    this.backgroundImageOffsetX = backgroundImageOffsetX
+    this.backgroundImageOffsetY = backgroundImageOffsetY
+    this.backgroundImage = backgroundImage
     this.backgroundColor = backgroundColor
     this.linearGradientStop = linearGradientStop
     this.linearGradientDirection = linearGradientDirection
@@ -84,7 +91,8 @@ class Drawer {
   }
 
   async setupTable() {
-    const { separator, content, title, anyPhotoConfig, color, backgroundColor, width } = this
+    const { separator, content, title, anyPhotoConfig, color, backgroundColor, width, clear } = this
+    if (clear) return this
     const {
       canvasSetting: {
         header: { headerAlign },
@@ -119,7 +127,7 @@ class Drawer {
       truncateString(slogan)
     ])
 
-    console.log(table.toString())
+    console.log(`${table.toString()}\n`)
 
     return this
   }
@@ -437,8 +445,15 @@ class Drawer {
   }
 
   async drawBackgroundLines() {
-    const { ctx, backgroundLineSpacing, backgroundLineColor } = this
-    if (backgroundLineSpacing <= 0 || !validateColor(backgroundLineColor)) return this
+    const { ctx, backgroundLineSpacing, backgroundImage, backgroundLineColor } = this
+    if (backgroundImage) return this
+    if (
+      typeof backgroundLineSpacing !== 'number' ||
+      backgroundLineSpacing <= 0 ||
+      !validateColor(backgroundLineColor)
+    ) {
+      return this
+    }
     const { verticalPoints, horizontalPoints } = this.getBackgroundLinePoints(backgroundLineSpacing)
     ctx.save()
     for (const { startX, startY, endX, endY } of verticalPoints) {
@@ -461,27 +476,51 @@ class Drawer {
     return this
   }
 
-  // Drawing background may be implemented in the next version
   async drawBackground() {
-    const { ctx, width, headerHeight, contentHeight } = this
+    const { ctx, width: canvasWidth, height: canvasHeight, backgroundImage } = this
+    let { backgroundImageOffsetX, backgroundImageOffsetY } = this
+    if (!backgroundImage) return this
+    backgroundImageOffsetX = typeof backgroundImageOffsetX === 'number' ? backgroundImageOffsetX : 0.5
+    backgroundImageOffsetY = typeof backgroundImageOffsetY === 'number' ? backgroundImageOffsetY : 0.5
+    const x = 0
+    const y = 0
+    const targetWidth = canvasWidth
+    const targetHeight = canvasHeight
+    const canvasBackgroundImage = await loadImage(backgroundImage)
+    const { width: bgWidth, height: bgHeight } = canvasBackgroundImage
     ctx.save()
-    const canvasBackgroundImage = await loadImage('')
-    const canvasWidth = width
-    const canvasHeight = headerHeight + contentHeight
-    const { width: canvasBackgroundImageWidth, height: canvasBackgroundImageHeight } = canvasBackgroundImage
-    const scaleX = canvasWidth / canvasBackgroundImageWidth
-    const scaleY = canvasHeight / canvasBackgroundImageHeight
-    const scale = Math.min(scaleX, scaleY)
+    const bgImageWidth = bgWidth
+    const bgImageHeight = bgHeight
+    const ratio = Math.min(targetWidth / bgImageWidth, targetHeight / bgImageHeight)
+    let newWidth = bgImageWidth * ratio
+    let newHeight = bgImageHeight * ratio
+    let cropX
+    let cropY
+    let cropWidth
+    let cropHeight
+    let aspectRatio = 1
 
-    const offsetX = (canvasWidth - canvasBackgroundImageWidth * scale) / 2
-    const offsetY = (canvasHeight - canvasBackgroundImageHeight * scale) / 2
-    ctx.drawImage(
-      canvasBackgroundImage,
-      offsetX,
-      offsetY,
-      canvasBackgroundImageWidth * scale,
-      canvasBackgroundImageHeight * scale
-    )
+    if (newWidth < targetWidth) {
+      aspectRatio = targetWidth / newWidth
+    }
+    if (Math.abs(aspectRatio - 1) < 1e-14 && newHeight < targetHeight) {
+      aspectRatio = targetHeight / newHeight
+    }
+    newWidth *= aspectRatio
+    newHeight *= aspectRatio
+
+    cropWidth = bgImageWidth / (newWidth / targetWidth)
+    cropHeight = bgImageHeight / (newHeight / targetHeight)
+
+    cropX = (bgImageWidth - cropWidth) * backgroundImageOffsetX
+    cropY = (bgImageHeight - cropHeight) * backgroundImageOffsetY
+
+    cropX = Math.max(0, cropX)
+    cropY = Math.max(0, cropY)
+    cropWidth = Math.min(cropWidth, bgImageWidth)
+    cropHeight = Math.min(cropHeight, bgImageHeight)
+
+    ctx.drawImage(canvasBackgroundImage, cropX, cropY, cropWidth, cropHeight, x, y, targetWidth, targetHeight)
     ctx.restore()
     return this
   }
@@ -561,7 +600,7 @@ class Drawer {
   }
 
   get setBarWatcher() {
-    const { clear } = this.anyPhotoConfig
+    const { clear } = this
     if (clear) {
       return {
         start() {},
@@ -875,25 +914,24 @@ class Drawer {
 const draw = async ({ content, anyPhotoConfig }) => {
   // console.time('draw')
   const resourceChecker = new ResourceChecker(anyPhotoConfig)
-  const handledAnyPhotoConfig = await resourceChecker.check(anyPhotoConfig)
+  const handledAnyPhotoConfig = await resourceChecker.check()
+  // console.log(handledAnyPhotoConfig)
   const drawer = new Drawer({ content, anyPhotoConfig: handledAnyPhotoConfig })
-  return (
-    drawer
-      .setupTable()
-      .then(drawer => drawer.setupCpu())
-      .then(drawer => drawer.setupCanvas())
-      .then(drawer => drawer.drawBackgroundLines())
-      // .then(drawer => drawer.drawBackground())
-      .then(drawer => drawer.drawAvatar())
-      .then(drawer => drawer.drawTitle())
-      .then(drawer => drawer.drawDescription())
-      .then(drawer => drawer.drawContent())
-      .then(drawer => drawer.drawUnderline())
-      .then(drawer => drawer.drawFrom())
-      .then(drawer => drawer.drawDivider())
-      .then(drawer => drawer.drawFooter())
-      .then(drawer => drawer.generatePng())
-  )
+  return drawer
+    .setupTable()
+    .then(drawer => drawer.setupCpu())
+    .then(drawer => drawer.setupCanvas())
+    .then(drawer => drawer.drawBackground())
+    .then(drawer => drawer.drawBackgroundLines())
+    .then(drawer => drawer.drawAvatar())
+    .then(drawer => drawer.drawTitle())
+    .then(drawer => drawer.drawDescription())
+    .then(drawer => drawer.drawContent())
+    .then(drawer => drawer.drawUnderline())
+    .then(drawer => drawer.drawFrom())
+    .then(drawer => drawer.drawDivider())
+    .then(drawer => drawer.drawFooter())
+    .then(drawer => drawer.generatePng())
 }
 
 module.exports = draw
