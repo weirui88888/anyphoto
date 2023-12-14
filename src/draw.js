@@ -1,6 +1,6 @@
 const { createCanvas, registerFont, loadImage, deregisterAllFonts } = require('canvas')
 const Table = require('cli-table')
-const { barWatcher, formatDateTime, colorTip, color, truncateString } = require('./util')
+const { barWatcher, formatDateTime, colorTip, color, truncateString, validateColor } = require('./util')
 const HeaderCpu = require('./headerCpu')
 const FooterCpu = require('./footerCpu')
 const UnderLineCpu = require('./underlineCpu')
@@ -20,6 +20,8 @@ class Drawer {
       backgroundColor,
       linearGradientStop,
       linearGradientDirection,
+      backgroundLineSpacing,
+      backgroundLineColor,
       fontSize,
       fontWeight,
       lineGap,
@@ -48,6 +50,8 @@ class Drawer {
     this.backgroundColor = backgroundColor
     this.linearGradientStop = linearGradientStop
     this.linearGradientDirection = linearGradientDirection
+    this.backgroundLineSpacing = backgroundLineSpacing
+    this.backgroundLineColor = backgroundLineColor
     this.maxLineWidth = width - x * 2 // Here we just preset the maximum width, that is, use width - x * 2. You need it first to calculate the layout and the actual width of each line drawn.
     this.fontSize = fontSize
     this.fontFamilyIndex = fontFamilyIndex
@@ -432,6 +436,31 @@ class Drawer {
     return this
   }
 
+  async drawBackgroundLines() {
+    const { ctx, backgroundLineSpacing, backgroundLineColor } = this
+    if (backgroundLineSpacing <= 0 || !validateColor(backgroundLineColor)) return this
+    const { verticalPoints, horizontalPoints } = this.getBackgroundLinePoints(backgroundLineSpacing)
+    ctx.save()
+    for (const { startX, startY, endX, endY } of verticalPoints) {
+      ctx.beginPath()
+      ctx.lineWidth = 1
+      ctx.strokeStyle = backgroundLineColor
+      ctx.moveTo(startX, startY)
+      ctx.lineTo(endX, endY)
+      ctx.stroke()
+    }
+    for (const { startX, startY, endX, endY } of horizontalPoints) {
+      ctx.beginPath()
+      ctx.lineWidth = 1
+      ctx.strokeStyle = backgroundLineColor
+      ctx.moveTo(startX, startY)
+      ctx.lineTo(endX, endY)
+      ctx.stroke()
+    }
+    ctx.restore()
+    return this
+  }
+
   // Drawing background may be implemented in the next version
   async drawBackground() {
     const { ctx, width, headerHeight, contentHeight } = this
@@ -736,6 +765,38 @@ class Drawer {
     return linearGradientStop
   }
 
+  getBackgroundLinePoints(backgroundLineSpacing) {
+    const { width, height } = this
+    const spacingVerticalRemainder = height % backgroundLineSpacing
+    const spacingHorizontalRemainder = width % backgroundLineSpacing
+    const verticalPoints = []
+    const horizontalPoints = []
+    let pointY = spacingVerticalRemainder === 0 ? backgroundLineSpacing : spacingVerticalRemainder / 2
+    while (pointY < height) {
+      verticalPoints.push({
+        startX: 0,
+        startY: pointY,
+        endX: width,
+        endY: pointY
+      })
+      pointY += backgroundLineSpacing
+    }
+    let pointX = spacingHorizontalRemainder === 0 ? backgroundLineSpacing : spacingHorizontalRemainder / 2
+    while (pointX < width) {
+      horizontalPoints.push({
+        startX: pointX,
+        startY: 0,
+        endX: pointX,
+        endY: height
+      })
+      pointX += backgroundLineSpacing
+    }
+    return {
+      verticalPoints,
+      horizontalPoints
+    }
+  }
+
   getValidDividerProperty(positionProvider, position) {
     const { x, color: contentColor, width, headerHeight, contentHeight } = this
     const applyDividerProperty = {
@@ -821,6 +882,7 @@ const draw = async ({ content, anyPhotoConfig }) => {
       .setupTable()
       .then(drawer => drawer.setupCpu())
       .then(drawer => drawer.setupCanvas())
+      .then(drawer => drawer.drawBackgroundLines())
       // .then(drawer => drawer.drawBackground())
       .then(drawer => drawer.drawAvatar())
       .then(drawer => drawer.drawTitle())

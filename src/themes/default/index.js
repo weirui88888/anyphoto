@@ -3,22 +3,28 @@ module.exports = {
   avatar: 'https://static.anyphoto.space/core/themes/default/avatar.jpg',
   title: 'AnyPhoto',
   outputName: 'default',
-  content:
-    'Anyphoto is a product that can be used to generate personalized images. You can easily create a stylish, personalized image in just a few simple steps. Supports adding avatar, title, image, description, date, title, annotation content, etc. to make your photos lively and interesting instantly. {What’s more interesting is that every element in the photo can be configured}, so you can design the layout exactly according to your own creativity and ideas. You can choose your preferred font, layout, color palette, and everything else. You can use the resulting images anywhere, such as on social media, on your resume, or simply to capture what‘s on your mind at the moment! It is worth mentioning that this tool is {inspired by WeChat reading}. It has a variety of ways to use it, from the core toolkit with npm to the API, and of course the intuitive visual interface. Everything is being continuously updated. {Finally, hope you like it.}',
+  content: `A1nyphoto is a product that can be used to generate personalized images. You can easily create stylish, personalized images in just a few simple steps. Supports adding avatars, titles, pictures, descriptions, dates, titles, grid backgrounds, annotations, etc. to make your photos lively and interesting instantly.
+
+{What’s more interesting is that every element in the photo is configurable}, so you can design the layout completely according to your creativity and ideas. You can choose your favorite fonts, layout, color palette and everything else.
+
+You can use the generated images anywhere, such as on social media, resumes, journals, or just to capture your thoughts at the moment!`,
   canvasSetting: {
     width: 1250,
     fontFamilys: ['Custom'],
     customFontPath: 'https://static.anyphoto.space/fonts/LXGWWenKai-Bold.ttf',
     downloadCustomFontOutputDir: 'anyphoto-web-font',
     downloadCustomFontRelativeOutputPath: './',
-    backgroundColor: '#82b484',
-    linearGradientDirection: 'to right bottom',
+    backgroundColor: ['#565656', '#181818'],
+    linearGradientStop: [0, 1],
+    linearGradientDirection: 'to right bottom', // to left/to right/to top/to bottom/to left top/to right top/to right bottom/to left bottom
+    backgroundLineSpacing: 40,
+    backgroundLineColor: '#CCCCCC33',
     color: '#ffffff',
     fontWeight: 'bold',
     textBaseline: 'top',
     textAlign: 'start',
     fontSize: 25,
-    lineGap: 30,
+    lineGap: 12,
     fontFamilyIndex: 0,
     x: 40,
     y: 30,

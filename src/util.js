@@ -1,4 +1,5 @@
 const cliProgress = require('cli-progress')
+const validateColor = require('validate-color').default
 const axios = require('axios')
 const figlet = require('figlet')
 const c = require('ansi-colors')
@@ -87,6 +88,7 @@ const barWatcher = new cliProgress.SingleBar({
 
 module.exports = {
   generateOra,
+  validateColor,
   sleep,
   color,
   tip,
