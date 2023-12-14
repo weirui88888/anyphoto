@@ -18,6 +18,7 @@ class Drawer {
       customFontPath,
       color,
       backgroundColor,
+      linearGradientStop,
       linearGradientDirection,
       fontSize,
       fontWeight,
@@ -45,6 +46,7 @@ class Drawer {
     this.letterSpaceSeparator = '' // It may be useful in the future to control the spacing of content
     this.color = color
     this.backgroundColor = backgroundColor
+    this.linearGradientStop = linearGradientStop
     this.linearGradientDirection = linearGradientDirection
     this.maxLineWidth = width - x * 2 // Here we just preset the maximum width, that is, use width - x * 2. You need it first to calculate the layout and the actual width of each line drawn.
     this.fontSize = fontSize
@@ -185,15 +187,22 @@ class Drawer {
   }
 
   async setupCanvas() {
-    const { ctx, barWatcher, width, height, backgroundColor, textBaseline, textAlign } = this
+    const { ctx, barWatcher, width, height, backgroundColor, linearGradientStop, textBaseline, textAlign } = this
     let gradientController
     if (Array.isArray(backgroundColor)) {
       const directionPoint = this.getLinearGradientDirection
+      const validLinearGradientStop = this.getValidLinearGradientStop(backgroundColor, linearGradientStop)
       gradientController = ctx.createLinearGradient(...directionPoint)
       const backgroundColorLength = backgroundColor.length
-      const intervalSize = 1 / (backgroundColorLength - 1)
-      for (let i = 0; i < backgroundColorLength; i++) {
-        gradientController.addColorStop(i * intervalSize, backgroundColor[i])
+      if (validLinearGradientStop) {
+        for (let i = 0; i < backgroundColorLength; i++) {
+          gradientController.addColorStop(validLinearGradientStop[i], backgroundColor[i])
+        }
+      } else {
+        const intervalSize = 1 / (backgroundColorLength - 1)
+        for (let i = 0; i < backgroundColorLength; i++) {
+          gradientController.addColorStop(i * intervalSize, backgroundColor[i])
+        }
       }
     }
 
@@ -714,6 +723,17 @@ class Drawer {
   setSuitableXWidth(maxLineWidth, targetWidth, x) {
     const calculateHalfWidth = (targetWidth - maxLineWidth) / 2
     return calculateHalfWidth > x ? calculateHalfWidth : x
+  }
+
+  getValidLinearGradientStop(backgroundColor, linearGradientStop) {
+    if (!Array.isArray(linearGradientStop)) return undefined
+    if (backgroundColor.length !== linearGradientStop.length) return undefined
+    const validStop = linearGradientStop.every(stop => typeof stop === 'number' && stop >= 0 && stop <= 1)
+    if (!validStop) {
+      return undefined
+    }
+    if (linearGradientStop.length !== [...new Set(linearGradientStop)].length) return undefined
+    return linearGradientStop
   }
 
   getValidDividerProperty(positionProvider, position) {
