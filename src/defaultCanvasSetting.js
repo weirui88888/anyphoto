@@ -25,6 +25,7 @@ const defaultCanvasSetting = {
     headerPaddingTop: 100,
     headerPaddingBottom: 30,
     // avatar
+    showHeaderAvatar: true,
     headerAvatarSize: 80,
     headerAvatarBorderWidth: 4,
     headerAvatarBorderColor: '#ffcc00',

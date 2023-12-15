@@ -35,6 +35,7 @@ You can use the generated images anywhere, such as on social media, resumes, jou
       headerPaddingTop: 100,
       headerPaddingBottom: 30,
       // avatar
+      showHeaderAvatar: true,
       headerAvatarSize: 80,
       headerAvatarBorderWidth: 4,
       headerAvatarBorderColor: '#ffcc00',

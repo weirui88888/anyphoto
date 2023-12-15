@@ -233,13 +233,20 @@ class Drawer {
 
   async drawAvatar() {
     const { ctx, avatar: avatarSrc, barWatcher, headerCpu } = this
+    const {
+      showHeaderAvatar,
+      headerAvatarBorderWidth,
+      headerAvatarBorderColor,
+      avatarRadius,
+      avatarCenterPointX,
+      avatarCenterPointY
+    } = headerCpu.calculateApplyAvatar
+    if (!showHeaderAvatar) return this
     // DONE STEP3
     barWatcher.setTotal(4)
     barWatcher.update(3, {
       step: 'Drawing Avatar'
     })
-    const { headerAvatarBorderWidth, headerAvatarBorderColor, avatarRadius, avatarCenterPointX, avatarCenterPointY } =
-      headerCpu.calculateApplyAvatar
     const avatar = await loadImage(avatarSrc)
     ctx.save()
     ctx.beginPath()

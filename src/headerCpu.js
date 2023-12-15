@@ -22,8 +22,10 @@ class HeaderCpu {
   }
 
   get calculateApplyAvatar() {
-    const { headerAvatarSize, headerAvatarBorderWidth, headerAvatarBorderColor } = this.canvasHeaderSetting
+    const { showHeaderAvatar, headerAvatarSize, headerAvatarBorderWidth, headerAvatarBorderColor } =
+      this.canvasHeaderSetting
     return {
+      showHeaderAvatar,
       avatarSize: headerAvatarSize,
       avatarRadius: headerAvatarSize / 2,
       headerAvatarBorderWidth,
@@ -100,8 +102,15 @@ class HeaderCpu {
   }
 
   get calculateAvatarCenterPointPosition() {
-    const { headerAlign, headerPaddingTop, headerAvatarSize, headerAvatarBorderWidth } = this.canvasHeaderSetting
+    const { showHeaderAvatar, headerAlign, headerPaddingTop, headerAvatarSize, headerAvatarBorderWidth } =
+      this.canvasHeaderSetting
     const { x, canvasWidth } = this
+    if (!showHeaderAvatar) {
+      return {
+        avatarCenterPointX: canvasWidth / 2,
+        avatarBottomY: headerPaddingTop
+      }
+    }
     switch (headerAlign) {
       case 'left':
         return {
