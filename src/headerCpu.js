@@ -16,9 +16,13 @@ class HeaderCpu {
     }
   }
 
+  get showHeader() {
+    return this.canvasHeaderSetting.showHeader
+  }
+
   get getHeaderHeight() {
     const { headerPaddingBottom } = this.canvasHeaderSetting
-    return this.calculateApplyDescription.descriptionBottomY + headerPaddingBottom
+    return this.showHeader ? this.calculateApplyDescription.descriptionBottomY + headerPaddingBottom : 0
   }
 
   get calculateApplyAvatar() {

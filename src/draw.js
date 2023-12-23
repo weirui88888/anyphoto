@@ -241,7 +241,7 @@ class Drawer {
       avatarCenterPointX,
       avatarCenterPointY
     } = headerCpu.calculateApplyAvatar
-    if (!showHeaderAvatar) return this
+    if (!headerCpu.showHeader || !showHeaderAvatar) return this
     // DONE STEP3
     barWatcher.setTotal(4)
     barWatcher.update(3, {
@@ -284,7 +284,7 @@ class Drawer {
       headerTitleFontColor,
       headerTitleFontFamilyIndex
     } = headerCpu.calculateApplyTitle
-    if (showHeaderTitle) {
+    if (showHeaderTitle && headerCpu.showHeader) {
       // DONE STEP4
       barWatcher.setTotal(5)
       barWatcher.update(4, {
@@ -318,7 +318,7 @@ class Drawer {
       headerDescriptionPrefixIcon
     } = headerCpu.calculateApplyDescriptionIcon
 
-    if (showHeaderDescription) {
+    if (headerCpu.showHeader && showHeaderDescription) {
       ctx.save()
       // DONE STEP5
       barWatcher.setTotal(6)
@@ -368,6 +368,7 @@ class Drawer {
   async drawFooter() {
     const { ctx, footerCpu, barWatcher } = this
     const {
+      showFooter,
       slogan,
       sloganFontSize,
       sloganFontColor,
@@ -376,6 +377,7 @@ class Drawer {
       sloganStartPointX,
       sloganStartPointY
     } = footerCpu.calculateApplySlogan
+    if (!showFooter) return this
     // DONE STEP7
     barWatcher.setTotal(8)
     barWatcher.update(7, {
