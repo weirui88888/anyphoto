@@ -7,7 +7,7 @@ anyphoto is a drawing tool that allows you to generate beautiful pictures anywhe
 
 ## Playground
 
-You can quickly experience it in [playground](https://www.anyphoto.space/playground). (This visual playground is constantly being improved, and it is more recommended to install it locally to experience it)
+You can quickly experience it in [playground](https://text2image.fun/). (This visual playground is constantly being improved, and it is more recommended to install it locally to experience it)
 
 ## Examples
 
