@@ -6,7 +6,7 @@ AnyPhoto是一个基于[node-canvas](https://github.com/Automattic/node-canvas)�
 
 ## Playground
 
-您可以在[playground](https://www.anyphoto.space/playground)中快速体验它。（此可视化playground正在不断改进，建议您在本地安装以获得更好的体验）
+您可以在[playground](https://text2image.fun/)中快速体验它。（此可视化playground正在不断改进，建议您在本地安装以获得更好的体验）
 
 ## 示例
 
